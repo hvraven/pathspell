@@ -1,12 +1,9 @@
 <?xml version="1.0" ?>
 <spell src="http://www.d20pfsrd.com/magic/all-spells/c/cure-light-wounds">
-  <name language="english">Cure Light Wounds</name>
+  <name language="en">Cure Light Wounds</name>
   <school type="conjuration">
     <subschool type="healing" />
   </school>
-  <!--
-  <domain type="peace" />
-  -->
   <level type="alchemist">1</level>
   <level type="bard">1</level>
   <level type="cleric">1</level>
@@ -23,5 +20,6 @@
   <duration type="instantaneous" />
   <saving_throw type="Will" harmless="yes" see_text="yes">half</saving_throw>
   <spell_resistance harmless="yes" see_text="yes">yes</spell_resistance>
-  <description language="english">When laying your hand upon a living creature, you channel positive energy that cures 1d8 points of damage +1 point per caster level (maximum +5). Since undead are powered by negative energy, this spell deals damage to them instead of curing their wounds. An undead creature can apply Spell Resistance, and can attempt a Will save to take half damage.</description>
+  <short_description language="en">Cures 1d8 damage +1/level (max +5)</short_description>
+  <description language="en">When laying your hand upon a living creature, you channel positive energy that cures 1d8 points of damage +1 point per caster level (maximum +5). Since undead are powered by negative energy, this spell deals damage to them instead of curing their wounds. An undead creature can apply Spell Resistance, and can attempt a Will save to take half damage.</description>
 </spell>
