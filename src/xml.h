@@ -1,3 +1,4 @@
+#define TIXML_USE_STL
 #include <tinyxml.h>
 #include <string>
 #include <map>
@@ -12,11 +13,11 @@ public:
   Spell_List( TiXmlDocument& );
   virtual ~Spell_List();
 
-  TiXmlHandle& find_spell( const std::string );
+  TiXmlElement* find_spell( const std::string );
   void fill_list ( TiXmlDocument& );
 
 private:
-  std::map < std::string, TiXmlHandle > spell_list_;
+  std::map < std::string, TiXmlElement* > spell_list_;
 };
 
 class Spells

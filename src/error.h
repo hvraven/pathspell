@@ -15,5 +15,5 @@ struct Missing_Element : public std::exception
 
 struct File_Not_Found : public std::exception
 {
-  File_Not_Found();
+  File_Not_Found() {};
 };

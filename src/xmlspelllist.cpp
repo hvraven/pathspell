@@ -16,10 +16,9 @@ Spell_List::~Spell_List()
 {
 }
 
-TiXmlHandle& Spell_List::find_spell( const std::string spell )
+TiXmlElement* Spell_List::find_spell( const std::string spell )
 {
-  TiXmlHandle& h_spell = spell_list_[spell];
-  return h_spell;
+  return spell_list_[spell];
 }
 
 void Spell_List::fill_list ( TiXmlDocument& doc )
@@ -28,7 +27,7 @@ void Spell_List::fill_list ( TiXmlDocument& doc )
   TiXmlHandle h_root  = &doc;
   TiXmlElement* p_root = h_root.ToElement();
 
-  for ( p_root; p_root; p_root = p_root->NextSiblingElement() )
+  for ( ; p_root; p_root = p_root->NextSiblingElement() )
     {
       TiXmlElement* p_name = p_root->FirstChildElement( "name" );
       if ( p_name )

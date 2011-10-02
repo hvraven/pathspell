@@ -12,7 +12,7 @@ AC_LANG([C++])
 AC_PROG_CXX
 
 # Checks for header files.
-AC_CHECK_HEADERS([ncurses.h tinyxml.h])
+AC_CHECK_HEADERS([ncurses.h tinyxml.h tinystr.h])
 
 # Checks for library functions.
 AC_SEARCH_LIBS([initscr], [ncurses])
