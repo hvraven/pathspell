@@ -1,0 +1,15 @@
+aclocal.m4
+autom4te.cache
+*.in
+configure
+*~
+#*#
+depcomp
+install-sh
+missing
+.deps
+*.o
+a.out
+pathspell
+COPYING
+INSTALL
