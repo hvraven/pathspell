@@ -1,4 +1,10 @@
-#define TIXML_USE_STL
+#ifndef PATHSPELL_XML_H
+#define PATHSPELL_XML_H
+
+#ifndef TIXML_USE_STL
+  #define TIXML_USE_STL
+#endif
+
 #include <tinyxml.h>
 #include <string>
 #include <map>
@@ -33,3 +39,5 @@ private:
   TiXmlDocument doc_;
   Spell_List spells_;
 };
+
+#endif // PATHSPELL_XML_H
