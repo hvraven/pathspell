@@ -21,6 +21,7 @@ public:
 
   TiXmlElement* find_spell( const std::string );
   void fill_list ( TiXmlDocument& );
+  std::vector < std::string > get_spell_list();
 
 private:
   std::map < std::string, TiXmlElement* > spell_list_;
@@ -33,7 +34,8 @@ public:
   virtual ~Spells();
 
   Spell get_spell( const std::string );
-  std::vector < std::string > get_spell_list();
+  std::vector < std::string > get_spell_list()
+    { return spells_.get_spell_list(); };
 
 private:
   TiXmlDocument doc_;

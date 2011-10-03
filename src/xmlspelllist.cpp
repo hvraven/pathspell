@@ -39,3 +39,19 @@ void Spell_List::fill_list ( TiXmlDocument& doc )
 	throw Missing_Element( NAME );
     }
 }
+
+// TODO integrate support for multiple languages
+std::vector < std::string > Spell_List::get_spell_list()
+{
+  std::map < std::string, TiXmlElement* >::const_iterator it =
+    spell_list_.begin();
+
+  std::vector < std::string > result;
+
+  for ( ; it != spell_list_.end() ; it++ )
+    {
+      TiXmlElement* p_name = it->second->FirstChildElement( "name" );
+      result.push_back( (*p_name).GetText() );
+    }
+  return result;
+}
