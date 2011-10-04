@@ -1,4 +1,4 @@
-#include "spellschool.h"
+#include "spell.h"
 
 #include <algorithm>
 
@@ -39,18 +39,35 @@ School::~School()
 {
 }
 
-std::string School::get_subschools_formated()
+std::string School::print()
+{
+  if ( school_ != "" )
+    {
+      std::string result = school_;
+      if ( subschools_.size() )
+	{
+	  result += " (";
+	  result += print_subschools();
+	  result += ")";
+	}
+
+      return result;
+    }
+  else
+    return "";
+}
+
+std::string School::print_subschools()
 {
   std::vector <std::string>::const_iterator it = subschools_.begin();
   if ( it != subschools_.end() )
     {
-      std::string result = *(it++);
+      std::string result = *it++;
       while ( it != subschools_.end() )
 	{
 	  result += ", ";
-	  result += *it;
+	  result += *it++;
 	}
-
       return result;
     }
   else

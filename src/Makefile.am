@@ -1,3 +1,5 @@
 bin_PROGRAMS = pathspell
-pathspell_SOURCES = error.h pathspell.cpp xml.h xml.cpp xmlspelllist.cpp spellschool.h spellschool.cpp spell.h
+pathspell_SOURCES = error.h \
+pathspell.cpp xml.h xml.cpp xmlspelllist.cpp \
+spell.h school.cpp
 pathspell_CXXFLAGS = -Wall -Werror
