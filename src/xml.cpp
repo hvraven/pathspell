@@ -6,7 +6,7 @@ Spells::Spells( const char* filename)
     spells_()
 {
   if ( ! doc_.LoadFile() )
-    throw File_Not_Found();
+    throw File_Load_Error();
 
   spells_.fill_list( doc_ );
 }

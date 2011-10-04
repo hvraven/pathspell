@@ -16,9 +16,9 @@ struct Missing_Element : public std::exception
     : element(eelement) {};
 };
 
-struct File_Not_Found : public std::exception
+struct File_Load_Error : public std::exception
 {
-  File_Not_Found() {};
+  File_Load_Error() {};
 };
 
 #endif // PATHSPELL_ERROR_H

@@ -1,9 +1,7 @@
 #ifndef PATHSPELL_XML_H
 #define PATHSPELL_XML_H
 
-#ifndef TIXML_USE_STL
-  #define TIXML_USE_STL
-#endif
+#define TIXML_USE_STL
 
 #include <tinyxml.h>
 #include <string>

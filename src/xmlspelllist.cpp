@@ -23,17 +23,15 @@ TiXmlElement* Spell_List::find_spell( const std::string spell )
 
 void Spell_List::fill_list ( TiXmlDocument& doc )
 {
-  //  const TiXmlElement* p_root = doc.FirstChildElement( "spell" );
   TiXmlHandle h_root  = &doc;
-  TiXmlElement* p_root = h_root.ToElement();
-
-  for ( ; p_root; p_root = p_root->NextSiblingElement() )
+  TiXmlElement* p_spell= h_root.FirstChildElement().FirstChild().ToElement();
+  for ( ; p_spell; p_spell = p_spell->NextSiblingElement() )
     {
-      TiXmlElement* p_name = p_root->FirstChildElement( "name" );
+      TiXmlElement* p_name = p_spell->FirstChildElement( "name" );
       if ( p_name )
 	{
 	  std::string name = p_name->GetText();
-	  spell_list_[name] = p_root;
+	  spell_list_[name] = p_spell;
 	}
       else
 	throw Missing_Element( NAME );
