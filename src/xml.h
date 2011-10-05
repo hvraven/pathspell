@@ -1,9 +1,7 @@
 #ifndef PATHSPELL_XML_H
 #define PATHSPELL_XML_H
 
-#ifndef TIXML_USE_STL
-  #define TIXML_USE_STL
-#endif
+#define TIXML_USE_STL
 
 #include <tinyxml.h>
 #include <string>
@@ -19,8 +17,9 @@ public:
   Spell_List( TiXmlDocument& );
   virtual ~Spell_List();
 
-  TiXmlElement* find_spell( const std::string );
+  TiXmlElement* find_spell( const std::string& );
   void fill_list ( TiXmlDocument& );
+  std::vector < std::string > get_spell_list();
 
 private:
   std::map < std::string, TiXmlElement* > spell_list_;
@@ -32,8 +31,9 @@ public:
   Spells(const char*);
   virtual ~Spells();
 
-  Spell get_spell( const std::string );
-  std::vector < std::string > get_spell_list();
+  Spell get_spell( const std::string& );
+  std::vector < std::string > get_spell_list()
+    { return spells_.get_spell_list(); };
 
 private:
   TiXmlDocument doc_;

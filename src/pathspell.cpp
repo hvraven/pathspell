@@ -1,23 +1,16 @@
-#include <ncurses.h>
+#include "xml.h"
+#include "gtkwindow.h"
 
-class N_Window
-{
-public:
-  N_Window();
-  virtual ~N_Window();
-};
+#include <gtkmm/main.h>
 
-N_Window::N_Window()
+int main( int argc, char* argv[] )
 {
-  initscr();
-}
+  Gtk::Main kit(argc, argv);
 
-N_Window::~N_Window()
-{
-  endwin();
-}
+  Spells spells( "./spells.xml" );
 
-int main()
-{
-  N_Window window;
+  Gtk_Window window( &spells );
+  Gtk::Main::run(window);
+
+  return 0;
 }

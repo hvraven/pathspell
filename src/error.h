@@ -8,9 +8,9 @@ enum Spell_Element_Token
     NAME
   };
 
-struct File_Not_Found : public std::exception
+struct File_Load_Error : public std::exception
 {
-  File_Not_Found() {};
+  File_Load_Error() {};
 };
 
 struct Missing_Element : public std::exception
@@ -25,5 +25,6 @@ struct Unclear_Arguments : public std::exception
 {
   Unclear_Arguments() {};
 };
+
 
 #endif // PATHSPELL_ERROR_H

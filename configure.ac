@@ -12,12 +12,14 @@ AC_LANG([C++])
 AC_PROG_CXX
 
 # Checks for header files.
-AC_CHECK_HEADERS([ncurses.h tinyxml.h tinystr.h])
+AC_CHECK_HEADERS([tinyxml.h tinystr.h])
 
 # Checks for library functions.
-AC_SEARCH_LIBS([initscr], [ncurses])
 # TODO: Find a function in tinyxml that is found by AC_SEARCH_LIBS
 LIBS="${LIBS} -ltinyxml"
+
+# Check for Libraries
+PKG_CHECK_MODULES([GTKMM], [gtkmm-3.0])
 
 AC_CONFIG_FILES([Makefile
 		 src/Makefile])
