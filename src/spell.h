@@ -98,6 +98,49 @@ private:
   std::string focus_description_;
 };
 
+enum Saving_Throw_Token
+  {
+    WILL,
+    FORT,
+    REF
+  };
+
+enum Saving_Throw_Value_Token
+  {
+    HALF,
+    NEGATES,
+    NO
+  };
+
+class Saving_Throw
+{
+public:
+  Saving_Throw();
+  Saving_Throw( const Saving_Throw_Value_Token& );
+  Saving_Throw( const Saving_Throw_Value_Token&,
+		const Saving_Throw_Token& );
+  virtual ~Saving_Throw() {};
+
+  std::string print();
+  std::string print_type();
+
+  Saving_Throw_Token& get_type() { return type_; };
+  Saving_Throw_Value_Token& get_value() { return value_; };
+  bool get_harmless() { return harmless_; };
+  bool get_see_text() { return see_text_; };
+
+  void set_type( const Saving_Throw_Token& type ) { type_ = type; };
+  void set_value( const Saving_Throw_Value_Token& value ) { value_ = value; };
+  void set_harmless( const bool harmless ) { harmless_ = harmless; };
+  void set_see_text( const bool see_text ) { see_text_ = see_text; };
+
+private:
+  Saving_Throw_Token type_;
+  Saving_Throw_Value_Token value_;
+  bool harmless_;
+  bool see_text_;
+};
+
 class Spell_Element
 {
 public:
