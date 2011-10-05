@@ -9,7 +9,7 @@ int main( int argc, char* argv[] )
 
   Spells spells( "./spells.xml" );
 
-  Gtk_Window window( spells.get_spell_list() );
+  Gtk_Window window( &spells );
   Gtk::Main::run(window);
 
   return 0;

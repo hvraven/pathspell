@@ -14,9 +14,10 @@ Spells::Spells( const char* filename)
 Spells::~Spells()
 {
 }
-/* unfinished function
-Spell Spells::get_spell( const std::string spell_name )
+
+Spell Spells::get_spell( const std::string& spell_name )
 {
-  TiXmlHandle spell = spells_.find_spell( spell_name );
- }
-*/
+  //TiXmlElement* spell = spells_.find_spell( spell_name );
+  Spell temp;
+  return temp;
+}

@@ -1,7 +1,9 @@
 #include "gtkwindow.h"
 
-Gtk_Window::Gtk_Window()
-  : search_entry_()
+Gtk_Window::Gtk_Window( Spells * const spells )
+  : search_entry_(),
+    spell_label_(),
+    spells_(spells)
 {
   set_title( "pathspell" );
   set_border_width(5);
@@ -9,49 +11,41 @@ Gtk_Window::Gtk_Window()
 
   add(hbox_);
 
+  spell_label_.set_line_wrap(true);
+
   hbox_.pack_start( vbox_ );
-  // TODO include a spell display
+  hbox_.pack_start( spell_label_ );
 
   vbox_.pack_start( search_entry_ );
   vbox_.pack_start( tree_view_ );
 
-  search_entry_.signal_changed().connect( sigc::mem_fun( *this,
-	                &Gtk_Window::on_search_entry_change) );
-
   ref_tree_model_ = Gtk::ListStore::create( columns_ );
   tree_view_.set_model( ref_tree_model_ );
 
-  show_all_children();
-}
-
-Gtk_Window::Gtk_Window( std::vector < std::string > spell_list )
-  : search_entry_()
-{
-  set_title( "pathspell" );
-  set_border_width(5);
-  set_default_size(640, 480);
-
-  add(hbox_);
-
-  hbox_.pack_start( vbox_ );
-  // TODO include a spell display
-
-  vbox_.pack_start( search_entry_ );
-  vbox_.pack_start( tree_view_ );
+  import_spells( spells_->get_spell_list() );
 
   search_entry_.signal_changed().connect( sigc::mem_fun( *this,
 	                &Gtk_Window::on_search_entry_change) );
-
-  ref_tree_model_ = Gtk::ListStore::create( columns_ );
-  tree_view_.set_model( ref_tree_model_ );
-
-  import_spells( spell_list );
+  tree_view_.signal_row_activated().connect( sigc::mem_fun( *this,
+		        &Gtk_Window::on_tree_view_row_activated) );
 
   show_all_children();
 }
 
 Gtk_Window::~Gtk_Window()
 {
+}
+
+void Gtk_Window::on_tree_view_row_activated
+    ( const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* )
+{
+  Gtk::TreeModel::iterator it = ref_tree_model_->get_iter(path);
+
+  if ( it )
+    {
+      Gtk::TreeModel::Row row = *it;
+      display_spell( row[columns_.col_name_] );
+    }
 }
 
 void Gtk_Window::import_spells( std::vector < std::string > spell_list )
@@ -66,6 +60,16 @@ void Gtk_Window::import_spells( std::vector < std::string > spell_list )
   tree_view_.append_column( "Spell", columns_.col_name_ );
 }
 
-void Gtk_Window::search( std::string )
+void Gtk_Window::display_spell( const Glib::ustring& spell_name )
 {
+  /*  Spell spell = spells_->get_spell( spell_name );
+
+  Glib::ustring result = "<b>Name:</b> ";
+  result += spell.name;
+  result += "\n\n";
+
+  result += "<b>School:</b> ";
+  result += spell.school.print();
+
+  spell_label_.set_text( result );*/
 }

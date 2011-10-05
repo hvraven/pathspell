@@ -16,7 +16,7 @@ Spell_List::~Spell_List()
 {
 }
 
-TiXmlElement* Spell_List::find_spell( const std::string spell )
+TiXmlElement* Spell_List::find_spell( const std::string& spell )
 {
   return spell_list_[spell];
 }
