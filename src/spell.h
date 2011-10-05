@@ -59,24 +59,26 @@ private:
   levelmap levels_;
 };
 
-class Casting_Time
+class Spell_Element
 {
 public:
-  Casting_Time();
-  Casting_Time( const std::string& );
-  Casting_Time( const std::string&, const int );
-  virtual ~Casting_Time();
+  Spell_Element();
+  Spell_Element( const std::string& );
+  Spell_Element( const std::string&, const int );
+  virtual ~Casting_Time() {};
 
-  std::string print();
+  virtual std::string print();
 
-  void set_time( const std::string& type )
+  void set( const std::string& type )
     { type_ = type; };
-  void set_time( const std::string& type , const int time )
-    { type_ = type; time_ = time; };
+  void set( const int value )
+    { value_ = value; };
+  void set( const std::string& type, const int value )
+    { type_ = type; value_ = value; };
 
-private:
+protected:
   std::string type_;
-  int time_;
+  int value_;
 };
 
 struct Spell
@@ -84,10 +86,10 @@ struct Spell
   std::string name;
   School school;
   Level level;
-  //Casting_Time casting_time;
+  Spell_Element casting_time;
   //Component component;
-  //Range range;
-  //Duration duration;
+  Spell_Element range;
+  Spell_Element duration;
   //Saving_Throw saving_throw;
   //Spell_Resistance spell_resistance;
   std::string description;
