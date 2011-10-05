@@ -141,6 +141,32 @@ private:
   bool see_text_;
 };
 
+class Spell_Resistance
+{
+public:
+  Spell_Resistance( const bool = false, const bool = false,
+		    const bool = false );
+  virtual ~Spell_Resistance() {};
+
+  std::string print();
+
+  bool get_spell_resistance() { return resistance_; };
+  bool get_harmless() { return harmless_; };
+  bool get_see_text() { return see_text_; };
+
+  void set_resistance( const bool resistance )
+    { resistance_ = resistance; };
+  void set_harmless( const bool harmless )
+    { harmless_ = harmless; };
+  void set_see_text( const bool see_text )
+    { see_text_ = see_text; };
+
+private:
+  bool resistance_;
+  bool harmless_;
+  bool see_text_;
+};
+
 class Spell_Element
 {
 public:
@@ -172,8 +198,8 @@ struct Spell
   Components components;
   Spell_Element range;
   Spell_Element duration;
-  //Saving_Throw saving_throw;
-  //Spell_Resistance spell_resistance;
+  Saving_Throw saving_throw;
+  Spell_Resistance spell_resistance;
   std::string description;
   std::string link;
 };
