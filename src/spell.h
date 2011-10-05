@@ -59,13 +59,52 @@ private:
   levelmap levels_;
 };
 
+class Components
+{
+public:
+  Components( const bool = false, const bool = false, const bool = false,
+	      const bool = false, const bool = false);
+  Components( const bool, const bool, const bool, const bool, const bool,
+	      const std::string&, const std::string& = "" );
+  virtual ~Components() {};
+
+  void set_verbal( const bool value ) { verbal_ = value; };
+  void set_somatic( const bool value ) { somatic_ = value; };
+  void set_material( const bool value ) { material_ = value; };
+  void set_material( const bool value, const std::string& description )
+    { material_ = value; material_description_ = description; };
+  void set_focus( const bool value ) { focus_ = value; };
+  void set_focus( const bool value, const std::string& description )
+    { focus_ = value; focus_description_ = description; };
+  void set_divine_focus( const bool value ) { divine_focus_ = value; };
+
+  bool get_verbal() { return verbal_; };
+  bool get_somatic() { return somatic_; };
+  bool get_material() { return material_; };
+  std::string& get_material_description() { return material_description_; };
+  bool get_focus() { return focus_; };
+  std::string& get_focus_description() { return focus_description_; };
+  bool get_divine_focus() { return divine_focus_; };
+
+  std::string print( const bool with_description = true );
+
+private:
+  bool verbal_;
+  bool somatic_;
+  bool material_;
+  bool focus_;
+  bool divine_focus_;
+  std::string material_description_;
+  std::string focus_description_;
+};
+
 class Spell_Element
 {
 public:
   Spell_Element();
   Spell_Element( const std::string& );
   Spell_Element( const std::string&, const int );
-  virtual ~Casting_Time() {};
+  virtual ~Spell_Element() {};
 
   virtual std::string print();
 
@@ -87,7 +126,7 @@ struct Spell
   School school;
   Level level;
   Spell_Element casting_time;
-  //Component component;
+  Components components;
   Spell_Element range;
   Spell_Element duration;
   //Saving_Throw saving_throw;
