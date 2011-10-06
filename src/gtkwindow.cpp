@@ -70,16 +70,16 @@ void Gtk_Window::display_spell( const Glib::ustring& spell_name )
 
   result += "<b>School:</b> "
     +spell.school.print()
-    + "; ";
+    + " ";
 
-  result += "<b>Level:</b>"
+  result += "<b>Level:</b> "
     + spell.level.print();
 
   result += "\n<b>Casting:</b>\n";
 
   result += "<b>Casting Time</b>: "
     + spell.casting_time.print()
-    + "; ";
+    + " ";
 
   result += "<b>Components:</b> "
     + spell.components.print();
@@ -88,7 +88,7 @@ void Gtk_Window::display_spell( const Glib::ustring& spell_name )
 
   result += "<b>Range:</b> "
     + spell.range.print()
-    + "; ";
+    + " ";
 
   //  result += "<b>Target:</b> "
   //    + spell.target.print()
@@ -96,11 +96,11 @@ void Gtk_Window::display_spell( const Glib::ustring& spell_name )
 
   result += "<b>Duration:</b> "
     + spell.duration.print()
-    + "; ";
+    + " ";
 
   result += "<b>Saving Throw:</b> "
     + spell.saving_throw.print()
-    + "; ";
+    + " ";
 
   result += "<b>Spell Resistance:</b> "
     + spell.spell_resistance.print();
@@ -108,5 +108,5 @@ void Gtk_Window::display_spell( const Glib::ustring& spell_name )
   result += "\n<b>Description:</b>\n"
     + spell.description;
 
-  spell_label_.set_text( result );
+  spell_label_.set_markup( result );
 }

@@ -196,7 +196,7 @@ struct Spell
 	 const Spell_Element& range_, const Spell_Element& duration_,
 	 const Saving_Throw& saving_throw_,
 	 const Spell_Resistance& spell_resistance_,
-	 const std::string& description_, const std::string& sdescription_)
+	 const std::string& description_, const std::string& link_)
     : name(name_),
       school(school_),
       level(level_),
@@ -207,7 +207,7 @@ struct Spell
       saving_throw(saving_throw_),
       spell_resistance(spell_resistance_),
       description(description_),
-      short_description(sdespription_)
+      link(link_)
   {};
   virtual ~Spell() {};
 

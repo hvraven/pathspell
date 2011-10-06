@@ -38,4 +38,3 @@ std::string Spell_Element::print()
   else
     return "";
 }
-

@@ -5,7 +5,18 @@
 
 enum Spell_Element_Token
   {
-    NAME
+    NAME,
+    SCHOOL,
+    LEVEL,
+    LEVEL_TYPE,
+    LEVEL_VALUE,
+    CASTING_TIME,
+    COMPONENTS,
+    RANGE,
+    DURATION,
+    SAVING_THROW,
+    SPELL_RESISTANCE,
+    DESCRIPTION
   };
 
 struct File_Load_Error : public std::exception

@@ -17,15 +17,16 @@ Level::~Level()
 
 std::string Level::print()
 {
-  std::string result;
+  std::ostringstream temp;
   for (levelmap::const_iterator it = levels_.begin() ;
        it != levels_.end() ; it++ )
     {
-      result += it->first;
-      result += " ";
-      result += it->second;
-      result += "; ";
+      temp << it->first
+	     << " "
+	     << it->second
+	     << "; ";
     }
+  std::string result = temp.str();
   if ( result != "" )
     result.erase( result.end() - 2, result.end() -1 );
 

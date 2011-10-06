@@ -2,7 +2,7 @@
 
 Saving_Throw::Saving_Throw()
   : type_(),
-    value_(),
+    value_(NO),
     harmless_(),
     see_text_()
 {
