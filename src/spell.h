@@ -191,6 +191,26 @@ protected:
 
 struct Spell
 {
+  Spell( const std::string& name_ , const School& school_, const Level& level_,
+	 const Spell_Element& casting_time_, const Components& components_,
+	 const Spell_Element& range_, const Spell_Element& duration_,
+	 const Saving_Throw& saving_throw_,
+	 const Spell_Resistance& spell_resistance_,
+	 const std::string& description_, const std::string& sdescription_)
+    : name(name_),
+      school(school_),
+      level(level_),
+      casting_time(casting_time),
+      components(components_),
+      range(range_),
+      duration(duration_),
+      saving_throw(saving_throw_),
+      spell_resistance(spell_resistance_),
+      description(description_),
+      short_description(sdespription_)
+  {};
+  virtual ~Spell() {};
+
   std::string name;
   School school;
   Level level;
