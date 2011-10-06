@@ -7,17 +7,22 @@ Gtk_Window::Gtk_Window( Spells * const spells )
 {
   set_title( "pathspell" );
   set_border_width(5);
-  set_default_size(640, 480);
+  set_default_size(800, 600);
 
   add(hbox_);
 
+  hbox_.set_spacing(5);
   spell_label_.set_line_wrap(true);
+  spell_label_.set_alignment(0,0);
 
-  hbox_.pack_start( vbox_ );
-  hbox_.pack_start( spell_label_ );
+  hbox_.pack_start( vbox_, Gtk::PACK_SHRINK );
+  hbox_.pack_start( spell_label_, Gtk::PACK_EXPAND_WIDGET );
 
-  vbox_.pack_start( search_entry_ );
-  vbox_.pack_start( tree_view_ );
+  vbox_.set_spacing(5);
+  tree_view_.set_vexpand( true );
+
+  vbox_.pack_start( search_entry_, Gtk::PACK_SHRINK );
+  vbox_.pack_start( tree_view_, Gtk::PACK_EXPAND_WIDGET );
 
   ref_tree_model_ = Gtk::ListStore::create( columns_ );
   tree_view_.set_model( ref_tree_model_ );
