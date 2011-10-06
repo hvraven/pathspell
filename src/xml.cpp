@@ -173,7 +173,6 @@ Components Spells::get_spell_components_( TiXmlElement* pspell )
 
 Saving_Throw Spells::get_spell_saving_throw_( TiXmlElement* pspell )
 {
-  std::cout << "Saving_Throw start" << std::endl;
   TiXmlElement* psave = pspell->FirstChildElement( "saving_throw" );
 
   if ( psave )
