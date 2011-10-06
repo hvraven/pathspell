@@ -62,14 +62,51 @@ void Gtk_Window::import_spells( std::vector < std::string > spell_list )
 
 void Gtk_Window::display_spell( const Glib::ustring& spell_name )
 {
-  /*  Spell spell = spells_->get_spell( spell_name );
+  Spell spell = spells_->get_spell( spell_name );
 
-  Glib::ustring result = "<b>Name:</b> ";
-  result += spell.name;
-  result += "\n\n";
+  Glib::ustring result = "<span font_size=\"large\"><b>"
+    + spell.name
+    + "</b>\n</span>";
 
-  result += "<b>School:</b> ";
-  result += spell.school.print();
+  result += "<b>School:</b> "
+    +spell.school.print()
+    + "; ";
 
-  spell_label_.set_text( result );*/
+  result += "<b>Level:</b>"
+    + spell.level.print();
+
+  result += "\n<b>Casting:</b>\n";
+
+  result += "<b>Casting Time</b>: "
+    + spell.casting_time.print()
+    + "; ";
+
+  result += "<b>Components:</b> "
+    + spell.components.print();
+
+  result += "\n<b>Effect:</b>\n";
+
+  result += "<b>Range:</b> "
+    + spell.range.print()
+    + "; ";
+
+  //  result += "<b>Target:</b> "
+  //    + spell.target.print()
+  //    + "; ";
+
+  result += "<b>Duration:</b> "
+    + spell.duration.print()
+    + "; ";
+
+  result += "<b>Saving Throw:</b> "
+    + spell.saving_throw.print()
+    + "; ";
+
+  result += "<b>Spell Resistance:</b> "
+    + spell.spell_resistance.print();
+
+  result += "\n<b>Description:</b>\n"
+    + spell.description;
+
+  spell_label_.set_text( result );
 }
