@@ -19,8 +19,8 @@
     <component type="S" />
     <range type="touch" />
     <duration type="instantaneous" />
-    <saving_throw type="Will" harmless="yes" see_text="yes">half</saving_throw>
-    <spell_resistance harmless="yes" see_text="yes">yes</spell_resistance>
+    <saving_throw type="Will" harmless="yes" see_text="yes" value="half" />
+    <spell_resistance harmless="yes" see_text="yes" value="yes" />
     <short_description language="en">Cures 1d8 damage +1/level (max +5)</short_description>
     <description language="en">When laying your hand upon a living creature, you channel positive energy that cures 1d8 points of damage +1 point per caster level (maximum +5). Since undead are powered by negative energy, this spell deals damage to them instead of curing their wounds. An undead creature can apply Spell Resistance, and can attempt a Will save to take half damage.</description>
   </spell>
@@ -41,8 +41,8 @@
     <range type="close" />
     <duration type="instantaneous" />
     <annotation type="target">one creature/level, no two of which can be more than 30 ft. apart</annotation>
-    <saving_throw type="Will" harmless="yes" see_text="yes">half</saving_throw>
-    <spell_resistance harmless="yes" see_text="yes">yes</spell_resistance>
+    <saving_throw type="Will" harmless="yes" see_text="yes" value="half" />
+    <spell_resistance harmless="yes" see_text="yes" value="yes" />
     <short_description language="en">Cures 1d8 damage +1/level, affects 1 subject/level</short_description>
     <description language="en">You channel positive energy to cure 1d8 points of damage + 1 point per caster level (maximum +25) on each selected creature. Like other cure spells, mass cure light wounds deals damage to undead in its area rather than curing them. Each affected undead may attempt a Will save for half damage.</description>
   </spell>
@@ -63,7 +63,7 @@
     <annotation type="target or area">object touched or up to 5 sq. ft./level</annotation>
     <duration type="permanent" note="until discharged" />
     <saving_throw see_text="yes" />
-    <spell_resistance see_text="yes">no</spell_resistance>
+    <spell_resistance see_text="yes" value="no" />
     <short_description language="en"></short_description>
     <description language="en">This powerful inscription harms those who enter, pass, or open the warded area or object. A glyph of warding can guard a bridge or passage, ward a portal, trap a chest or box, and so on.
     

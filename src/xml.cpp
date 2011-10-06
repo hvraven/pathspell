@@ -173,14 +173,68 @@ Components Spells::get_spell_components_( TiXmlElement* pspell )
 
 Saving_Throw Spells::get_spell_saving_throw_( TiXmlElement* pspell )
 {
-  Saving_Throw temp;
-  return temp;
+  std::cout << "Saving_Throw start" << std::endl;
+  TiXmlElement* psave = pspell->FirstChildElement( "saving_throw" );
+
+  if ( psave )
+    {
+      Saving_Throw temp;
+      TiXmlAttribute* pattr = psave->FirstAttribute();
+
+      while ( pattr )
+	{
+	  std::string work = pattr->Name();
+	  if ( work == "type" )
+	    temp.set_type( pattr->ValueStr() );
+	  else if ( work == "value" )
+	    temp.set_value( pattr->ValueStr() );
+	  else if ( work == "see_text" )
+	    {
+	      if ( pattr->ValueStr() == "yes" )
+		temp.set_see_text( true );
+	    }
+	  else if ( work == "harmless" )
+	    {
+	      if ( pattr->ValueStr() == "yes" )
+		temp.set_harmless( true );
+	    }
+	  pattr = pattr->Next();
+	}
+
+      return temp;
+    }
+  else
+    throw Missing_Element( SAVING_THROW );
 }
 
 Spell_Resistance Spells::get_spell_spell_resistance_( TiXmlElement* pspell )
 {
+  std::cout << "Spell_Resistance start" << std::endl;
+  TiXmlElement* presist = pspell->FirstChildElement( "spell_resistance" );
   Spell_Resistance temp;
+  if ( presist )
+    {
+      /*    std::string value = presist->GetText();
+      if ( value == "half" )
+	{
+	}
+      else
+	if ( value = "negates" )
+	  {
+	  }
+	else
+	  if ( value = "no" )
+	    {
+	      Saving_Throw temp( NO );
+	      return temp;
+	    }
+	  else
+	  throw Invalid_Element();*/
+    }
+  else
+    throw Missing_Element( SPELL_RESISTANCE );
   return temp;
+  std::cout << "Spell_Resistance stop" << std::endl;
 }
 
 std::string Spells::get_spell_description_( TiXmlElement* pspell )
@@ -194,4 +248,3 @@ std::string Spells::get_spell_link_( TiXmlElement* pspell )
   std::string result = pspell->Attribute( "src" );
   return "";
 }
-

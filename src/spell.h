@@ -107,6 +107,7 @@ enum Saving_Throw_Token
 
 enum Saving_Throw_Value_Token
   {
+    NIL,
     HALF,
     NEGATES,
     NO
@@ -130,7 +131,9 @@ public:
   bool get_see_text() { return see_text_; };
 
   void set_type( const Saving_Throw_Token& type ) { type_ = type; };
+  void set_type( const std::string& );
   void set_value( const Saving_Throw_Value_Token& value ) { value_ = value; };
+  void set_value( const std::string& );
   void set_harmless( const bool harmless ) { harmless_ = harmless; };
   void set_see_text( const bool see_text ) { see_text_ = see_text; };
 
