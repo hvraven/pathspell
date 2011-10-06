@@ -209,32 +209,53 @@ Saving_Throw Spells::get_spell_saving_throw_( TiXmlElement* pspell )
 
 Spell_Resistance Spells::get_spell_spell_resistance_( TiXmlElement* pspell )
 {
-  std::cout << "Spell_Resistance start" << std::endl;
   TiXmlElement* presist = pspell->FirstChildElement( "spell_resistance" );
   Spell_Resistance temp;
   if ( presist )
     {
-      /*    std::string value = presist->GetText();
-      if ( value == "half" )
+      TiXmlAttribute* pattr = presist->FirstAttribute();
+      Spell_Resistance result;
+
+      while ( pattr )
 	{
-	}
-      else
-	if ( value = "negates" )
-	  {
-	  }
-	else
-	  if ( value = "no" )
+	  std::string work = pattr->Name();
+
+	  if ( work == "value" )
 	    {
-	      Saving_Throw temp( NO );
-	      return temp;
+	      if ( pattr->ValueStr() == "yes" )
+		result.set_resistance( true );
+	      else
+		if ( pattr->ValueStr() == "no" )
+		  result.set_resistance( false );
+		else
+		  throw Invalid_Argument();
 	    }
-	  else
-	  throw Invalid_Element();*/
+	  else if ( work == "see_text")
+	    {
+	      if ( pattr->ValueStr() == "yes" )
+		result.set_see_text( true );
+	      else
+		if ( pattr->ValueStr() == "no" )
+		  result.set_see_text( false );
+		else
+		  throw Invalid_Argument();
+	    }
+	  else if ( work == "harmless" )
+	    {
+	      if ( pattr->ValueStr() == "yes" )
+		result.set_harmless( true );
+	      else
+		if ( pattr->ValueStr() == "no" )
+		  result.set_harmless (false);
+		else
+		  throw Invalid_Argument();
+	    }
+	  pattr = pattr->Next();
+	}
+      return result;
     }
   else
     throw Missing_Element( SPELL_RESISTANCE );
-  return temp;
-  std::cout << "Spell_Resistance stop" << std::endl;
 }
 
 std::string Spells::get_spell_description_( TiXmlElement* pspell )
