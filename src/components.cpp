@@ -51,9 +51,9 @@ std::string Components::print( const bool with_description )
     {
       if ( with_description )
 	{
-	  result += "M (";
-	  result += material_description_;
-	  result += "), ";
+	  result += "M ("
+	    + material_description_
+	    + "), ";
 	}
       else
 	result += "M, ";
@@ -62,9 +62,9 @@ std::string Components::print( const bool with_description )
     {
       if ( with_description )
 	{
-	  result += "F (";
-	  result += focus_description_;
-	  result += "), ";
+	  result += "F ("
+	    + focus_description_
+	    + "), ";
 	}
       else
 	result += "F, ";

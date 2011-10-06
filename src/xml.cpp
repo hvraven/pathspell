@@ -121,8 +121,54 @@ Spell_Element Spells::get_spell_spell_element_( TiXmlElement* pspell,
 
 Components Spells::get_spell_components_( TiXmlElement* pspell )
 {
-  Components temp;
-  return temp;
+  TiXmlElement* pcomponent = pspell->FirstChildElement( "component" );
+  if ( pcomponent )
+    {
+      Components temp;
+      while ( pcomponent )
+	{
+	  std::string work = pcomponent->Attribute( "type" );
+	  switch ( work[0] )
+	    {
+	    case 'V':
+	      {
+		temp.set_verbal( true );
+		break;
+	      }
+	    case 'S':
+	      {
+		temp.set_somatic( true );
+		break;
+	      }
+	    case 'M':
+	      {
+		std::string description = pcomponent->GetText();
+		temp.set_material( true, description );
+		break;
+	      }
+	    case 'F':
+	      {
+		std::string description = pcomponent->GetText();
+		temp.set_focus( true, description);
+		break;
+	      }
+	    case 'D':
+	      {
+		if ( work[1] == 'F' )
+		  {
+		    temp.set_divine_focus( true );
+		    break;
+		  }
+	      }
+	    default:
+	      throw Invalid_Argument();
+	    }
+	  pcomponent = pcomponent->NextSiblingElement( "component" );
+	}
+      return temp;
+    }
+  else
+    throw Missing_Element ( COMPONENTS );
 }
 
 Saving_Throw Spells::get_spell_saving_throw_( TiXmlElement* pspell )
@@ -145,6 +191,7 @@ std::string Spells::get_spell_description_( TiXmlElement* pspell )
 
 std::string Spells::get_spell_link_( TiXmlElement* pspell )
 {
-  TiXmlElement* plink = pspell->FirstChildElement( "link" );
-  return plink->GetText();
+  std::string result = pspell->Attribute( "src" );
+  return "";
 }
+

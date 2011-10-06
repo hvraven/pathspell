@@ -25,6 +25,11 @@ struct File_Load_Error : public std::exception
   File_Load_Error() {};
 };
 
+struct Invalid_Argument : public std::exception
+{
+  Invalid_Argument() {};
+};
+
 struct Missing_Element : public std::exception
 {
   Spell_Element_Token element;
@@ -37,6 +42,5 @@ struct Unclear_Arguments : public std::exception
 {
   Unclear_Arguments() {};
 };
-
 
 #endif // PATHSPELL_ERROR_H
