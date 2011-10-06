@@ -41,14 +41,18 @@ private:
 
   School get_spell_school_( TiXmlElement* );
   Level get_spell_level_( TiXmlElement* );
-  Spell_Element get_spell_casting_time_( TiXmlElement* );
+  Spell_Element get_spell_casting_time_( TiXmlElement* pspell)
+    { return get_spell_spell_element_( pspell, "casting_time" ); };
   Components get_spell_components_( TiXmlElement* );
-  Spell_Element get_spell_range_( TiXmlElement* );
-  Spell_Element get_spell_duration_( TiXmlElement* );
+  Spell_Element get_spell_range_( TiXmlElement* pspell)
+    { return get_spell_spell_element_( pspell, "range" ); };
+  Spell_Element get_spell_duration_( TiXmlElement* pspell )
+    { return get_spell_spell_element_( pspell, "duration" ); };
   Saving_Throw get_spell_saving_throw_( TiXmlElement* );
   Spell_Resistance get_spell_spell_resistance_( TiXmlElement* );
   std::string get_spell_description_( TiXmlElement* );
   std::string get_spell_link_( TiXmlElement* );
+  Spell_Element get_spell_spell_element_( TiXmlElement*, const std::string&);
 };
 
 #endif // PATHSPELL_XML_H

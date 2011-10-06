@@ -11,6 +11,7 @@ enum Spell_Element_Token
     LEVEL_TYPE,
     LEVEL_VALUE,
     CASTING_TIME,
+    CASTING_TIME_TYPE,
     COMPONENTS,
     RANGE,
     DURATION,

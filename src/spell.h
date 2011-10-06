@@ -200,7 +200,7 @@ struct Spell
     : name(name_),
       school(school_),
       level(level_),
-      casting_time(casting_time),
+      casting_time(casting_time_),
       components(components_),
       range(range_),
       duration(duration_),
