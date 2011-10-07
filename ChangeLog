@@ -1,0 +1,7 @@
+2011-10-07    <h.v.raven@googlemail.com>
+
+	* strmanip.cpp:
+	* strmanip.h: created to_[upper|lower] and str_[upper|lower] for std::string
+
+	* savingthrow.cpp (set_type, set_value): replaced multiple checks with conversion to lower case
+

@@ -1,5 +1,6 @@
 #include "spell.h"
 #include "error.h"
+#include "strmanip.h"
 
 Saving_Throw::Saving_Throw()
   : type_(),
@@ -81,13 +82,14 @@ std::string Saving_Throw::print_type()
 
 void Saving_Throw::set_type( const std::string& type )
 {
-  if ( (type == "will") or (type == "Will") or (type == "WILL") )
+  std::string work = to_lower( type );
+  if ( work == "will" )
     type_ = WILL;
   else
-    if ( (type == "fort") or (type == "Fort") or (type == "FORT") )
+    if (work == "fort")
       type_ = FORT;
     else
-      if ( (type == "ref") or (type == "Ref") or (type == "REF") )
+      if (work == "ref")
 	type_ = REF;
       else
 	throw Invalid_Argument();
@@ -95,13 +97,14 @@ void Saving_Throw::set_type( const std::string& type )
 
 void Saving_Throw::set_value( const std::string& value )
 {
-  if ( (value == "no") or (value == "No") )
+  std::string work = to_lower( value );
+  if ( work == "no" )
     value_ = NO;
   else
-    if ( (value == "negates") or (value == "Negates") )
+    if (work == "negates")
       value_ = NEGATES;
     else
-      if ( (value == "half") or (value == "Half") )
+      if ( work == "half")
 	value_ = HALF;
       else
 	throw Invalid_Argument();
