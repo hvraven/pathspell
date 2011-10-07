@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <spell_list rpg="pathfinder">
-  <spell src="http://www.d20pfsrd.com/magic/all-spells/c/cure-light-wounds">
+  <spell src="http://www.d20pfsrd.com/magic/all-spells/c/cure-light-wounds" publisher="paizo" book="Core Rulebook">
     <name language="en">Cure Light Wounds</name>
     <school type="conjuration">
       <subschool type="healing" />
@@ -24,7 +24,7 @@
     <short_description language="en">Cures 1d8 damage +1/level (max +5)</short_description>
     <description language="en">When laying your hand upon a living creature, you channel positive energy that cures 1d8 points of damage +1 point per caster level (maximum +5). Since undead are powered by negative energy, this spell deals damage to them instead of curing their wounds. An undead creature can apply Spell Resistance, and can attempt a Will save to take half damage.</description>
   </spell>
-  <spell src="http://www.d20pfsrd.com/magic/all-spells/c/cure-light-wounds">
+  <spell src="http://www.d20pfsrd.com/magic/all-spells/c/cure-light-wounds" publisher="paizo" book="Core Rulebook">
     <name language="en">Cure Light Wounds, Mass</name>
     <school type="conjuration">
       <subschool type="healing" />
@@ -46,7 +46,7 @@
     <short_description language="en">Cures 1d8 damage +1/level, affects 1 subject/level</short_description>
     <description language="en">You channel positive energy to cure 1d8 points of damage + 1 point per caster level (maximum +25) on each selected creature. Like other cure spells, mass cure light wounds deals damage to undead in its area rather than curing them. Each affected undead may attempt a Will save for half damage.</description>
   </spell>
-  <spell src="http://www.d20pfsrd.com/magic/all-spells/g/glyph-of-warding">
+  <spell src="http://www.d20pfsrd.com/magic/all-spells/g/glyph-of-warding" publisher="paizo" book="Core Rulebook">
     <name language="en">Glyph of Warding</name>
     <school type="abjuration" />
     <level type="cleric" value="3" />
@@ -64,7 +64,7 @@
     <duration type="permanent" note="until discharged" />
     <saving_throw see_text="yes" />
     <spell_resistance see_text="yes" value="no" />
-    <short_description language="en"></short_description>
+    <short_description language="en">Inscription harms those who pass it</short_description>
     <description language="en">This powerful inscription harms those who enter, pass, or open the warded area or object. A glyph of warding can guard a bridge or passage, ward a portal, trap a chest or box, and so on.
     
     You set all of the conditions of the ward. Typically, any creature entering the warded area or opening the warded object without speaking a password (which you set when casting the spell) is subject to the magic it stores. Alternatively or in addition to a password trigger, glyphs can be set according to physical characteristics (such as height or weight) or creature type, subtype, or kind. Glyphs can also be set with respect to good, evil, law, or chaos, or to pass those of your religion. They cannot be set according to class, HD, or level. Glyphs respond to invisible creatures normally but are not triggered by those who travel past them ethereally. Multiple glyphs cannot be cast on the same area. However, if a cabinet has three different drawers, each can be separately warded.
@@ -79,5 +79,52 @@
     
     Spell Glyph: You can store any harmful spell of 3rd level or lower that you know. All level-dependent features of the spell are based on your caster level at the time of casting the glyph. If the spell has a target, it targets the intruder. If the spell has an area or an amorphous effect, the area or effect is centered on the intruder. If the spell summons creatures, they appear as close as possible to the intruder and attack. Saving throws and spell resistance operate as normal, except that the DC is based on the level of the spell stored in the glyph.</description>
     <note language="en" title="Trapfinding and Magic Traps">Magic traps such as glyph of warding are hard to detect and disable. A character with the trapfinding class feature (only) can use the Perception skill to find the glyph and Disable Device to thwart it. The DC in each case is 25 + spell level, or 28 for glyph of warding.</note>
+  </spell>
+  <spell src="http://www.d20pfsrd.com/magic/all-spells/e/endure-elements" publisher="paizo" book="Core Rulebook">
+    <name language="en">Endure Elements</name>
+    <school type="abjuration" />
+    <level type="alchemist" value="1" />
+    <level type="cleric" value="1" />
+    <level type="oracle" value="1" />
+    <level type="druid" value="1" />
+    <level type="paladin" value="1" />
+    <level type="ranger" value="1" />
+    <level type="sorcerer" value="1" />
+    <level type="wizard" value="1" />
+    <level type="summoner" value="1" />
+    <domain type="sun" value="1" />
+    <casting_time type="standard action" value="1" />
+    <component type="V" />
+    <component type="S" />
+    <range type="touch" />
+    <annotation type="target">creature touched</annotation>
+    <duration type="hour" value="24" />
+    <saving_throw type="will" value="negates" harmless="yes" />
+    <spell_resistance value="yes" harmless="yes" />
+    <short_description language="en">Exist comfortably in hot or cold regions.</short_description>
+    <description language="en">A creature protected by endure elements suffers no harm from being in a hot or cold environment. It can exist comfortably in conditions between -50 and 140 degrees Fahrenheit (-45 and 60 degrees Celsius) without having to make Fortitude saves. The creature's equipment is likewise protected.
+
+Endure elements doesn't provide any protection from fire or cold damage, nor does it protect against other environmental hazards such as smoke, lack of air, and so forth.</description>
+  </spell>
+  <spell src="http://www.d20pfsrd.com/magic/all-spells/e/endure-elements" publisher="paizo" book="Ultimate Combat">
+    <name language="en">Endure Elements, Communal</name>
+    <school type="abjuration" />
+    <level type="alchemist" value="3" />
+    <level type="cleric" value="2" />
+    <level type="druid" value="2" />
+    <level type="paladin" value="2" />
+    <level type="ranger" value="2" />
+    <level type="sorcerer" value="2" />
+    <level type="wizard" value="2" />
+    <casting_time type="standard action" value="1" />
+    <component type="V" />
+    <component type="S" />
+    <range type="touch" />
+    <annotation type="target">creatures touched</annotation>
+    <duration type="hour" value="24" see_text="yes" />
+    <saving_throw type="will" value="negates" harmless="yes" />
+    <spell_resistance value="yes" harmless="yes" />
+    <short_description language="en"></short_description>
+    <description language="en">This spell functions like endure elements, except you divide the duration in 1-hour increments among the creatures touched.</description>
   </spell>
 </spell_list>
