@@ -3,22 +3,7 @@
 
 #include <exception>
 
-enum Spell_Element_Token
-  {
-    NAME,
-    SCHOOL,
-    LEVEL,
-    LEVEL_TYPE,
-    LEVEL_VALUE,
-    CASTING_TIME,
-    CASTING_TIME_TYPE,
-    COMPONENTS,
-    RANGE,
-    DURATION,
-    SAVING_THROW,
-    SPELL_RESISTANCE,
-    DESCRIPTION
-  };
+#include "spell.h"
 
 struct File_Load_Error : public std::exception
 {

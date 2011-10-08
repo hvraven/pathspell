@@ -90,7 +90,7 @@ Level Spells::get_spell_level_( TiXmlElement* pspell )
     throw Missing_Element ( LEVEL );
 }
 
-Spell_Element Spells::get_spell_spell_element_( TiXmlElement* pspell,
+Spell_Base_Element Spells::get_spell_spell_element_( TiXmlElement* pspell,
 						const std::string& search_for )
 {
   TiXmlElement* pchild = pspell->FirstChildElement( search_for );
@@ -103,12 +103,12 @@ Spell_Element Spells::get_spell_spell_element_( TiXmlElement* pspell,
 	  pchild->QueryIntAttribute( "value", &value );
 	  if ( value )
 	    {
-	      Spell_Element temp(type, value);
+	      Spell_Base_Element temp(type, value);
 	      return temp;
 	    }
 	  else
 	    {
-	      Spell_Element temp(type);
+	      Spell_Base_Element temp(type);
 	      return temp;
 	    }
 	}

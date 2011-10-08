@@ -1,5 +1,10 @@
 2011-10-08    <h.v.raven@googlemail.com>
 
+	* src/spell.h reorganized class structure of Spell
+	* src/spell.h (Spell_Base_Element) renamed Spell_Element
+	* src/spell.h (Spell_Element, Spell_String_Element) new classes
+	* src/spell.h (fill_base_elements_) new function
+	
 	* src/savingthrow.cpp (print, set_value): added support for partial and disbelief
 
 2011-10-07    <h.v.raven@googlemail.com>

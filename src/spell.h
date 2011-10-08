@@ -5,7 +5,52 @@
 #include <string>
 #include <map>
 
-class School
+enum Spell_Element_Token
+  {
+    NAME,
+    SCHOOL,
+    LEVEL,
+    LEVEL_TYPE,
+    LEVEL_VALUE,
+    CASTING_TIME,
+    CASTING_TIME_TYPE,
+    COMPONENTS,
+    RANGE,
+    DURATION,
+    SAVING_THROW,
+    SPELL_RESISTANCE,
+    DESCRIPTION,
+    LINK
+  };
+
+enum Saving_Throw_Token
+  {
+    WILL,
+    FORT,
+    REF
+  };
+
+enum Saving_Throw_Value_Token
+  {
+    NIL,
+    HALF,
+    NEGATES,
+    NO,
+    PARTIAL,
+    DISBELIEF
+  };
+
+class Spell_Element
+{
+public:
+  Spell_Element() {};
+  virtual ~Spell_Element() {};
+
+  // TODO: give string per reference
+  virtual std::string print() = 0;
+};
+
+class School : public Spell_Element
 {
 public:
   School();
@@ -15,11 +60,11 @@ public:
   School(const std::string, const std::vector < std::string >);
   virtual ~School();
 
-  std::string print();
+  virtual std::string print();
   std::string print_school() { return school_; };
   std::string print_subschools();
   std::vector < std::string > get_subschools() { return subschools_; };
-  std::string get_subschool(const int pos) { return subschools_[pos]; };
+  std::string get_subschool(const int pos = 0) { return subschools_[pos]; };
   int get_number_of_subschools() { return subschools_.size(); };
 
   void set_school(const std::string school)
@@ -36,14 +81,14 @@ private:
 
 typedef std::map < std::string, int > levelmap;
 
-class Level
+class Level : public Spell_Element
 {
 public:
   Level();
   Level( const levelmap& );
   virtual ~Level();
 
-  std::string print();
+  virtual std::string print();
   std::string print( const std::string& );
 
   int get_level( const std::string& level )
@@ -59,7 +104,7 @@ private:
   levelmap levels_;
 };
 
-class Components
+class Components : public Spell_Element
 {
 public:
   Components( const bool = false, const bool = false, const bool = false,
@@ -86,7 +131,8 @@ public:
   std::string& get_focus_description() { return focus_description_; };
   bool get_divine_focus() { return divine_focus_; };
 
-  std::string print( const bool with_description = true );
+  virtual std::string print() { return print(true); };
+  std::string print( const bool with_description );
 
 private:
   bool verbal_;
@@ -98,24 +144,7 @@ private:
   std::string focus_description_;
 };
 
-enum Saving_Throw_Token
-  {
-    WILL,
-    FORT,
-    REF
-  };
-
-enum Saving_Throw_Value_Token
-  {
-    NIL,
-    HALF,
-    NEGATES,
-    NO,
-    PARTIAL,
-    DISBELIEF
-  };
-
-class Saving_Throw
+class Saving_Throw : public Spell_Element
 {
 public:
   Saving_Throw();
@@ -124,7 +153,7 @@ public:
 		const Saving_Throw_Token& );
   virtual ~Saving_Throw() {};
 
-  std::string print();
+  virtual std::string print();
   std::string print_type();
 
   Saving_Throw_Token& get_type() { return type_; };
@@ -146,14 +175,14 @@ private:
   bool see_text_;
 };
 
-class Spell_Resistance
+class Spell_Resistance : public Spell_Element
 {
 public:
   Spell_Resistance( const bool = false, const bool = false,
 		    const bool = false );
   virtual ~Spell_Resistance() {};
 
-  std::string print();
+  virtual std::string print();
 
   bool get_spell_resistance() { return resistance_; };
   bool get_harmless() { return harmless_; };
@@ -172,13 +201,26 @@ private:
   bool see_text_;
 };
 
-class Spell_Element
+class Spell_String_Element : public Spell_Element
 {
 public:
-  Spell_Element();
-  Spell_Element( const std::string& );
-  Spell_Element( const std::string&, const int );
-  virtual ~Spell_Element() {};
+  Spell_String_Element( const std::string& str = "" )
+    : str_(str) {};
+  virtual ~Spell_String_Element() {};
+
+  virtual std::string print() { return str_; };
+
+private:
+  std::string str_;
+};
+
+class Spell_Base_Element : public Spell_Element
+{
+public:
+  Spell_Base_Element();
+  Spell_Base_Element( const std::string& );
+  Spell_Base_Element( const std::string&, const int );
+  virtual ~Spell_Base_Element() {};
 
   virtual std::string print();
 
@@ -194,39 +236,45 @@ protected:
   int value_;
 };
 
-struct Spell
+class Spell
 {
-  Spell( const std::string& name_ , const School& school_, const Level& level_,
-	 const Spell_Element& casting_time_, const Components& components_,
-	 const Spell_Element& range_, const Spell_Element& duration_,
-	 const Saving_Throw& saving_throw_,
-	 const Spell_Resistance& spell_resistance_,
-	 const std::string& description_, const std::string& link_)
-    : name(name_),
-      school(school_),
-      level(level_),
-      casting_time(casting_time_),
-      components(components_),
-      range(range_),
-      duration(duration_),
-      saving_throw(saving_throw_),
-      spell_resistance(spell_resistance_),
-      description(description_),
-      link(link_)
-  {};
+public:
+  Spell();
+  Spell( const std::string&, const School&, const Level&,
+	 const Spell_Base_Element&, const Components&, const Spell_Base_Element&,
+	 const Spell_Base_Element&, const Saving_Throw&,
+	 const Spell_Resistance&, const std::string&, const std::string&);
   virtual ~Spell() {};
 
-  std::string name;
-  School school;
-  Level level;
-  Spell_Element casting_time;
-  Components components;
-  Spell_Element range;
-  Spell_Element duration;
-  Saving_Throw saving_throw;
-  Spell_Resistance spell_resistance;
-  std::string description;
-  std::string link;
+  Spell_Element& operator[]( const Spell_Element_Token& );
+
+  std::string& get_name();
+  School& get_school();
+  Level& get_level();
+  Spell_Base_Element& get_casting_time();
+  Components& get_components();
+  Spell_Base_Element& get_range();
+  Spell_Base_Element& get_duration();
+  Saving_Throw& get_saving_throw();
+  Spell_Resistance& get_spell_resistance();
+  std::string& get_description();
+  std::string& get_link();
+
+private:
+  std::map< Spell_Element_Token, Spell_Element* > elements_;
+  void base_fill_elements_();
+
+  Spell_String_Element name_;
+  School school_;
+  Level level_;
+  Spell_Base_Element casting_time_;
+  Components components_;
+  Spell_Base_Element range_;
+  Spell_Base_Element duration_;
+  Saving_Throw saving_throw_;
+  Spell_Resistance spell_resistance_;
+  Spell_String_Element description_;
+  Spell_String_Element link_;
 };
 
 #endif // PATHSPELL_SPELL_H
