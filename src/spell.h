@@ -110,7 +110,9 @@ enum Saving_Throw_Value_Token
     NIL,
     HALF,
     NEGATES,
-    NO
+    NO,
+    PARTIAL,
+    DISBELIEF
   };
 
 class Saving_Throw

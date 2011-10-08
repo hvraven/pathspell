@@ -8,7 +8,7 @@ Components::Components(const bool verbal, const bool somatic,
     somatic_(somatic),
     material_(material),
     focus_(focus),
-    divine_focus_(focus)
+    divine_focus_(divine_focus)
 {
 }
 
@@ -21,7 +21,7 @@ Components::Components(const bool verbal, const bool somatic,
     somatic_(somatic),
     material_(material),
     focus_(focus),
-    divine_focus_(focus)
+    divine_focus_(divine_focus)
 {
   if ( second_description != "" )
     {

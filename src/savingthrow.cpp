@@ -29,40 +29,52 @@ Saving_Throw::Saving_Throw( const Saving_Throw_Value_Token& value,
 
 std::string Saving_Throw::print()
 {
-  if ( value_ == NO )
-    if ( see_text_ )
-      return "No (see text)";
-    else
-      return "No";
-  else
-    if ( value_ == NIL )
-      if ( see_text_ )
-	return "See Text";
-      else
-	return "";
-    else
+  std::string result;
+  switch ( value_ )
+    {
+    case NO:
       {
-	std::string result = print_type();
-	result += " ";
-
-	if ( value_ == NEGATES )
-	  result += "negates";
-	else
-	  result += "half";
-
-	if ( harmless_ )
-	  {
-	    if ( see_text_ )
-	      result += " (harmless, see text)";
-	    else
-	      result += " (harmless)";
-	  }
-	else
-	  if ( see_text_ )
-	    result += " (see text)";
-
-	return result;
+	result = "No";
+	break;
       }
+    case NIL:
+      {
+	break;
+      }
+    case NEGATES:
+      {
+	result = "Negates";
+	break;
+      }
+    case HALF:
+      {
+	result = "Half";
+	break;
+      }
+    case PARTIAL:
+      {
+	result = "Partial";
+	break;
+      }
+    case DISBELIEF:
+      {
+	result = "Disbelief";
+	break;
+      }
+    }
+
+  if ( harmless_ )
+    {
+      if ( see_text_ )
+	result += " (harmless, see text)";
+      else
+	result += " (harmless)";
+    }
+  else
+    if ( see_text_ )
+      result += " (see text)";
+
+  return result;
 }
 
 std::string Saving_Throw::print_type()
@@ -97,8 +109,8 @@ void Saving_Throw::set_type( const std::string& type )
 
 void Saving_Throw::set_value( const std::string& value )
 {
-  std::string work = to_lower( value );
-  if ( work == "no" )
+  const std::string work = to_lower( value );
+  if ( ( work == "no" ) or ( work == "none" ) )
     value_ = NO;
   else
     if (work == "negates")
@@ -107,5 +119,11 @@ void Saving_Throw::set_value( const std::string& value )
       if ( work == "half")
 	value_ = HALF;
       else
-	throw Invalid_Argument();
+	if ( work == "partial")
+	  value_ = PARTIAL;
+	else
+	  if ( work == "disbelief" )
+	    value_ = DISBELIEF;
+	  else
+	    throw Invalid_Argument();
 }
