@@ -56,7 +56,7 @@
     <component type="S" />
     <range type="close" />
     <duration type="instantaneous" />
-    <target type="creature" amount="one/level" max_between="30" />
+    <target type="creature" amount="1/" max_between="30" />
     <saving_throw type="Will" harmless="yes" see_text="yes" value="half" />
     <spell_resistance harmless="yes" see_text="yes" value="yes" />
     <short_description language="en">Cures 1d8 damage +1/level, affects 1 subject/level</short_description>
@@ -79,7 +79,7 @@
     <component type="V" />
     <component type="S" />
     <range type="touch" />
-    <annotation type="target">creature touched</annotation>
+    <target type="creature" distance="touch" />
     <duration type="hour" value="24" />
     <saving_throw type="will" value="negates" harmless="yes" />
     <spell_resistance value="yes" harmless="yes" />
@@ -102,7 +102,7 @@ Endure elements doesn't provide any protection from fire or cold damage, nor doe
     <component type="V" />
     <component type="S" />
     <range type="touch" />
-    <annotation type="target">creatures touched</annotation>
+    <target type="creature" distance="touch" />
     <duration type="hour" value="24" see_text="yes" />
     <saving_throw type="will" value="negates" harmless="yes" />
     <spell_resistance value="yes" harmless="yes" />

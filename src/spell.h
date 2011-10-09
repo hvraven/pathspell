@@ -23,6 +23,15 @@ enum Spell_Element_Token
     LINK
   };
 
+enum Target_Type_Token
+  {
+    CREATURE,
+    LIVING_CREATURE,
+    YOU,
+    OBJECT,
+    SPECIAL
+  };
+
 enum Saving_Throw_Token
   {
     WILL,
@@ -142,6 +151,47 @@ private:
   bool divine_focus_;
   std::string material_description_;
   std::string focus_description_;
+};
+
+struct Amount
+{
+  Amount( const int value, const bool level )
+    : amount(value), per_level(level) {};
+  virtual ~Amount() {};
+
+  int amount;
+  bool per_level;
+};
+
+class Target : public Spell_Element
+{
+public:
+  Target( const Target_Type_Token& = SPECIAL );
+  virtual ~Target();
+
+  virtual std::string print();
+
+  void set_type( const Target_Type_Token& type ) { type_ = type; };
+  void set_distance ( const std::string& );
+  void set_max_between ( const int& );
+  void set_special ( const std::string& );
+  void set_amount ( const std::string& );
+  void set_amount ( const int, const bool );
+
+  Target_Type_Token& get_type() { return type_; };
+  std::string get_distance();
+  int get_max_between();
+  std::string get_special();
+  std::string get_amount();
+
+private:
+  Amount read_amount_( const std::string& );
+
+  Target_Type_Token type_;
+  std::string* pdistance_;
+  int* pmax_between_;
+  std::string* pspecial_;
+  Amount* pamount_;
 };
 
 class Saving_Throw : public Spell_Element
