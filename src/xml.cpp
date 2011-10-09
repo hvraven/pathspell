@@ -1,5 +1,6 @@
 #include "xml.h"
 #include "error.h"
+#include "strmanip.h"
 
 Spells::Spells( const char* filename)
   : doc_(filename),
@@ -25,6 +26,12 @@ Spell Spells::get_spell( const std::string& spell_name )
 	      get_spell_duration_(spell), get_spell_saving_throw_(spell),
 	      get_spell_spell_resistance_(spell),
 	      get_spell_description_(spell), get_spell_link_(spell) );
+
+  if ( check_spell_target_( spell ) )
+    {
+      temp.set_target( get_spell_target_( spell ) );
+    }
+
   return temp;
 }
 
@@ -267,4 +274,61 @@ std::string Spells::get_spell_link_( TiXmlElement* pspell )
 {
   std::string result = pspell->Attribute( "src" );
   return "";
+}
+
+bool Spells::check_spell_target_( TiXmlElement* pspell )
+{
+  return pspell->FirstChildElement( "target" );
+}
+
+Target* Spells::get_spell_target_( TiXmlElement* pspell )
+{
+  TiXmlElement* ptarget = pspell->FirstChildElement( "target" );
+  if ( ptarget )
+    {
+      std::string type = to_lower( ptarget->Attribute( "type" ) );
+      if ( type == "you" )
+	{
+	  Target* temp = new Target(YOU);
+	  return temp;
+	}
+      else if ( type == "special" )
+	{
+	  Target* temp = new Target(SPECIAL);
+	  temp->set_special( ptarget->Value() );
+	  return temp;
+	}
+      else
+	{
+	  Target* temp = new Target;
+	  if ( type == "creature" )
+	    temp->set_type( CREATURE );
+	  else if ( type == "living creature" )
+	    temp->set_type( LIVING_CREATURE );
+	  else if ( type == "object" )
+	    temp->set_type ( OBJECT );
+	  else
+	    throw Invalid_Argument();
+
+	  TiXmlAttribute* pattr = ptarget->FirstAttribute();
+
+	  while ( pattr )
+	    {
+	      std::string work = pattr->Name();
+	      if ( work == "distance" )
+		temp->set_distance( pattr->ValueStr() );
+	      else if ( work == "max_between" )
+		temp->set_max_between( pattr->IntValue() );
+	      else if ( work == "amount" )
+		temp->set_amount( pattr->ValueStr() );
+	      else if ( work != "type")
+		throw Invalid_Attribute();
+
+	      pattr = pattr->Next();
+	    }
+	  return temp;
+	}
+    }
+  else
+    throw Missing_Element( TARGET );
 }

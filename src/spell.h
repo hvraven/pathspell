@@ -252,21 +252,12 @@ public:
 	 const Spell_Base_Element&, const Components&, const Spell_Base_Element&,
 	 const Spell_Base_Element&, const Saving_Throw&,
 	 const Spell_Resistance&, const std::string&, const std::string&);
-  virtual ~Spell() {};
+  virtual ~Spell();
 
   Spell_Element& operator[]( const Spell_Element_Token& );
 
-  std::string& get_name();
-  School& get_school();
-  Level& get_level();
-  Spell_Base_Element& get_casting_time();
-  Components& get_components();
-  Spell_Base_Element& get_range();
-  Spell_Base_Element& get_duration();
-  Saving_Throw& get_saving_throw();
-  Spell_Resistance& get_spell_resistance();
-  std::string& get_description();
-  std::string& get_link();
+  bool check_target() { return elements_[TARGET]; };
+  void set_target( Target* const );
 
 private:
   std::map< Spell_Element_Token, Spell_Element* > elements_;

@@ -95,9 +95,12 @@ void Gtk_Window::display_spell( const Glib::ustring& spell_name )
     + spell[RANGE].print()
     + " ";
 
-  //  result += "<b>Target:</b> "
-  //    + spell.target.print()
-  //    + "; ";
+  if ( spell.check_target() )
+    {
+      result += "<b>Target:</b> "
+	+ spell[TARGET].print()
+	+ "; ";
+    }
 
   result += "<b>Duration:</b> "
     + spell[DURATION].print()

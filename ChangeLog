@@ -1,3 +1,17 @@
+2011-10-09    <h.v.raven@googlemail.com>
+
+	* src/target.cpp (Target): added checks before delete
+
+	* src/error.h (Invalid_Attribute): new error struct
+
+	* src/spell.cpp (~Spell): added delete for target
+	* src/spell.cpp (set_target): new function
+
+	* src/gtkwindow.cpp (display_spell): added target to output
+
+	* src/xml.cpp (get_spell): added check and import for target
+	* src/xml.cpp (check_spell_target_, get_spell_target): new functions
+
 2011-10-08    <h.v.raven@googlemail.com>
 
 	* src/target.cpp new class for spell target

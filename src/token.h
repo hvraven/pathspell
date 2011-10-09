@@ -16,7 +16,8 @@ enum Spell_Element_Token
     SAVING_THROW,
     SPELL_RESISTANCE,
     DESCRIPTION,
-    LINK
+    LINK,
+    TARGET
   };
 
 enum Target_Type_Token

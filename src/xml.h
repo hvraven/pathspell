@@ -8,6 +8,7 @@
 #include <map>
 #include <vector>
 
+#include "token.h"
 #include "spell.h"
 
 class Spell_List
@@ -30,6 +31,7 @@ class Spells
 public:
   Spells(const char*);
   virtual ~Spells();
+  
 
   Spell get_spell( const std::string& );
   std::vector < std::string > get_spell_list()
@@ -53,6 +55,8 @@ private:
   std::string get_spell_description_( TiXmlElement* );
   std::string get_spell_link_( TiXmlElement* );
   Spell_Base_Element get_spell_spell_element_( TiXmlElement*, const std::string&);
+  bool check_spell_target_( TiXmlElement* );
+  Target* get_spell_target_( TiXmlElement* );
 };
 
 #endif // PATHSPELL_XML_H

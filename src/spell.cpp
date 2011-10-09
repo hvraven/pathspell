@@ -79,9 +79,25 @@ Spell::Spell( const std::string& name, const School& school,
   base_fill_elements_();
 }
 
+Spell::~Spell()
+{
+  delete elements_[TARGET];
+}
+
 Spell_Element& Spell::operator[]( const Spell_Element_Token& element )
 {
   return *( elements_[ element ]);
+}
+
+void Spell::set_target( Target* const input )
+{
+  if ( elements_[TARGET] )
+    {
+      delete elements_[TARGET];
+      elements_[ TARGET ] = input;
+    }
+  else
+    elements_[ TARGET ] = input;
 }
 
 void Spell::base_fill_elements_()

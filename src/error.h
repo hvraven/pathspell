@@ -15,6 +15,11 @@ struct Invalid_Argument : public std::exception
   Invalid_Argument() {};
 };
 
+struct Invalid_Attribute : public std::exception
+{
+  Invalid_Attribute() {};
+};
+
 struct Missing_Element : public std::exception
 {
   Spell_Element_Token element;

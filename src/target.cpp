@@ -15,10 +15,14 @@ Target::Target( const Target_Type_Token& type)
 
 Target::~Target()
 {
-  delete pdistance_;
-  delete pmax_between_;
-  delete pspecial_;
-  delete pamount_;
+  if ( pdistance_ )
+    delete pdistance_;
+  if ( pmax_between_ )
+    delete pmax_between_;
+  if ( pspecial_ )
+    delete pspecial_;
+  if ( pamount_ )
+    delete pamount_;
 }
 
 void Target::set_distance ( const std::string& distance )
