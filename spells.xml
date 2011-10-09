@@ -1,5 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <spell_list rpg="pathfinder">
+  <spell src="http://www.d20pfsrd.com/magic/all-spells/b/bleed" publisher="paizo" book="Core Rulebook">
+    <name language="en">Bleed</name>
+    <school type="necromancy" />
+    <level type="cleric" value="0" />
+    <level type="oracle" value="0" />
+    <level type="inqusitor" value="0" />
+    <level type="sorcerer" value="0" />
+    <level type="wizard" value="0" />
+    <level type="witch" value="0" />
+    <casting_time type="standard action" value="1" />
+    <component type="V" />
+    <component type="S" />
+    <range type="close" />
+    <target amount="1" type="living creature" />
+    <duration type="instantaneous" />
+    <saving_throw type="will" value="negates" />
+    <spell_resistance value="yes" />
+    <short_description language="en">Cause a stabilized creature to resume dying</short_description>
+    <description language="en">You cause a living creature that is below 0 hit points but stabilized to resume dying. Upon casting this spell, you target a living creature that has -1 or fewer hit points. That creature begins dying, taking 1 point of damage per round. The creature can be stabilized later normally. This spell causes a creature that is dying to take 1 point of damage.</description>
+  </spell>
+  <spell src="http://www.d20pfsrd.com/magic/all-spells/c/create-water" book="Core Rulebook" publisher="paizo">
+    <name language="en">Create Water</name>
+    <school type="conjuration">
+      <subschool type="creation" />
+      <descriptor type="water" />
+    </school>
+    <level type="cleric" value="0" />
+    <level type="oracle" value="0" />
+    <level type="druid" value="0" />
+    <level type="inqusitor" value="0" />
+    <level type="paladin" value="1" />
+    <casting_time type="standard action" value="1" />
+    <component type="V" />
+    <component type="S" />
+    <range type="close" />
+    <annotation type="effect">up to 2 gallons of water/level</annotation>
+    <duration type="instantaneous" />
+    <saving_throw value="no" />
+    <spell_resistance value="no" />
+    <short_description language="en">Creates 2 gallons/level of pure water.</short_description>
+    <description language="en">This spell generates wholesome, drinkable water, just like clean rain water. Water can be created in an area as small as will actually contain the liquid, or in an area three times as large -- possibly creating a downpour or filling many small receptacles. This water disappears after 1 day if not consumed.</description>
+    <note language="en">Conjuration spells can't create substances or objects within a creature. Water weighs about 8 pounds per gallon. One cubic foot of water contains roughly 8 gallons and weighs about 60 pounds.</note>
+  </spell>
   <spell src="http://www.d20pfsrd.com/magic/all-spells/c/cast-out" publisher="paizo" book="Advanced Player's Guide">
     <name language="en">Cast Out</name>
     <school type="abjuration" />
