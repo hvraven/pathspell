@@ -3,7 +3,7 @@
 
 #include <exception>
 
-#include "spell.h"
+#include "token.h"
 
 struct File_Load_Error : public std::exception
 {

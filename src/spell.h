@@ -1,53 +1,11 @@
 #ifndef PATHSPELL_SPELL_H
 #define PATHSPELL_SPELL_H
 
+#include "token.h"
+
 #include <vector>
 #include <string>
 #include <map>
-
-enum Spell_Element_Token
-  {
-    NAME,
-    SCHOOL,
-    LEVEL,
-    LEVEL_TYPE,
-    LEVEL_VALUE,
-    CASTING_TIME,
-    CASTING_TIME_TYPE,
-    COMPONENTS,
-    RANGE,
-    DURATION,
-    SAVING_THROW,
-    SPELL_RESISTANCE,
-    DESCRIPTION,
-    LINK
-  };
-
-enum Target_Type_Token
-  {
-    CREATURE,
-    LIVING_CREATURE,
-    YOU,
-    OBJECT,
-    SPECIAL
-  };
-
-enum Saving_Throw_Token
-  {
-    WILL,
-    FORT,
-    REF
-  };
-
-enum Saving_Throw_Value_Token
-  {
-    NIL,
-    HALF,
-    NEGATES,
-    NO,
-    PARTIAL,
-    DISBELIEF
-  };
 
 class Spell_Element
 {
