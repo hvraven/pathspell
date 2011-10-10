@@ -4,6 +4,7 @@
 enum Spell_Element_Token
   {
     NAME,
+    NAME_LANGUAGE,
     SCHOOL,
     LEVEL,
     LEVEL_TYPE,

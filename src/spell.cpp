@@ -40,8 +40,8 @@ std::string Spell_Base_Element::print()
 }
 
 Spell::Spell()
-  : elements_(),
-    name_(),
+  : elements_()
+    /*    name_(),
     school_(),
     level_(),
     casting_time_(),
@@ -51,12 +51,12 @@ Spell::Spell()
     saving_throw_(),
     spell_resistance_(),
     description_(),
-    link_()
+    link_()*/
 {
-  base_fill_elements_();
+  //  base_fill_elements_();
 }
 
-Spell::Spell( const std::string& name, const School& school,
+/*Spell::Spell( const std::string& name, const School& school,
 	      const Level& level,
 	      const Spell_Base_Element& casting_time, const Components& components,
 	      const Spell_Base_Element& range, const Spell_Base_Element& duration,
@@ -77,16 +77,31 @@ Spell::Spell( const std::string& name, const School& school,
     link_(link)
 {
   base_fill_elements_();
-}
+  }*/
 
 Spell::~Spell()
 {
-  delete elements_[TARGET];
+  std::map<Spell_Element_Token, Spell_Element*>::const_iterator it
+    = elements_.begin();
+  for ( ; it != elements_.end() ; it++ )
+    delete it->second;
 }
 
 Spell_Element& Spell::operator[]( const Spell_Element_Token& element )
 {
   return *( elements_[ element ]);
+}
+
+void Spell::add_element( Spell_Element_Token& token,
+			 Spell_Element* const pelement );
+{
+  if ( elements_[token] )
+    {
+      delete elements_[token];
+      elements_[token] = pelement;
+    }
+  else
+    elements_[token] = pelement;
 }
 
 void Spell::set_target( Target* const input )

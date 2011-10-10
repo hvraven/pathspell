@@ -1,3 +1,10 @@
+2011-10-10    <h.v.raven@googlemail.com>
+
+	* src/spell.cpp (add_element): new function for adding elements
+
+	* src/xml.cpp (get_spell): change to work with a loop over all elements
+	(add_element_, add_name_): new functions to replace
+
 2011-10-09    <h.v.raven@googlemail.com>
 
 	* src/target.cpp (Target): added checks before delete

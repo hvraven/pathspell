@@ -31,7 +31,6 @@ class Spells
 public:
   Spells(const char*);
   virtual ~Spells();
-  
 
   Spell get_spell( const std::string& );
   std::vector < std::string > get_spell_list()
@@ -40,6 +39,10 @@ public:
 private:
   TiXmlDocument doc_;
   Spell_List spells_;
+
+  void add_element_ ( TiXmlElement const * const, Spell& );
+
+  void add_name_( TiXmlElement const * const, Spell& );
 
   School get_spell_school_( TiXmlElement* );
   Level get_spell_level_( TiXmlElement* );

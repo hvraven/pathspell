@@ -248,13 +248,15 @@ class Spell
 {
 public:
   Spell();
-  Spell( const std::string&, const School&, const Level&,
+  /*Spell( const std::string&, const School&, const Level&,
 	 const Spell_Base_Element&, const Components&, const Spell_Base_Element&,
 	 const Spell_Base_Element&, const Saving_Throw&,
-	 const Spell_Resistance&, const std::string&, const std::string&);
+	 const Spell_Resistance&, const std::string&, const std::string&);*/
   virtual ~Spell();
 
   Spell_Element& operator[]( const Spell_Element_Token& );
+
+  void add_element( Spell_Element_Token&, Spell_Element* const );
 
   bool check_target() { return elements_[TARGET]; };
   void set_target( Target* const );
@@ -263,7 +265,7 @@ private:
   std::map< Spell_Element_Token, Spell_Element* > elements_;
   void base_fill_elements_();
 
-  Spell_String_Element name_;
+  /*Spell_String_Element name_;
   School school_;
   Level level_;
   Spell_Base_Element casting_time_;
@@ -273,7 +275,7 @@ private:
   Saving_Throw saving_throw_;
   Spell_Resistance spell_resistance_;
   Spell_String_Element description_;
-  Spell_String_Element link_;
+  Spell_String_Element link_;*/
 };
 
 #endif // PATHSPELL_SPELL_H
