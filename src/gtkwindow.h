@@ -16,7 +16,7 @@
 class Gtk_Window : public Gtk::Window
 {
 public:
-  Gtk_Window( Spells * const );
+  Gtk_Window( Spell_List * const );
   virtual ~Gtk_Window();
 
   void import_spells( std::vector < std::string > );
@@ -47,7 +47,7 @@ private:
   Gtk::TreeView tree_view_;
   Glib::RefPtr < Gtk::ListStore > ref_tree_model_;
 
-  Spells * spells_;
+  Spell_List * spells_;
 };
 
 #endif // PATHSPELL_GTKWINDOW_H

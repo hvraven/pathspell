@@ -7,9 +7,9 @@ int main( int argc, char* argv[] )
 {
   Gtk::Main kit(argc, argv);
 
-  Spells spells( "./spells.xml" );
+  Spell_List spell_list( "./spells.xml" );
 
-  Gtk_Window window( &spells );
+  Gtk_Window window( &spell_list );
   Gtk::Main::run(window);
 
   return 0;

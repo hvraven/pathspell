@@ -18,7 +18,10 @@ enum Spell_Element_Token
     SPELL_RESISTANCE,
     DESCRIPTION,
     LINK,
-    TARGET
+    TARGET,
+    ANNOTATION,
+    NOTE,
+    AREA
   };
 
 enum Target_Type_Token

@@ -1,7 +1,11 @@
 2011-10-11    <h.v.raven@googlemail.com>
 
+	* src/xmldecoder.cpp (add_elements_): new main function for xmldecoder
+	(add_name_): new decoding function for names
+
 	* src/xmlspelllist.cpp (~Spell_List): added delete for cached spells
 	(get_spell): new function for returning spell
+	(read_spell_): new function to call the xml decoder
 
 	* src/spell.cpp (add_element): save fix elements in variables and create pointer entry for special entrys
 	(~Spell): changed to not delete fix elements

@@ -1,15 +1,14 @@
 #include "xml.h"
 #include "error.h"
 
-Spell_List::Spell_List()
-  : spell_list_()
+Spell_List::Spell_List( const std::string& filename )
+  : doc_(filename),
+    spell_list_()
 {
-}
+  if ( ! doc_.LoadFile() )
+    throw File_Load_Error();
 
-Spell_List::Spell_List( TiXmlDocument& doc )
-  : spell_list_()
-{
-  fill_list ( doc );
+  fill_list ( doc_ );
 }
 
 Spell_List::~Spell_List()
@@ -68,11 +67,14 @@ Spell& Spell_List::get_spell( const std::string& spell )
     }
 }
 
-void read_spell_( Spell_Tag* ptag)
+void Spell_List::read_spell_( Spell_Tag* ptag)
 {
   Spell* pspell = (*ptag).pspell;
   if ( ! pspell )
     pspell = new Spell;
 
-  pspell
+  add_elements_( pspell, (*ptag).pxml );
 }
+
+
+

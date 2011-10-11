@@ -1,6 +1,6 @@
 #include "gtkwindow.h"
 
-Gtk_Window::Gtk_Window( Spells * const spells )
+Gtk_Window::Gtk_Window( Spell_List * const spells )
   : search_entry_(),
     spell_label_(),
     spells_(spells)
