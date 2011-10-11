@@ -32,8 +32,7 @@ public:
   Spell_List( const std::string& );
   virtual ~Spell_List();
 
-  TiXmlElement* find_spell( const std::string& );
-  void fill_list ( TiXmlDocument& );
+  //TiXmlElement* find_spell( const std::string& );
   std::vector < std::string > get_spell_list();
   Spell& get_spell( const std::string& );
 
@@ -42,12 +41,14 @@ private:
   spell_map spell_list_;
 
   friend void load_spell( Spell_Tag const * const );
+  void fill_list_( TiXmlDocument& );
 
   void read_spell_( Spell_Tag* );
   void read_spell_( const std::string& );
 
   void add_elements_( Spell* const, TiXmlElement const * const);
-  void add_name_( TiXmlElement const * const, Spell& );
+  void add_name_( Spell&, TiXmlElement const * const );
+  void add_school_( Spell&, TiXmlElement const * const );
 };
 
 /*class Spell_RefPtr

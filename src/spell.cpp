@@ -131,7 +131,7 @@ void Spell::add_element( const Spell_Element_Token& token,
     *(elements_[ token ]) = element;
 }
 
-void Spell::set_target( Target* const input )
+/*void Spell::set_target( Target* const input )
 {
   if ( elements_[TARGET] )
     {
@@ -140,7 +140,7 @@ void Spell::set_target( Target* const input )
     }
   else
     elements_[ TARGET ] = input;
-}
+    }*/
 
 void Spell::base_fill_elements_()
 {

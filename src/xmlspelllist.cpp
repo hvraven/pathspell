@@ -8,7 +8,7 @@ Spell_List::Spell_List( const std::string& filename )
   if ( ! doc_.LoadFile() )
     throw File_Load_Error();
 
-  fill_list ( doc_ );
+  fill_list_ ( doc_ );
 }
 
 Spell_List::~Spell_List()
@@ -19,12 +19,12 @@ Spell_List::~Spell_List()
 	delete it->second.pspell;
 }
 
-TiXmlElement* Spell_List::find_spell( const std::string& spell )
+/*TiXmlElement* Spell_List::find_spell( const std::string& spell )
 {
   return spell_list_[spell].pxml;
-}
+  }*/
 
-void Spell_List::fill_list ( TiXmlDocument& doc )
+void Spell_List::fill_list_ ( TiXmlDocument& doc )
 {
   TiXmlHandle h_root  = &doc;
   TiXmlElement* p_spell= h_root.FirstChildElement().FirstChild().ToElement();

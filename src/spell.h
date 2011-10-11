@@ -21,29 +21,33 @@ class School : public Spell_Element
 {
 public:
   School();
-  School(const std::string);
-  School(const std::string, const std::string);
-  School(const std::string, const std::string, const std::string);
-  School(const std::string, const std::vector < std::string >);
-  virtual ~School();
+  School(const std::string&);
+  School(const std::string&, const std::string&);
+  School(const std::string&, const std::string&, const std::string&);
+  School(const std::string&, const std::vector < std::string >);
+  virtual ~School() {};
 
   virtual std::string print();
-  std::string print_school() { return school_; };
+  std::string& print_school() { return school_; };
   std::string print_subschools();
+  std::string& print_descriptor() { return descriptor_; };
   std::vector < std::string > get_subschools() { return subschools_; };
   std::string get_subschool(const int pos = 0) { return subschools_[pos]; };
   int get_number_of_subschools() { return subschools_.size(); };
 
-  void set_school(const std::string school)
+  void set_school(const std::string& school)
     { school_ = school; };
-  void add_subschool(const std::string subschool)
+  void add_subschool(const std::string& subschool)
     { subschools_.push_back( subschool ); };
-  void remove_subschool(const std::string);
+  void remove_subschool(const std::string&);
   void reset_subschools();
+  void set_descriptor(const std::string& descriptor)
+    { descriptor_ = descriptor; };
 
 private:
   std::string school_;
   std::vector < std::string > subschools_;
+  std::string descriptor_;
 };
 
 typedef std::map < std::string, int > levelmap;
@@ -258,8 +262,8 @@ public:
 
   void add_element( const Spell_Element_Token&, const Spell_Element&);
 
-  bool check_target() { return elements_[TARGET]; };
-  void set_target( Target* const );
+  /*bool check_target() { return elements_[TARGET]; };
+    void set_target( Target* const );*/
 
 private:
   std::map< Spell_Element_Token, Spell_Element* > elements_;

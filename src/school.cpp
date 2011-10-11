@@ -8,34 +8,30 @@ School::School()
 {
 }
 
-School::School(const std::string school)
+School::School(const std::string& school)
   : school_(school),
     subschools_()
 {
 }
 
-School::School(const std::string school, const std::string subschool)
+School::School(const std::string& school, const std::string& subschool)
   : school_(school),
     subschools_(1, subschool)
 {
 }
 
-School::School(const std::string school, const std::string subschool1,
-	       const std::string subschool2)
+School::School(const std::string& school, const std::string& subschool1,
+	       const std::string& subschool2)
   : school_(school),
     subschools_(1, subschool1)
 {
   subschools_.push_back(subschool2);
 }
 
-School::School(const std::string school,
+School::School(const std::string& school,
 	       const std::vector < std::string > subschools)
   : school_(school),
     subschools_(subschools)
-{
-}
-
-School::~School()
 {
 }
 
@@ -46,10 +42,15 @@ std::string School::print()
       std::string result = school_;
       if ( subschools_.size() )
 	{
-	  result += " (";
-	  result += print_subschools();
-	  result += ")";
+	  result += " ("
+	    + print_subschools()
+	    + ")";
 	}
+
+      if ( descriptor_ == "" )
+	result += " ["
+	  + print_descriptor()
+	  + "]";
 
       return result;
     }
@@ -74,7 +75,8 @@ std::string School::print_subschools()
     return "";
 }
 
-void School::remove_subschool(const std::string subschool)
+void School::remove_subschool(const std::string& subschool)
 {
-  subschools_.erase( std::find ( subschools_.begin(), subschools_.end(), subschool ) );
+  subschools_.erase( std::find ( subschools_.begin(),
+				 subschools_.end(), subschool ) );
 }

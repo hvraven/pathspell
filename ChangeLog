@@ -1,7 +1,16 @@
 2011-10-11    <h.v.raven@googlemail.com>
 
+	* src/xmldecoder.cpp (add_school_): new decoding function for schools
+
+	* src/school.cpp (School, remove_subschool): changed arguments to reference
+	(print): added descriptor to output
+	(print_descriptor): new function
+
+	* src/spell.h (Spell_Element): added descriptor
+
 	* src/xmldecoder.cpp (add_elements_): new main function for xmldecoder
 	(add_name_): new decoding function for names
+	(add_name_): fixed endless loop...
 
 	* src/xmlspelllist.cpp (~Spell_List): added delete for cached spells
 	(get_spell): new function for returning spell

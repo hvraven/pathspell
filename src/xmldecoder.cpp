@@ -28,8 +28,12 @@ void Spell_List::add_elements_( Spell* const pspell,
 	{
 	case NAME:
 	  {
-	    std::cout << "detected name" << std::endl;
-	    add_name_( pelement, *pspell );
+	    add_name_( *pspell, pelement );
+	    break;
+	  }
+	case SCHOOL:
+	  {
+	    add_school_( *pspell, pelement );
 	    break;
 	  }
 	default:
@@ -43,8 +47,7 @@ void Spell_List::add_elements_( Spell* const pspell,
     }
 }
 
-void Spell_List::add_name_( TiXmlElement const * const pelement,
-			Spell& spell )
+void Spell_List::add_name_( Spell& spell, TiXmlElement const * const pelement )
 {
   TiXmlAttribute const * plang = pelement->FirstAttribute();
   if ( plang )
@@ -53,7 +56,10 @@ void Spell_List::add_name_( TiXmlElement const * const pelement,
       if ( attr == "language" )
 	{
 	  if ( plang->ValueStr() == "en" )
-	    add_name_( pelement, spell );
+	    {
+	      Spell_String_Element temp( pelement->GetText() );
+	      spell.add_element( NAME, temp );
+	    }
 	}
       else
 	{
@@ -66,42 +72,31 @@ void Spell_List::add_name_( TiXmlElement const * const pelement,
       std::cerr << "No language given for name element";
       throw Missing_Element( NAME_LANGUAGE );
     }
-  Spell_String_Element temp( pelement->GetText() );
-  spell.add_element( NAME, temp );
 }
 
-/*School Spells::get_spell_school_( TiXmlElement* pspell )
+void Spell_List::add_school_( Spell& spell, TiXmlElement const * const pelement )
 {
-  TiXmlElement* pschool = pspell->FirstChildElement( "school" );
-  if ( pschool )
+  School temp( pelement->Attribute( "type" ) );
+
+  const TiXmlElement* psubelement = pelement->FirstChildElement( "subschool" );
+  if ( psubelement )
     {
-      const std::string school = pschool->Attribute( "type" );
-
-      TiXmlElement* psubschool = pschool->FirstChildElement();
-      if ( psubschool )
+      do
 	{
-	  std::vector < std::string > subschool;
-	  while ( psubschool )
-	    {
-	      std::string temp;
-	      subschool.push_back( psubschool->Attribute( "type" ) );
-	      psubschool = psubschool->NextSiblingElement();
-	    }
-
-	  School temp(school, subschool);
-	  return temp;
+	  temp.add_subschool( psubelement->Attribute( "type" ) );
+	  psubelement = psubelement->NextSiblingElement();
 	}
-      else
-	{
-	  School temp(school);
-	  return temp;
-	}
+      while ( psubelement );
     }
-  else
-    throw Missing_Element( SCHOOL );
+
+  psubelement = pelement->FirstChildElement( "descriptor" );
+  if ( psubelement )
+    temp.set_descriptor( psubelement->Attribute( "type" ) );
+
+  spell.add_element( SCHOOL, temp );
 }
 
-Level Spells::get_spell_level_( TiXmlElement* pspell )
+/*Level Spells::get_spell_level_( TiXmlElement* pspell )
 {
 
   TiXmlElement* plevel = pspell->FirstChildElement( "level" );
