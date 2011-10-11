@@ -11,6 +11,19 @@
 #include "token.h"
 #include "spell.h"
 
+struct Spell_Tag
+{
+  TiXmlElement* pxml;
+  Spell* pspell;
+  bool cache_valid;
+
+  Spell_Tag()
+    : pxml(0), pspell(0), cache_valid(false) {};
+  virtual ~Spell_Tag() {};
+};
+
+typedef std::map < std::string, Spell_Tag > spell_map;
+
 class Spell_List
 {
 public:
@@ -21,9 +34,15 @@ public:
   TiXmlElement* find_spell( const std::string& );
   void fill_list ( TiXmlDocument& );
   std::vector < std::string > get_spell_list();
+  Spell& get_spell( const std::string& );
 
 private:
-  std::map < std::string, TiXmlElement* > spell_list_;
+  spell_map spell_list_;
+
+  void read_spell_( Spell_Tag* );
+  void read_spell_( const std::string& );
+
+  void add_elements_( Spell*, TiXmlElement const * const};
 };
 
 class Spells

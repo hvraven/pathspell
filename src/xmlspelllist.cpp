@@ -14,11 +14,15 @@ Spell_List::Spell_List( TiXmlDocument& doc )
 
 Spell_List::~Spell_List()
 {
+  for ( spell_map::const_iterator it = spell_list_.begin() ;
+	it != spell_list_.end() ; it++ )
+      if ( it->second.pspell )
+	delete it->second.pspell;
 }
 
 TiXmlElement* Spell_List::find_spell( const std::string& spell )
 {
-  return spell_list_[spell];
+  return spell_list_[spell].pxml;
 }
 
 void Spell_List::fill_list ( TiXmlDocument& doc )
@@ -31,25 +35,44 @@ void Spell_List::fill_list ( TiXmlDocument& doc )
       if ( p_name )
 	{
 	  std::string name = p_name->GetText();
-	  spell_list_[name] = p_spell;
+	  spell_list_[name].pxml = p_spell;
 	}
       else
 	throw Missing_Element( NAME );
-    }
+   }
 }
 
-// TODO integrate support for multiple languages
 std::vector < std::string > Spell_List::get_spell_list()
 {
-  std::map < std::string, TiXmlElement* >::const_iterator it =
-    spell_list_.begin();
+  spell_map::const_iterator it = spell_list_.begin();
 
   std::vector < std::string > result;
 
   for ( ; it != spell_list_.end() ; it++ )
-    {
-      TiXmlElement* p_name = it->second->FirstChildElement( "name" );
-      result.push_back( (*p_name).GetText() );
-    }
+    result.push_back( it->first );
+
   return result;
+}
+
+Spell& Spell_List::get_spell( const std::string& spell )
+{
+  Spell_Tag* ptag = &spell_list_[ spell ];
+  if ( (*ptag).cache_valid )
+    {
+      return *((*ptag).pspell);
+    }
+  else
+    {
+      read_spell_(ptag);
+      return *((*ptag).pspell);
+    }
+}
+
+void read_spell_( Spell_Tag* ptag)
+{
+  Spell* pspell = (*ptag).pspell;
+  if ( ! pspell )
+    pspell = new Spell;
+
+  pspell
 }

@@ -40,8 +40,8 @@ std::string Spell_Base_Element::print()
 }
 
 Spell::Spell()
-  : elements_()
-    /*    name_(),
+  : elements_(),
+    name_(),
     school_(),
     level_(),
     casting_time_(),
@@ -50,10 +50,10 @@ Spell::Spell()
     duration_(),
     saving_throw_(),
     spell_resistance_(),
-    description_(),
-    link_()*/
+    description_()
+    //    link_()
 {
-  //  base_fill_elements_();
+  base_fill_elements_();
 }
 
 /*Spell::Spell( const std::string& name, const School& school,
@@ -84,7 +84,24 @@ Spell::~Spell()
   std::map<Spell_Element_Token, Spell_Element*>::const_iterator it
     = elements_.begin();
   for ( ; it != elements_.end() ; it++ )
-    delete it->second;
+    {
+      switch( it->first )
+	{
+	case NAME:
+	case SCHOOL:
+	case LEVEL:
+	case CASTING_TIME:
+	case COMPONENTS:
+	case RANGE:
+	case DURATION:
+	case SAVING_THROW:
+	case SPELL_RESISTANCE:
+	case DESCRIPTION:
+	  break;
+	default:
+	  delete it->second;
+	}
+    }
 }
 
 Spell_Element& Spell::operator[]( const Spell_Element_Token& element )
@@ -92,16 +109,26 @@ Spell_Element& Spell::operator[]( const Spell_Element_Token& element )
   return *( elements_[ element ]);
 }
 
-void Spell::add_element( Spell_Element_Token& token,
-			 Spell_Element* const pelement );
+void Spell::add_element( const Spell_Element_Token& token,
+			 const Spell_Element& element )
 {
-  if ( elements_[token] )
+  // get elements working only with pointers
+  if ( token == TARGET )
     {
-      delete elements_[token];
-      elements_[token] = pelement;
+      if ( elements_[ TARGET ] )
+	{
+	  delete elements_[ TARGET ];
+	  Target* ptarget = new Target( dynamic_cast<const Target&>(element) );
+	  elements_[ token ] = ptarget;
+	}
+      else
+	{
+	  Target* ptarget = new Target( dynamic_cast<const Target&>(element) );
+	  elements_[ token ] = ptarget;
+	}
     }
   else
-    elements_[token] = pelement;
+    *(elements_[ token ]) = element;
 }
 
 void Spell::set_target( Target* const input )
@@ -127,5 +154,5 @@ void Spell::base_fill_elements_()
   elements_[SAVING_THROW] = &saving_throw_;
   elements_[SPELL_RESISTANCE] = &spell_resistance_;
   elements_[DESCRIPTION] = &description_;
-  elements_[LINK] = &link_;
+  //elements_[LINK] = &link_;
 }

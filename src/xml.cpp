@@ -35,43 +35,57 @@ Spell Spells::get_spell( const std::string& spell_name )
 	  return temp;
 	}
     }
+  Spell temp;
+  return temp;
 }
 
 void Spells::add_element_( TiXmlElement const * const pelement,
 			   Spell& spell)
 {
+  std::map < std::string, Spell_Element_Token > elements;
+  elements[ "name"] = NAME;
+
   std::string element = pelement->Value();
 
-  if ( element == "name" )
+  switch( elements[ element ] )
     {
-      TiXmlAttribute const * plang = pelement->FirstAttribute();
-      if ( plang )
-	{
-	  const std::string attr = plang->Name();
-	  if ( attr == "language" )
-	    {
-	      if ( plang->ValueStr() == "en" )
-		add_name_( pelement, spell );
-	    }
-	  else
-	    {
-	      std::cerr << "invalid attribute at name" << std::endl;
-	      throw Invalid_Attribute();
-	    }
-	}
-      else
-	{
-	  std::cerr << "No language given for name element";
-	  throw Missing_Element( NAME_LANGUAGE );
-	}
+    case NAME:
+      {
+	add_name_( pelement, spell );
+	break;
+      }
+    default:
+      break;
     }
 }
 
 void Spells::add_name_( TiXmlElement const * const pelement,
 			Spell& spell )
 {
-  spell.set_name( pelement->GetText() );
+  TiXmlAttribute const * plang = pelement->FirstAttribute();
+  if ( plang )
+    {
+      const std::string attr = plang->Name();
+      if ( attr == "language" )
+	{
+	  if ( plang->ValueStr() == "en" )
+	    add_name_( pelement, spell );
+	}
+      else
+	{
+	  std::cerr << "invalid attribute at name" << std::endl;
+	  throw Invalid_Attribute();
+	}
+    }
+  else
+    {
+      std::cerr << "No language given for name element";
+      throw Missing_Element( NAME_LANGUAGE );
+    }
+  Spell_String_Element temp( pelement->GetText() );
+  spell.add_element( NAME, temp );
 }
+
 School Spells::get_spell_school_( TiXmlElement* pspell )
 {
   TiXmlElement* pschool = pspell->FirstChildElement( "school" );

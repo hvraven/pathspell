@@ -1,3 +1,13 @@
+2011-10-11    <h.v.raven@googlemail.com>
+
+	* src/xmlspelllist.cpp (~Spell_List): added delete for cached spells
+	(get_spell): new function for returning spell
+
+	* src/spell.cpp (add_element): save fix elements in variables and create pointer entry for special entrys
+	(~Spell): changed to not delete fix elements
+
+	* src/xmlspelllist.cpp (get_spell_list): changed map type and get name direct from spell_list_ (instead from xml)
+
 2011-10-10    <h.v.raven@googlemail.com>
 
 	* src/spell.cpp (add_element): new function for adding elements
