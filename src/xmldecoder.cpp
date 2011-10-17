@@ -20,19 +20,25 @@ void Spell_List::add_elements_( Spell* const pspell,
   elements[ "annotation" ] = ANNOTATION;
   elements[ "note" ] = NOTE;
   elements[ "area" ] = AREA;
+  elements[ "short_description" ] = SHORT_DESCRIPTION;
+  elements[ "domain" ] = DOMAIN;
 
   TiXmlElement const * pelement = pxml->FirstChildElement();
   while ( pelement )
     {
+      std::cout << "running detection" << std::endl;
+      std::cout << pelement->Value() << std::endl;
       switch( elements[ pelement->Value() ] )
 	{
 	case NAME:
 	  {
+	    std::cout << "detected name" << std::endl;
 	    add_name_( *pspell, pelement );
 	    break;
 	  }
 	case SCHOOL:
 	  {
+	    std::cout << "detected school" << std::endl;
 	    add_school_( *pspell, pelement );
 	    break;
 	  }
@@ -44,6 +50,7 @@ void Spell_List::add_elements_( Spell* const pspell,
 	}
 
       pelement = pelement->NextSiblingElement();
+      std::cout << pelement << std::endl;
     }
 }
 
@@ -72,6 +79,20 @@ void Spell_List::add_name_( Spell& spell, TiXmlElement const * const pelement )
       std::cerr << "No language given for name element";
       throw Missing_Element( NAME_LANGUAGE );
     }
+}
+
+std::vector < std::string > Spell_List::get_names_
+    ( TiXmlElement const * const pspell )
+{
+  std::vector < std::string > result;
+
+  for ( TiXmlElement const * pelement = pspell->FirstChildElement( "name" ) ;
+	pelement ; pelement = pelement->NextSiblingElement( "name" ) )
+    {
+      result.push_back( pelement->GetText() );
+    }
+
+  return result;
 }
 
 void Spell_List::add_school_( Spell& spell, TiXmlElement const * const pelement )

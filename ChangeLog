@@ -1,3 +1,15 @@
+2011-10-17    <h.v.raven@googlemail.com>
+
+	* src/xml.h: new typedef for spell_iterator
+
+	* src/xmlspelllist.cpp (fill_list_, get_spell_list, get_spell, read_spell_) changed to use iterators instead of pointers
+
+2011-10-14    <h.v.raven@googlemail.com>
+
+	* src/xmlspelllist.cpp (Spell_List): changed to use spell_list and spell_name_map
+
+	* src/xmldecoder.cpp (get_names_): new function to get all spell names
+
 2011-10-11    <h.v.raven@googlemail.com>
 
 	* src/xmldecoder.cpp (add_school_): new decoding function for schools

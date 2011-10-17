@@ -1,6 +1,9 @@
 #ifndef PATHSPELL_TOKEN_H
 #define PATHSPELL_TOKEN_H
 
+// seems to be a default preprocessor variable
+#undef DOMAIN
+
 enum Spell_Element_Token
   {
     NAME,
@@ -21,7 +24,9 @@ enum Spell_Element_Token
     TARGET,
     ANNOTATION,
     NOTE,
-    AREA
+    AREA,
+    SHORT_DESCRIPTION,
+    DOMAIN
   };
 
 enum Target_Type_Token

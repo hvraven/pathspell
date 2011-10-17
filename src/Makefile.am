@@ -6,5 +6,6 @@ gtkwindow.h gtkwindow.cpp \
 error.h \
 strmanip.h strmanip.cpp
 pathspell_CXXFLAGS = -Wall -Werror -Wextra
-pathspell_CPPFLAGS = $(GTKMM_CFLAGS)
+pathspell_CPPFLAGS = $(GTKMM_CFLAGS) 
+#-I/usr/include/boost
 pathspell_LDADD = $(GTKMM_LIBS)

@@ -1,6 +1,7 @@
 #ifndef PATHSPELL_XML_H
 #define PATHSPELL_XML_H
 
+// activate stl support
 #define TIXML_USE_STL
 
 #include <tinyxml.h>
@@ -12,19 +13,24 @@
 #include "token.h"
 #include "spell.h"
 
+struct Spell_Tag;
+
+typedef std::vector < Spell_Tag > spell_list;
+typedef spell_list::const_iterator spell_iterator;
+typedef std::map < std::string, spell_iterator > spell_name_map;
+
 struct Spell_Tag
 {
-  TiXmlElement* pxml;
+  TiXmlElement const * pxml;
   Spell* pspell;
   bool cache_valid;
 
   Spell_Tag()
     : pxml(0), pspell(0), cache_valid(false) {};
+  Spell_Tag( TiXmlElement const * n_pxml )
+    : pxml(n_pxml), pspell(0), cache_valid(false) {};
   virtual ~Spell_Tag() {};
 };
-
-typedef std::map < std::string, Spell_Tag > spell_map;
-typedef std::pair < std::string, Spell_Tag > spell_map_element;
 
 class Spell_List
 {
@@ -32,22 +38,24 @@ public:
   Spell_List( const std::string& );
   virtual ~Spell_List();
 
-  //TiXmlElement* find_spell( const std::string& );
   std::vector < std::string > get_spell_list();
   Spell& get_spell( const std::string& );
 
 private:
   TiXmlDocument doc_;
-  spell_map spell_list_;
+  spell_list spell_list_;
+  spell_name_map spell_name_map_;
 
   friend void load_spell( Spell_Tag const * const );
   void fill_list_( TiXmlDocument& );
+  Spell_Tag* find_spell_( const std::string& );
 
-  void read_spell_( Spell_Tag* );
+  void read_spell_( spell_iterator );
   void read_spell_( const std::string& );
 
   void add_elements_( Spell* const, TiXmlElement const * const);
   void add_name_( Spell&, TiXmlElement const * const );
+  std::vector < std::string > get_names_( TiXmlElement const * const );
   void add_school_( Spell&, TiXmlElement const * const );
 };
 

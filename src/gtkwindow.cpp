@@ -67,7 +67,9 @@ void Gtk_Window::import_spells( std::vector < std::string > spell_list )
 
 void Gtk_Window::display_spell( const Glib::ustring& spell_name )
 {
+  std::cout << "starting display" << std::endl;
   Spell spell = spells_->get_spell( spell_name );
+  std::cout << "got spell, start printing" << std::endl;
 
   Glib::ustring result = "<span font_size=\"large\"><b>"
     + spell[NAME].print()
@@ -114,7 +116,9 @@ void Gtk_Window::display_spell( const Glib::ustring& spell_name )
     + spell[SPELL_RESISTANCE].print();
 
   result += "\n<b>Description:</b>\n"
-    + spell[DESCRIPTION].print();
+  + spell[DESCRIPTION].print();
 
+  std::cout << "printing descripton...";
   spell_label_.set_markup( result );
+  std::cout << "done2" << std::endl;
 }

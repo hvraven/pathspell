@@ -13,10 +13,10 @@ Spell_List::Spell_List( const std::string& filename )
 
 Spell_List::~Spell_List()
 {
-  for ( spell_map::const_iterator it = spell_list_.begin() ;
+  for ( spell_list::const_iterator it = spell_list_.begin() ;
 	it != spell_list_.end() ; it++ )
-      if ( it->second.pspell )
-	delete it->second.pspell;
+      if ( it->pspell )
+	delete it->pspell;
 }
 
 /*TiXmlElement* Spell_List::find_spell( const std::string& spell )
@@ -26,28 +26,28 @@ Spell_List::~Spell_List()
 
 void Spell_List::fill_list_ ( TiXmlDocument& doc )
 {
-  TiXmlHandle h_root  = &doc;
-  TiXmlElement* p_spell= h_root.FirstChildElement().FirstChild().ToElement();
-  for ( ; p_spell; p_spell = p_spell->NextSiblingElement() )
+  TiXmlHandle hroot  = &doc;
+  for ( TiXmlElement const * pspell
+	  = hroot.FirstChildElement().FirstChild().ToElement() ;
+	pspell ; pspell = pspell->NextSiblingElement() )
     {
-      TiXmlElement* p_name = p_spell->FirstChildElement( "name" );
-      if ( p_name )
-	{
-	  std::string name = p_name->GetText();
-	  spell_list_[name].pxml = p_spell;
-	}
-      else
-	throw Missing_Element( NAME );
-   }
+      spell_list_.push_back( Spell_Tag( pspell ) );
+      spell_iterator ittag = spell_list_.end() - 1;
+
+      std::vector < std::string > names = get_names_( pspell );
+
+      for ( std::vector<std::string>::const_iterator itnames = names.begin() ;
+	    itnames != names.end() ; itnames++ )
+	spell_name_map_[ *itnames ] = ittag;
+    }
 }
 
 std::vector < std::string > Spell_List::get_spell_list()
 {
-  spell_map::const_iterator it = spell_list_.begin();
-
   std::vector < std::string > result;
 
-  for ( ; it != spell_list_.end() ; it++ )
+  for ( spell_name_map::const_iterator it = spell_name_map_.begin() ;
+	it != spell_name_map_.end() ; it++ )
     result.push_back( it->first );
 
   return result;
@@ -55,25 +55,29 @@ std::vector < std::string > Spell_List::get_spell_list()
 
 Spell& Spell_List::get_spell( const std::string& spell )
 {
-  Spell_Tag* ptag = &spell_list_[ spell ];
-  if ( (*ptag).cache_valid )
+  spell_iterator ittag = spell_name_map_[ spell ];
+  if ( (*ittag).cache_valid )
     {
-      return *((*ptag).pspell);
+      return *(ittag->pspell);
     }
   else
     {
-      read_spell_(ptag);
-      return *((*ptag).pspell);
+      std::cout << "start reading spell information" << std::endl;
+      read_spell_(ittag);
+      std::cout << "done with reading, returning pointer...";
+      return *(ittag->pspell);
+      std::cout << "done" << std::endl;
     }
 }
 
-void Spell_List::read_spell_( Spell_Tag* ptag)
+void Spell_List::read_spell_( spell_iterator ittag)
 {
-  Spell* pspell = (*ptag).pspell;
+  Spell* pspell = (*ittag).pspell;
   if ( ! pspell )
     pspell = new Spell;
-
-  add_elements_( pspell, (*ptag).pxml );
+  std::cout << "starting to add elements...";
+  add_elements_( pspell, ittag->pxml );
+  std::cout << "done" << std::endl;
 }
 
 
