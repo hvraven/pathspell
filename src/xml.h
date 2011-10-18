@@ -16,8 +16,8 @@
 struct Spell_Tag;
 
 typedef std::vector < Spell_Tag > spell_list;
-typedef spell_list::const_iterator spell_iterator;
-typedef std::map < std::string, spell_iterator > spell_name_map;
+typedef spell_list::iterator spell_list_iterator;
+typedef std::map < std::string, unsigned int > spell_name_map;
 
 struct Spell_Tag
 {
@@ -50,7 +50,7 @@ private:
   void fill_list_( TiXmlDocument& );
   Spell_Tag* find_spell_( const std::string& );
 
-  void read_spell_( spell_iterator );
+  void read_spell_( spell_list_iterator );
   void read_spell_( const std::string& );
 
   void add_elements_( Spell* const, TiXmlElement const * const);
