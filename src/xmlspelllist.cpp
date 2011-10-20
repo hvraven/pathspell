@@ -55,34 +55,23 @@ std::vector < std::string > Spell_List::get_spell_list()
 
 Spell& Spell_List::get_spell( const std::string& spell )
 {
-  std::cout << "returning spell: " << spell << std::endl;
   spell_list_iterator ittag = spell_list_.begin()
     + spell_name_map_[ spell ];
   if ( ittag->cache_valid )
     {
-      std::cout << "found previously cached spell" << std::endl;
       return *( ittag->pspell );
     }
   else
     {
-      std::cout << "start reading spell information" << std::endl;
       read_spell_(ittag);
-      std::cout << "done with reading, returning pointer...";
       return *(ittag->pspell);
-      std::cout << "done" << std::endl;
     }
 }
 
 void Spell_List::read_spell_( spell_list_iterator ittag)
 {
-  Spell* pspell = ittag->pspell;
-  if ( ! pspell )
-    pspell = new Spell;
-  std::cout << "starting to add elements...";
-  add_elements_( pspell, ittag->pxml );
+  if ( ! ittag->pspell )
+    ittag->pspell = new Spell();
+  add_elements_( ittag->pspell, ittag->pxml );
   ittag->cache_valid = true;
-  std::cout << "done" << std::endl;
 }
-
-
-

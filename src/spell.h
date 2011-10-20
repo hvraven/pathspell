@@ -261,11 +261,13 @@ public:
   Spell_Element& operator[]( const Spell_Element_Token& );
 
   void add_element( const Spell_Element_Token&, const Spell_Element&);
+  void add_level( const std::string&, const int );
 
   /*bool check_target() { return elements_[TARGET]; };
     void set_target( Target* const );*/
 
 private:
+  // TODO: Change to auto_ptr (currently copy does not work)
   std::map< Spell_Element_Token, Spell_Element* > elements_;
   void base_fill_elements_();
 

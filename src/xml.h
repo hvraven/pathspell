@@ -57,6 +57,7 @@ private:
   void add_name_( Spell&, TiXmlElement const * const );
   std::vector < std::string > get_names_( TiXmlElement const * const );
   void add_school_( Spell&, TiXmlElement const * const );
+  void add_level_( Spell&, TiXmlElement const * const );
 };
 
 /*class Spell_RefPtr

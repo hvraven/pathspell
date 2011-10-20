@@ -26,31 +26,30 @@ void Spell_List::add_elements_( Spell* const pspell,
   TiXmlElement const * pelement = pxml->FirstChildElement();
   while ( pelement )
     {
-      std::cout << "running detection" << std::endl;
-      std::cout << pelement->Value() << std::endl;
       switch( elements[ pelement->Value() ] )
 	{
 	case NAME:
 	  {
-	    std::cout << "detected name" << std::endl;
 	    add_name_( *pspell, pelement );
 	    break;
 	  }
 	case SCHOOL:
 	  {
-	    std::cout << "detected school" << std::endl;
 	    add_school_( *pspell, pelement );
 	    break;
 	  }
+	  /*case LEVEL:
+	  {
+	    add_level_( *pspell, pelement );
+	    break;
+	    }*/
 	default:
 	  {
-	    std::cout << "detected other" << std::endl;
 	    break;
 	  }
 	}
 
       pelement = pelement->NextSiblingElement();
-      std::cout << pelement << std::endl;
     }
 }
 
@@ -116,6 +115,29 @@ void Spell_List::add_school_( Spell& spell, TiXmlElement const * const pelement 
 
   spell.add_element( SCHOOL, temp );
 }
+
+/*void Spell_List::add_level_( Spell& spell, TiXmlElement const * const pelement )
+{
+  for ( TiXmlAttribute const * pattr = pelement->FirstAttribute() ;
+	pattr ; pattr = pattr->NextSibling() )
+    {
+      
+
+  
+  TiXmlAttribute const * const ptype = pelement->FirstAttribute( "type" );
+  if ( ptype )
+    {
+      TiXmlAttribute const * const pvalue = pelement->Attribute( "value" );
+      if ( pvalue )
+	{
+	  spell.add_level( ptype->ValueStr(), pvalue->IntValue() );
+	}
+      else
+	throw Missing_Element();
+    }
+  else
+    throw Missing_Element();
+    }*/
 
 /*Level Spells::get_spell_level_( TiXmlElement* pspell )
 {
