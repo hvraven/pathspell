@@ -6,12 +6,19 @@
  * \brief reads the elements from the xml and copies them to the Spell
  * \param pspell pointer to the spell to fill
  * \param pxml pointer to the xml where to load from
+ *
+ * \TODO add a check if all necessary elements have been found
+ * \TODO change the elements map to a static version which isn't created newly
+ * at every call
+ * \TODO add missing components
+ *
+ * this function checks element by element what it is and calls the respecting
+ * add functions to add them to the given spell.
  */
 void Spell_List::add_elements_( Spell* const pspell,
 				TiXmlElement const * const pxml)
 {
   /* map for easy translation of the names to tokens */
-  /// \TODO make that map static
   std::map < std::string, Spell_Element_Token > elements;
   elements[ "name" ] = NAME;
   elements[ "school" ] = SCHOOL;
@@ -64,6 +71,7 @@ void Spell_List::add_elements_( Spell* const pspell,
  * \brief gets the xml data of a name element and writes it to the spell
  * \param spell the spell to save the name in
  * \param pelement pointer to the name entry
+ * \TODO set a global language and use it only if language matches
  */
 void Spell_List::add_name_( Spell* const pspell,
                             TiXmlElement const * const pelement )
@@ -90,6 +98,9 @@ void Spell_List::add_name_( Spell* const pspell,
     }
 }
 
+/**
+ * \TODO find out why we have this function and make a documentation
+ */
 std::vector < std::string > Spell_List::get_names_
     ( TiXmlElement const * const pspell )
 {
@@ -104,6 +115,16 @@ std::vector < std::string > Spell_List::get_names_
   return result;
 }
 
+/**
+ * \brief adds the school information from the xml to the spell
+ * \param pspell spell to add the information to
+ * \param pelement the school entry in the xml
+ *
+ * reads the school information and all information from the subschools
+ * and the descriptor if present.
+ * Throws an Invalid_Element if one of the subelements couldn't be read
+ * correctly.
+ */
 void Spell_List::add_school_( Spell* const pspell,
                               TiXmlElement const * const pelement )
 {
@@ -136,6 +157,15 @@ void Spell_List::add_school_( Spell* const pspell,
   pspell->set_school( temp );
 }
 
+/**
+ * \brief add the level information to the given spell
+ * \param pspell spell to add the information to
+ * \param pelement pointer to the level in the xml
+ *
+ * adds the given level to the given spell. This function only adds the one
+ * level pelement points to and adds it to the spell. Existing levels remain
+ * untouched.
+ */
 void Spell_List::add_level_( Spell *const pspell,
                              TiXmlElement const *const pelement )
 {
@@ -152,37 +182,7 @@ void Spell_List::add_level_( Spell *const pspell,
     throw Missing_Element(LEVEL_TYPE);
 }
 
-/*Level Spells::get_spell_level_( TiXmlElement* pspell )
-{
-
-  TiXmlElement* plevel = pspell->FirstChildElement( "level" );
-  if ( plevel )
-    {
-      Level work;
-
-      while ( plevel )
-	{
-	  std::string type = plevel->Attribute( "type" );
-	  int value;
-	  plevel->QueryIntAttribute( "value", &value);
-	  if ( type != "" )
-	    {
-	      if ( value )
-		work.add_level( type, value );
-	      else
-		throw Missing_Element ( LEVEL_VALUE );
-	    }
-	  else
-	    throw Missing_Element ( LEVEL_TYPE );
-
-	  plevel = plevel->NextSiblingElement( "level" );
-	}
-      return work;
-    }
-  else
-    throw Missing_Element ( LEVEL );
-}
-
+/*
 Spell_Base_Element Spells::get_spell_spell_element_( TiXmlElement* pspell,
 						const std::string& search_for )
 {
