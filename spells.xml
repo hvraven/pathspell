@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <spell_list rpg="pathfinder">
+  <spell src="http://www.d20pfsrd.com/magic/all-spells/a/aid" publisher="paizo" book="Core Rulebook">
+    <name language="en">Aid</name>
+    <school type="enchantment">
+      <subschool type="compulsion" />
+      <descriptor type="mind-affecting" />
+    </school>
+    <level type="alchemist" value="2" />
+    <level type="cleric" value="2" />
+    <level type="oracle" value="2" />
+    <level type="inquisitor" value="2" />
+    <domain type="luck" value="2" />
+    <domain type="tactics" value="2" />
+    <casting_time type="standard action" value="1" />
+    <component type="V" />
+    <component type="S" />
+    <component type="DF" />
+    <range type="touch" />
+    <target type="living creature" distance="touched" />
+    <duration type="minute" value="1/" />
+    <saving_throw value="no" />
+    <spell_resistance value="yes" harmless="yes" />
+    <short_description language="en">+1 on attack rolls and saves against fear, 1d8 temporary hp +1/level (max +10)</short_description>
+    <description language="en">Aid grants the target a +1 morale bonus on attack rolls and saves against fear effects, plus temporary hit points equal to 1d8 + caster level (to a maximum of 1d8+10 temporary hit points at caster level 10th).</description>
+  </spell>
   <spell src="http://www.d20pfsrd.com/magic/all-spells/b/bleed" publisher="paizo" book="Core Rulebook">
     <name language="en">Bleed</name>
     <school type="necromancy" />
@@ -185,5 +209,30 @@ Endure elements doesn't provide any protection from fire or cold damage, nor doe
 
     Spell Glyph: You can store any harmful spell of 3rd level or lower that you know. All level-dependent features of the spell are based on your caster level at the time of casting the glyph. If the spell has a target, it targets the intruder. If the spell has an area or an amorphous effect, the area or effect is centered on the intruder. If the spell summons creatures, they appear as close as possible to the intruder and attack. Saving throws and spell resistance operate as normal, except that the DC is based on the level of the spell stored in the glyph.</description>
     <note language="en" title="Trapfinding and Magic Traps">Magic traps such as glyph of warding are hard to detect and disable. A character with the trapfinding class feature (only) can use the Perception skill to find the glyph and Disable Device to thwart it. The DC in each case is 25 + spell level, or 28 for glyph of warding.</note>
+  </spell>
+  <spell src="http://www.d20pfsrd.com/magic/all-spells/c/consecrate" publisher="paizo" book="Core Rulebook">
+    <name language="en">Consecrate</name>
+    <school type="evocation">
+      <descriptor type="good" />
+    </school>
+    <level type="cleric" value="2" />
+    <level type="oracle" value="2" />
+    <level type="inquisitor" value="2" />
+    <casting_time type="standard action" value="1" />
+    <component type="V" />
+    <component type="S" />
+    <component type="M">a vial of holy water and 25 gp worth of silver dust</component>
+    <component type="DF" />
+    <range type="close" />
+    <area type="emanation" form="radius" value="20" />
+    <duration type="hour" value="2/" />
+    <saving_throw value="no" />
+    <spell_resistance value="no" />
+    <short_description language="en">Fills area with positive energy, weakening undead</short_description>
+    <description language="en">This spell blesses an area with positive energy. The DC to resist positive channeled energy within this area gains a +3 sacred bonus. Every undead creature entering a consecrated area suffers minor disruption, suffering a -1 penalty on attack rolls, damage rolls, and saves. Undead cannot be created within or summoned into a consecrated area. If the consecrated area contains an altar, shrine, or other permanent fixture dedicated to your deity, pantheon, or aligned higher power, the modifiers given above are doubled (+6 sacred bonus to positive channeled energy DCs, -2 penalties for undead in the area).
+
+You cannot consecrate an area with a similar fixture of a deity other than your own patron. Instead, the consecrate spell curses the area, cutting off its connection with the associated deity or power. This secondary function, if used, does not also grant the bonuses and penalties relating to undead, as given above.
+
+Consecrate counters and dispels desecrate.</description>
   </spell>
 </spell_list>
