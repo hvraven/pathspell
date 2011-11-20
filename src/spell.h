@@ -260,6 +260,14 @@ public:
 
   Spell_Element& operator[]( const Spell_Element_Token& );
 
+  void set_name( const Spell_String_Element& name )
+    { name_ = name; };
+  void set_name( const std::string& name)
+    { name_ = Spell_String_Element( name ); };
+  void set_school( const School& school )
+    { school_ = school; };
+
+  // doesn't work and is nasty
   void add_element( const Spell_Element_Token&, const Spell_Element&);
   void add_level( const std::string&, const int );
 

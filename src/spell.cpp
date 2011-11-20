@@ -88,25 +88,23 @@ Spell_Element& Spell::operator[]( const Spell_Element_Token& element )
 }
 
 void Spell::add_element( const Spell_Element_Token& token,
-			 const Spell_Element& element )
+                         const Spell_Element& element )
 {
   // get elements working only with pointers
   if ( token == TARGET )
     {
       if ( elements_[ TARGET ] )
-	{
-	  delete elements_[ TARGET ];
-	  Target* ptarget = new Target( dynamic_cast<const Target&>(element) );
-	  elements_[ token ] = ptarget;
-	}
-      else
-	{
-	  Target* ptarget = new Target( dynamic_cast<const Target&>(element) );
-	  elements_[ token ] = ptarget;
-	}
+        delete elements_[ TARGET ];
+      Target* ptarget = new Target( static_cast<const Target&>(element) );
+      elements_[ token ] = ptarget;
     }
   else
-    *(elements_[ token ]) = element;
+    {
+      if ( token == NAME )
+        name_ = Spell_String_Element("ADD_ELEMENT_TESTSTRING");
+      else
+        *(elements_[ token ]) = element;
+    }
 }
 
 void Spell::base_fill_elements_()

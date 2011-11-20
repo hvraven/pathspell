@@ -37,17 +37,17 @@ void Spell_List::add_elements_( Spell* const pspell,
 	{
 	case NAME:
 	  {
-	    add_name_( *pspell, pelement );
+	    add_name_( pspell, pelement );
 	    break;
 	  }
 	case SCHOOL:
 	  {
-	    add_school_( *pspell, pelement );
+	    add_school_( pspell, pelement );
 	    break;
 	  }
 	  /*case LEVEL:
 	  {
-	    add_level_( *pspell, pelement );
+	    add_level_( pspell, pelement );
 	    break;
 	    }*/
 	default:
@@ -65,7 +65,8 @@ void Spell_List::add_elements_( Spell* const pspell,
  * \param spell the spell to save the name in
  * \param pelement pointer to the name entry
  */
-void Spell_List::add_name_( Spell& spell, TiXmlElement const * const pelement )
+void Spell_List::add_name_( Spell* const pspell,
+                            TiXmlElement const * const pelement )
 {
   TiXmlAttribute const * plang = pelement->FirstAttribute();
   if ( plang )
@@ -74,10 +75,7 @@ void Spell_List::add_name_( Spell& spell, TiXmlElement const * const pelement )
       if ( attr == "language" )
 	{
 	  if ( plang->ValueStr() == "en" )
-	    {
-	      Spell_String_Element temp( pelement->GetText() );
-	      spell.add_element( NAME, temp );
-	    }
+            pspell->set_name( pelement->GetText() );
 	}
       else
 	{
@@ -106,7 +104,8 @@ std::vector < std::string > Spell_List::get_names_
   return result;
 }
 
-void Spell_List::add_school_( Spell& spell, TiXmlElement const * const pelement )
+void Spell_List::add_school_( Spell* const pspell,
+                              TiXmlElement const * const pelement )
 {
   School temp( pelement->Attribute( "type" ) );
 
@@ -125,10 +124,11 @@ void Spell_List::add_school_( Spell& spell, TiXmlElement const * const pelement 
   if ( psubelement )
     temp.set_descriptor( psubelement->Attribute( "type" ) );
 
-  spell.add_element( SCHOOL, temp );
+  pspell->set_school( temp );
 }
 
-/*void Spell_List::add_level_( Spell& spell, TiXmlElement const * const pelement )
+/*void Spell_List::add_level_( Spell* const pspell,
+                             TiXmlElement const * const pelement )
 {
   for ( TiXmlAttribute const * pattr = pelement->FirstAttribute() ;
 	pattr ; pattr = pattr->NextSibling() )

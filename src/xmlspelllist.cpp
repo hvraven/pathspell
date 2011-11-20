@@ -99,6 +99,7 @@ Spell* Spell_List::get_checked_spell_pointer_( const unsigned int spell )
  *
  * checks if the spells cache if valid. If not it loads the data
  * and creates a new spell if needed.
+ * \param ittag the spell to check and load
  */
 void Spell_List::check_spell_( spell_list_iterator ittag)
 {

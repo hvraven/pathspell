@@ -59,11 +59,12 @@ private:
 
   void check_spell_( spell_list_iterator );
 
-  void add_elements_( Spell* const, TiXmlElement const * const);
-  void add_name_( Spell&, TiXmlElement const * const );
   std::vector < std::string > get_names_( TiXmlElement const * const );
-  void add_school_( Spell&, TiXmlElement const * const );
-  void add_level_( Spell&, TiXmlElement const * const );
+
+  void add_elements_( Spell* const, TiXmlElement const * const);
+  void add_name_( Spell* const, TiXmlElement const * const );
+  void add_school_( Spell* const, TiXmlElement const * const );
+  void add_level_( Spell* const, TiXmlElement const * const );
 };
 
 class Spell_RefPtr

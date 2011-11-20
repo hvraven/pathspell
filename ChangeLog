@@ -1,3 +1,11 @@
+2011-11-20    <h.v.raven@googlemail.com>
+
+	* src/xmldecoder.cpp (add_name_, add_school_, add_level_): changed parameter to const*
+	(add_school_): changed insert to spell to set_school
+	(add_name_): changed insert to spell to set_name
+
+	* src/spell.cpp (add_element): simplified if check for TARGET
+
 2011-10-21    <h.v.raven@googlemail.com>
 
 	* src/gtkwindow.cpp (display_spell): changed to use RefPtr
