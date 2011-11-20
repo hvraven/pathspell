@@ -14,7 +14,8 @@ Spell_Base_Element::Spell_Base_Element( const std::string& type )
 {
 }
 
-Spell_Base_Element::Spell_Base_Element( const std::string& type, const int value )
+Spell_Base_Element::Spell_Base_Element( const std::string& type,
+                                        const int value )
   : type_(type),
     value_(value)
 {
@@ -55,29 +56,6 @@ Spell::Spell()
 {
   base_fill_elements_();
 }
-
-/*Spell::Spell( const std::string& name, const School& school,
-	      const Level& level,
-	      const Spell_Base_Element& casting_time, const Components& components,
-	      const Spell_Base_Element& range, const Spell_Base_Element& duration,
-	      const Saving_Throw& saving_throw,
-	      const Spell_Resistance& spell_resistance,
-	      const std::string& description, const std::string& link)
-  : elements_(),
-    name_(name),
-    school_(school),
-    level_(level),
-    casting_time_(casting_time),
-    components_(components),
-    range_(range),
-    duration_(duration),
-    saving_throw_(saving_throw),
-    spell_resistance_(spell_resistance),
-    description_(description),
-    link_(link)
-{
-  base_fill_elements_();
-  }*/
 
 Spell::~Spell()
 {
@@ -130,17 +108,6 @@ void Spell::add_element( const Spell_Element_Token& token,
   else
     *(elements_[ token ]) = element;
 }
-
-/*void Spell::set_target( Target* const input )
-{
-  if ( elements_[TARGET] )
-    {
-      delete elements_[TARGET];
-      elements_[ TARGET ] = input;
-    }
-  else
-    elements_[ TARGET ] = input;
-    }*/
 
 void Spell::base_fill_elements_()
 {
