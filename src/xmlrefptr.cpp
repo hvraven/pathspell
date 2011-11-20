@@ -19,25 +19,3 @@ Spell_RefPtr::Spell_RefPtr( Spell_List * const plist,
   else
     throw Invalid_Pointer();
 }
-
-/*Spell& Spell_RefPtr::operator*()
-{
-  if ( ptag_->pspell )
-    return *(ptag_->pspell);
-  else
-    {
-      plist_->loadspell( ptag_ );
-      return *(ptag_->pspell);
-    }
-}
-
-Spell* Spell_RefPtr::operator->()
-{
-  if ( ptag_->pspell )
-    return ptag_->pspell;
-  else
-    {
-      plist_->loadspell( ptag_ );
-      return ptag_->pspell;
-    }
-    }*/
