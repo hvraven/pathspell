@@ -266,10 +266,13 @@ public:
     { name_ = Spell_String_Element( name ); };
   void set_school( const School& school )
     { school_ = school; };
+  void set_level( const Level& level )
+    { level_ = level; };
+  void add_level( const std::string& level, const int value )
+    { level_.add_level( level, value ); };
 
-  // doesn't work and is nasty
+  // doesn't realy work and is not necessary
   void add_element( const Spell_Element_Token&, const Spell_Element&);
-  void add_level( const std::string&, const int );
 
   /*bool check_target() { return elements_[TARGET]; };
     void set_target( Target* const );*/

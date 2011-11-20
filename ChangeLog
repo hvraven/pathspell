@@ -1,8 +1,12 @@
 2011-11-20    <h.v.raven@googlemail.com>
 
+	* src/spell.h (Spell): added set_level and add_level
+
 	* src/xmldecoder.cpp (add_name_, add_school_, add_level_): changed parameter to const*
 	(add_school_): changed insert to spell to set_school
 	(add_name_): changed insert to spell to set_name
+	(add_elements_): added level to switch
+	(add_level_): complete rewrite
 
 	* src/spell.cpp (add_element): simplified if check for TARGET
 

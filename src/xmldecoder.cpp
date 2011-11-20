@@ -45,11 +45,11 @@ void Spell_List::add_elements_( Spell* const pspell,
 	    add_school_( pspell, pelement );
 	    break;
 	  }
-	  /*case LEVEL:
+        case LEVEL:
 	  {
 	    add_level_( pspell, pelement );
 	    break;
-	    }*/
+          }
 	default:
 	  {
 	    break;
@@ -127,29 +127,21 @@ void Spell_List::add_school_( Spell* const pspell,
   pspell->set_school( temp );
 }
 
-/*void Spell_List::add_level_( Spell* const pspell,
-                             TiXmlElement const * const pelement )
+void Spell_List::add_level_( Spell *const pspell,
+                             TiXmlElement const *const pelement )
 {
-  for ( TiXmlAttribute const * pattr = pelement->FirstAttribute() ;
-	pattr ; pattr = pattr->NextSibling() )
+  std::string type;
+  int value = 0;
+  if ( pelement->QueryStringAttribute("type",&type) == TIXML_SUCCESS )
     {
-      
-
-  
-  TiXmlAttribute const * const ptype = pelement->FirstAttribute( "type" );
-  if ( ptype )
-    {
-      TiXmlAttribute const * const pvalue = pelement->Attribute( "value" );
-      if ( pvalue )
-	{
-	  spell.add_level( ptype->ValueStr(), pvalue->IntValue() );
-	}
+      if ( pelement->QueryIntAttribute("value", &value) == TIXML_SUCCESS )
+        pspell->add_level( type, value );
       else
-	throw Missing_Element();
+        throw Missing_Element(LEVEL_VALUE);
     }
   else
-    throw Missing_Element();
-    }*/
+    throw Missing_Element(LEVEL_TYPE);
+}
 
 /*Level Spells::get_spell_level_( TiXmlElement* pspell )
 {
