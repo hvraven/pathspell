@@ -235,4 +235,25 @@ You cannot consecrate an area with a similar fixture of a deity other than your 
 
 Consecrate counters and dispels desecrate.</description>
   </spell>
+  <spell src="http://www.d20pfsrd.com/magic/all-spells/b/blade-barrier" publisher="Paizo" book="Core Rulebook">
+    <name language="en">Blade Barrier</name>
+    <school type="evocation">
+      <descriptor type="force" />
+    </school>
+    <level type="cleric" value="6" />
+    <casting_time type="standard action" value="1" />
+    <component type="V" />
+    <component type="S" />
+    <range type="medium" />
+    <annotation type="effect">wall of whirling blades up to 20 ft. long/level, or a ringed wall of whirling blades with a radius of up to 5 ft. per two levels; either form is 20 ft. high</annotation>
+    <duration type="minute" value="1/" dismissable="yes" />
+    <saving_throw type="reflex" value="half or negates" see_text="yes" />
+    <spell_resistance value="yes" />
+    <short_description language="en">Wall of blades deals 1d6/level damage.</short_description>
+    <description language="en">An immobile, vertical curtain of whirling blades shaped of pure force springs into existence. Any creature passing through the wall takes 1d6 points of damage per caster level (maximum 15d6), with a Reflex save for half damage.
+
+If you evoke the barrier so that it appears where creatures are, each creature takes damage as if passing through the wall. Each such creature can avoid the wall (ending up on the side of its choice) and thus take no damage by making a successful Reflex save.
+
+A blade barrier provides cover (+4 bonus to AC, +2 bonus on Reflex saves) against attacks made through it.</description>
+  </spell>
 </spell_list>
