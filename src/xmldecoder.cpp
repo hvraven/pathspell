@@ -2,9 +2,16 @@
 #include "error.h"
 #include "strmanip.h"
 
+/**
+ * \brief reads the elements from the xml and copies them to the Spell
+ * \param pspell pointer to the spell to fill
+ * \param pxml pointer to the xml where to load from
+ */
 void Spell_List::add_elements_( Spell* const pspell,
 				TiXmlElement const * const pxml)
 {
+  /* map for easy translation of the names to tokens */
+  /// \TODO make that map static
   std::map < std::string, Spell_Element_Token > elements;
   elements[ "name" ] = NAME;
   elements[ "school" ] = SCHOOL;
@@ -53,6 +60,11 @@ void Spell_List::add_elements_( Spell* const pspell,
     }
 }
 
+/**
+ * \brief gets the xml data of a name element and writes it to the spell
+ * \param spell the spell to save the name in
+ * \param pelement pointer to the name entry
+ */
 void Spell_List::add_name_( Spell& spell, TiXmlElement const * const pelement )
 {
   TiXmlAttribute const * plang = pelement->FirstAttribute();

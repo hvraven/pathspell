@@ -1,6 +1,10 @@
 #include "xml.h"
 #include "error.h"
 
+/**
+ * \brief creates a new spell list and loads the spells in the given file
+ * \param filename filesystem path, where the xml can be found
+ */
 Spell_List::Spell_List( const std::string& filename )
   : doc_(filename),
     spell_list_()
@@ -11,6 +15,9 @@ Spell_List::Spell_List( const std::string& filename )
   fill_list_ ( doc_ );
 }
 
+/**
+ * \brief deletes all the cached spells
+ */
 Spell_List::~Spell_List()
 {
   for ( spell_list::const_iterator it = spell_list_.begin() ;
@@ -19,6 +26,10 @@ Spell_List::~Spell_List()
 	delete it->pspell;
 }
 
+/**
+ * \brief loads the elements from a given file
+ * \param doc the file from which the data should be loaded
+ */
 void Spell_List::fill_list_ ( TiXmlDocument& doc )
 {
   TiXmlHandle hroot  = &doc;
@@ -37,6 +48,9 @@ void Spell_List::fill_list_ ( TiXmlDocument& doc )
     }
 }
 
+/**
+ * \brief returns a list of names of all spells saved in the Spell_List
+ */
 std::vector < std::string > Spell_List::get_spell_list()
 {
   std::vector < std::string > result;
@@ -48,6 +62,10 @@ std::vector < std::string > Spell_List::get_spell_list()
   return result;
 }
 
+/**
+ * \brief returns a ref to a spell
+ * \param spell a name of the spell
+ */
 Spell& Spell_List::get_spell( const std::string& spell )
 {
   spell_list_iterator ittag = spell_list_.begin()
@@ -56,6 +74,9 @@ Spell& Spell_List::get_spell( const std::string& spell )
   return *( ittag->pspell );
 }
 
+/**
+ * \brief returns a ref to a spell with the gurantee it is valid
+ */
 Spell& Spell_List::get_checked_spell_ref_( const unsigned int spell )
 {
   spell_list_iterator ittag = spell_list_.begin() + spell;
@@ -63,6 +84,9 @@ Spell& Spell_List::get_checked_spell_ref_( const unsigned int spell )
   return *( ittag->pspell );
 }
 
+/**
+ * \brief returns a spell pointer with the guarantee it is valid
+ */
 Spell* Spell_List::get_checked_spell_pointer_( const unsigned int spell )
 {
   spell_list_iterator ittag = spell_list_.begin() + spell;
@@ -70,6 +94,12 @@ Spell* Spell_List::get_checked_spell_pointer_( const unsigned int spell )
   return ittag->pspell;
 }
 
+/**
+ * \brief loads uncached spell
+ *
+ * checks if the spells cache if valid. If not it loads the data
+ * and creates a new spell if needed.
+ */
 void Spell_List::check_spell_( spell_list_iterator ittag)
 {
   if ( ! ittag->cache_valid )
