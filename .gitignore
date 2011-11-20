@@ -19,3 +19,6 @@ missing
 pathspell
 stamp-h1
 core
+oo
+*.tsv
+.*project
