@@ -33,6 +33,14 @@ struct Missing_Element : public std::exception
     : element(eelement) {};
 };
 
+struct Invalid_Element : public std::exception
+{
+  Spell_Element_Token element;
+
+  Invalid_Element ( Spell_Element_Token eelement)
+    : element(eelement) {};
+};
+
 struct Unclear_Arguments : public std::exception
 {
   Unclear_Arguments() {};

@@ -107,22 +107,31 @@ std::vector < std::string > Spell_List::get_names_
 void Spell_List::add_school_( Spell* const pspell,
                               TiXmlElement const * const pelement )
 {
-  School temp( pelement->Attribute( "type" ) );
+  std::string type;
+  if ( pelement->QueryStringAttribute("type",&type) != TIXML_SUCCESS )
+    throw Missing_Element(SCHOOL);
+  School temp( type );
 
   const TiXmlElement* psubelement = pelement->FirstChildElement( "subschool" );
   if ( psubelement )
-    {
-      do
-	{
-	  temp.add_subschool( psubelement->Attribute( "type" ) );
-	  psubelement = psubelement->NextSiblingElement();
-	}
-      while ( psubelement );
-    }
+    do
+      {
+        if ( psubelement->QueryStringAttribute("type",&type)
+             != TIXML_SUCCESS )
+          throw Invalid_Element(SUBSCHOOL);
+        temp.add_subschool( type );
+        psubelement = psubelement->NextSiblingElement();
+      }
+    while ( psubelement );
 
   psubelement = pelement->FirstChildElement( "descriptor" );
   if ( psubelement )
-    temp.set_descriptor( psubelement->Attribute( "type" ) );
+    {
+      if ( psubelement->QueryStringAttribute("type",&type)
+           != TIXML_SUCCESS )
+        throw Invalid_Element(DESCRIPTOR);
+      temp.set_descriptor( type );
+    }
 
   pspell->set_school( temp );
 }

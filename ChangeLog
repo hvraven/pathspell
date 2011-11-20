@@ -1,5 +1,13 @@
 2011-11-20    <h.v.raven@googlemail.com>
 
+	* src/xmldecoder.cpp (add_school_): changed xml attribute calls to use query functions for better checks
+
+	* src/token.h (Spell_Element_Token): added SUBSCHOOL and DESCRIPTOR
+
+	* src/school.cpp (print): fixed bug printing descriptor in case no descriptor was set
+
+	* src/error.h (exception): added Invalid_Element
+
 	* src/spell.h (Spell): added set_level and add_level
 
 	* src/xmldecoder.cpp (add_name_, add_school_, add_level_): changed parameter to const*

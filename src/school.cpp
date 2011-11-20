@@ -47,7 +47,7 @@ std::string School::print()
 	    + ")";
 	}
 
-      if ( descriptor_ == "" )
+      if ( descriptor_ != "" )
 	result += " ["
 	  + print_descriptor()
 	  + "]";

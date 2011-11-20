@@ -9,6 +9,8 @@ enum Spell_Element_Token
     NAME,
     NAME_LANGUAGE,
     SCHOOL,
+    SUBSCHOOL,
+    DESCRIPTOR,
     LEVEL,
     LEVEL_TYPE,
     LEVEL_VALUE,
