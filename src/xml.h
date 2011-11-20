@@ -34,6 +34,8 @@ struct Spell_Tag
 
 class Spell_List
 {
+  friend class Spell_RefPtr;
+
 public:
   Spell_List( const std::string& );
   virtual ~Spell_List();
@@ -48,10 +50,14 @@ private:
 
   friend void load_spell( Spell_Tag const * const );
   void fill_list_( TiXmlDocument& );
-  Spell_Tag* find_spell_( const std::string& );
 
-  void read_spell_( spell_list_iterator );
-  void read_spell_( const std::string& );
+  unsigned int find_spell_( const std::string& spell )
+    { return spell_name_map_[ spell ]; };
+
+  Spell* get_checked_spell_pointer_( const unsigned int );
+  Spell& get_checked_spell_ref_( const unsigned int );
+
+  void check_spell_( spell_list_iterator );
 
   void add_elements_( Spell* const, TiXmlElement const * const);
   void add_name_( Spell&, TiXmlElement const * const );
@@ -60,60 +66,21 @@ private:
   void add_level_( Spell&, TiXmlElement const * const );
 };
 
-/*class Spell_RefPtr
-{
-  Spell_RefPtr( Spell_List const * const, Spell_Tag const * const );
-  Spell_RefPtr( Spell_List const * const, const std::string& );
-  virtual ~Spell_RefPtr() {};
-
-  Spell& operator*();
-  Spell* operator->();
-
-private:
-  spell_map_element const * const pspell_;
-  Spell_List const * const plist_;
-  Spell_Tag const * const ptag_;
-
-  //friend spell_map_element const * get_spell_element( const std::string& );
-  friend void load_spell( Spell_Tag const * const );
-  };*/
-
-
-
-/*class Spells
+class Spell_RefPtr
 {
 public:
-  Spells(const char*);
-  virtual ~Spells();
+  Spell_RefPtr( Spell_List * const plist, const unsigned int spell );
+  Spell_RefPtr( Spell_List * const, const std::string& );
+  virtual ~Spell_RefPtr() {};
 
-  Spell get_spell( const std::string& );
-  std::vector < std::string > get_spell_list()
-    { return spells_.get_spell_list(); };
+  Spell& operator*()
+    { return plist_->get_checked_spell_ref_( spell_ ); };
+  Spell* operator->()
+    { return plist_->get_checked_spell_pointer_( spell_ ); };
 
 private:
-  TiXmlDocument doc_;
-  Spell_List spells_;
-
-  void add_element_ ( TiXmlElement const * const, Spell& );
-
-  void add_name_( TiXmlElement const * const, Spell& );
-
-  School get_spell_school_( TiXmlElement* );
-  Level get_spell_level_( TiXmlElement* );
-  Spell_Base_Element get_spell_casting_time_( TiXmlElement* pspell)
-    { return get_spell_spell_element_( pspell, "casting_time" ); };
-  Components get_spell_components_( TiXmlElement* );
-  Spell_Base_Element get_spell_range_( TiXmlElement* pspell)
-    { return get_spell_spell_element_( pspell, "range" ); };
-  Spell_Base_Element get_spell_duration_( TiXmlElement* pspell )
-    { return get_spell_spell_element_( pspell, "duration" ); };
-  Saving_Throw get_spell_saving_throw_( TiXmlElement* );
-  Spell_Resistance get_spell_spell_resistance_( TiXmlElement* );
-  std::string get_spell_description_( TiXmlElement* );
-  std::string get_spell_link_( TiXmlElement* );
-  Spell_Base_Element get_spell_spell_element_( TiXmlElement*, const std::string&);
-  bool check_spell_target_( TiXmlElement* );
-  Target* get_spell_target_( TiXmlElement* );
-  };*/
+  Spell_List * const plist_;
+  unsigned int spell_;
+};
 
 #endif // PATHSPELL_XML_H

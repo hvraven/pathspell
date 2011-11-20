@@ -20,6 +20,11 @@ struct Invalid_Attribute : public std::exception
   Invalid_Attribute() {};
 };
 
+struct Invalid_Pointer : public std::exception
+{
+  Invalid_Pointer() {};
+};
+
 struct Missing_Element : public std::exception
 {
   Spell_Element_Token element;

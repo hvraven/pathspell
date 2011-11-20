@@ -1,3 +1,11 @@
+2011-10-21    <h.v.raven@googlemail.com>
+
+	* src/gtkwindow.cpp (display_spell): changed to use RefPtr
+
+	* src/xml.h (Spell_RefPtr): New class for save pointer acces on spells
+
+	* src/xmlspelllist.cpp (get_checked_spell_pointer_, get_checked_spell_ref_): new functions
+
 2011-10-17    <h.v.raven@googlemail.com>
 
 	* src/xml.h: new typedef for spell_iterator

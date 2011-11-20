@@ -19,11 +19,6 @@ Spell_List::~Spell_List()
 	delete it->pspell;
 }
 
-/*TiXmlElement* Spell_List::find_spell( const std::string& spell )
-{
-  return spell_list_[spell].pxml;
-  }*/
-
 void Spell_List::fill_list_ ( TiXmlDocument& doc )
 {
   TiXmlHandle hroot  = &doc;
@@ -57,21 +52,31 @@ Spell& Spell_List::get_spell( const std::string& spell )
 {
   spell_list_iterator ittag = spell_list_.begin()
     + spell_name_map_[ spell ];
-  if ( ittag->cache_valid )
-    {
-      return *( ittag->pspell );
-    }
-  else
-    {
-      read_spell_(ittag);
-      return *(ittag->pspell);
-    }
+  check_spell_( ittag );
+  return *( ittag->pspell );
 }
 
-void Spell_List::read_spell_( spell_list_iterator ittag)
+Spell& Spell_List::get_checked_spell_ref_( const unsigned int spell )
 {
-  if ( ! ittag->pspell )
-    ittag->pspell = new Spell();
-  add_elements_( ittag->pspell, ittag->pxml );
-  ittag->cache_valid = true;
+  spell_list_iterator ittag = spell_list_.begin() + spell;
+  check_spell_( ittag );
+  return *( ittag->pspell );
+}
+
+Spell* Spell_List::get_checked_spell_pointer_( const unsigned int spell )
+{
+  spell_list_iterator ittag = spell_list_.begin() + spell;
+  check_spell_( ittag );
+  return ittag->pspell;
+}
+
+void Spell_List::check_spell_( spell_list_iterator ittag)
+{
+  if ( ! ittag->cache_valid )
+    {
+      if ( ! ittag->pspell )
+	ittag->pspell = new Spell();
+      add_elements_( ittag->pspell, ittag->pxml );
+      ittag->cache_valid = true;
+    }
 }

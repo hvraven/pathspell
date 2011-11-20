@@ -1,6 +1,6 @@
 bin_PROGRAMS = pathspell
 pathspell_SOURCES = pathspell.cpp \
-xml.h xmlspelllist.cpp xmldecoder.cpp \
+xml.h xmlspelllist.cpp xmldecoder.cpp xmlrefptr.cpp \
 spell.h spell.cpp school.cpp level.cpp components.cpp savingthrow.cpp spellresistance.cpp target.cpp\
 gtkwindow.h gtkwindow.cpp \
 error.h \
