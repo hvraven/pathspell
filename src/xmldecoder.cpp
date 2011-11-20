@@ -7,10 +7,10 @@
  * \param pspell pointer to the spell to fill
  * \param pxml pointer to the xml where to load from
  *
- * \TODO add a check if all necessary elements have been found
- * \TODO change the elements map to a static version which isn't created newly
+ * \todo add a check if all necessary elements have been found
+ * \todo change the elements map to a static version which isn't created newly
  * at every call
- * \TODO add missing components
+ * \todo add missing components
  *
  * this function checks element by element what it is and calls the respecting
  * add functions to add them to the given spell.
@@ -71,7 +71,7 @@ void Spell_List::add_elements_( Spell* const pspell,
  * \brief gets the xml data of a name element and writes it to the spell
  * \param spell the spell to save the name in
  * \param pelement pointer to the name entry
- * \TODO set a global language and use it only if language matches
+ * \todo set a global language and use it only if language matches
  */
 void Spell_List::add_name_( Spell* const pspell,
                             TiXmlElement const * const pelement )
@@ -99,7 +99,7 @@ void Spell_List::add_name_( Spell* const pspell,
 }
 
 /**
- * \TODO find out why we have this function and make a documentation
+ * \todo find out why we have this function and make a documentation
  */
 std::vector < std::string > Spell_List::get_names_
     ( TiXmlElement const * const pspell )
