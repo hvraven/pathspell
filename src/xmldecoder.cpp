@@ -187,6 +187,11 @@ void Spell_List::decode_level_( Spell *const pspell,
     throw Missing_Element(LEVEL_TYPE);
 }
 
+/**
+ * \brief add the casting time information to the given spell
+ * \param pspell spell to add the information to
+ * \param pelement pointer to the casting time in the xml
+ */
 void Spell_List::decode_casting_time_( Spell *const pspell,
                                        TiXmlElement const *const pelement )
 {
