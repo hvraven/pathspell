@@ -66,6 +66,7 @@ private:
   void decode_school_( Spell* const, TiXmlElement const * const );
   void decode_level_( Spell* const, TiXmlElement const * const );
   void decode_casting_time_( Spell *const, TiXmlElement const *const );
+  void decode_component_( Spell *const, TiXmlElement const *const );
 };
 
 class Spell_RefPtr

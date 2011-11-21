@@ -272,6 +272,19 @@ public:
     { level_.add_level( level, value ); };
   void set_casting_time( const Spell_Base_Element& casting_time )
     { casting_time_ = casting_time; };
+  void set_components( const Components& components )
+    { components_ = components; };
+  void set_component_verbal( const bool value )
+    { components_.set_verbal(value); };
+  void set_component_somatic( const bool value ) 
+    { components_.set_somatic(value); };
+  void set_component_material( const bool value,
+                               const std::string& description )
+    { components_.set_material(value, description); };
+  void set_component_focus( const bool value, const std::string& description )
+    { components_.set_focus(value, description); };
+  void set_component_divine_focus( const bool value )
+    { components_.set_divine_focus(value); };
 
   // doesn't realy work and is not necessary
   void add_element( const Spell_Element_Token&, const Spell_Element&);

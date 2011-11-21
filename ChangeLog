@@ -1,6 +1,10 @@
 2011-11-21    <h.v.raven@googlemail.com>
 
+	* src/spell.h (Spell): added functions for accessing casting time and component
+
 	* src/xmldecoder.cpp (decode_casting_time_): new function
+	(decode_component_): new function
+	(decode_elements_): integrated casting time and components
 
 	* src/xml.h (Spell_List): renamed add_{elements,name,school,level} to decode_
 

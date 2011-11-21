@@ -62,6 +62,11 @@ void Spell_List::decode_elements_( Spell* const pspell,
             decode_casting_time_( pspell, pelement );
             break;
           }
+        case COMPONENTS:
+          {
+            decode_component_( pspell, pelement );
+            break;
+          }
 	default:
 	  {
 	    break;
@@ -206,6 +211,59 @@ void Spell_List::decode_casting_time_( Spell *const pspell,
     }
   else
     throw Missing_Element(CASTING_TIME_TYPE);
+}
+
+/**
+ * \brief add the component information to the given spell
+ * \param pspell spell to add the information to
+ * \param pelement pointer to the casting time in the xml
+ *
+ * adds the given component to the given spell. This function only decodes
+ * the one given component and doesn't search for other components. In the
+ * same way it only manipulates the one component setting.
+ */
+void Spell_List::decode_component_( Spell *const pspell,
+                                    TiXmlElement const *const pelement )
+{
+  std::string type;
+  if ( pelement->QueryStringAttribute("type", &type) == TIXML_SUCCESS )
+    {
+      if ( type.length() == 1 )
+        switch ( type[0] )
+          {
+          case 'V':
+            {
+              pspell->set_component_verbal(true);
+              break;
+            }
+          case 'S':
+            {
+              pspell->set_component_somatic(true);
+              break;
+            }
+          case 'M':
+            {
+              pspell->set_component_material(true, pelement->GetText() );
+              break;
+            }
+          case 'F':
+            {
+              pspell->set_component_material(true, pelement->GetText() );
+              break;
+            }
+          default:
+            throw Invalid_Element(COMPONENTS);
+          }
+      else
+        if ( type == "DF" )
+          {
+            pspell->set_component_divine_focus( true );
+          }
+        else
+          throw Invalid_Element(COMPONENTS);
+    }
+  else
+    throw Invalid_Element(COMPONENTS);
 }
 
 /*
