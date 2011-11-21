@@ -1,5 +1,7 @@
 2011-11-21    <h.v.raven@googlemail.com>
 
+	* src/xmldecoder.cpp (decode_casting_time_): new function
+
 	* src/xml.h (Spell_List): renamed add_{elements,name,school,level} to decode_
 
 	* src/xmlspelllist.cpp (check_spell_): renamed call of add_elements to decode_elements

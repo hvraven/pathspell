@@ -270,6 +270,8 @@ public:
     { level_ = level; };
   void add_level( const std::string& level, const int value )
     { level_.add_level( level, value ); };
+  void set_casting_time( const Spell_Base_Element& casting_time )
+    { casting_time_ = casting_time; };
 
   // doesn't realy work and is not necessary
   void add_element( const Spell_Element_Token&, const Spell_Element&);

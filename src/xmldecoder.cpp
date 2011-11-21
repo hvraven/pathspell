@@ -57,6 +57,11 @@ void Spell_List::decode_elements_( Spell* const pspell,
 	    decode_level_( pspell, pelement );
 	    break;
           }
+        case CASTING_TIME:
+          {
+            decode_casting_time_( pspell, pelement );
+            break;
+          }
 	default:
 	  {
 	    break;
@@ -180,6 +185,22 @@ void Spell_List::decode_level_( Spell *const pspell,
     }
   else
     throw Missing_Element(LEVEL_TYPE);
+}
+
+void Spell_List::decode_casting_time_( Spell *const pspell,
+                                       TiXmlElement const *const pelement )
+{
+  std::string type;
+  int value = 0;
+  if ( pelement->QueryStringAttribute("type", &type) == TIXML_SUCCESS )
+    {
+      if ( pelement->QueryIntAttribute("value", &value) == TIXML_SUCCESS )
+        pspell->set_casting_time( Spell_Base_Element( type, value ) );
+      else
+        throw Missing_Element(CASTING_TIME);
+    }
+  else
+    throw Missing_Element(CASTING_TIME_TYPE);
 }
 
 /*
