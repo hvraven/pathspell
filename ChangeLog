@@ -1,5 +1,7 @@
 2011-11-21    <h.v.raven@googlemail.com>
 
+	* src/xmldecoder.cpp (decode_school_): removed a bug causing descriptors to be added to the subschool list
+
 	* src/spell.h (Spell): added functions for accessing casting time and component
 
 	* src/xmldecoder.cpp (decode_casting_time_): new function

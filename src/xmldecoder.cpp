@@ -151,7 +151,7 @@ void Spell_List::decode_school_( Spell* const pspell,
              != TIXML_SUCCESS )
           throw Invalid_Element(SUBSCHOOL);
         temp.add_subschool( type );
-        psubelement = psubelement->NextSiblingElement();
+        psubelement = psubelement->NextSiblingElement( "subschool" );
       }
     while ( psubelement );
 
