@@ -107,7 +107,7 @@ void Spell_List::check_spell_( spell_list_iterator ittag)
     {
       if ( ! ittag->pspell )
 	ittag->pspell = new Spell();
-      add_elements_( ittag->pspell, ittag->pxml );
+      decode_elements_( ittag->pspell, ittag->pxml );
       ittag->cache_valid = true;
     }
 }

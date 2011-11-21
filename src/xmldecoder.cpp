@@ -15,7 +15,7 @@
  * this function checks element by element what it is and calls the respecting
  * add functions to add them to the given spell.
  */
-void Spell_List::add_elements_( Spell* const pspell,
+void Spell_List::decode_elements_( Spell* const pspell,
 				TiXmlElement const * const pxml)
 {
   /* map for easy translation of the names to tokens */
@@ -44,17 +44,17 @@ void Spell_List::add_elements_( Spell* const pspell,
 	{
 	case NAME:
 	  {
-	    add_name_( pspell, pelement );
+	    decode_name_( pspell, pelement );
 	    break;
 	  }
 	case SCHOOL:
 	  {
-	    add_school_( pspell, pelement );
+	    decode_school_( pspell, pelement );
 	    break;
 	  }
         case LEVEL:
 	  {
-	    add_level_( pspell, pelement );
+	    decode_level_( pspell, pelement );
 	    break;
           }
 	default:
@@ -73,7 +73,7 @@ void Spell_List::add_elements_( Spell* const pspell,
  * \param pelement pointer to the name entry
  * \todo set a global language and use it only if language matches
  */
-void Spell_List::add_name_( Spell* const pspell,
+void Spell_List::decode_name_( Spell* const pspell,
                             TiXmlElement const * const pelement )
 {
   TiXmlAttribute const * plang = pelement->FirstAttribute();
@@ -125,7 +125,7 @@ std::vector < std::string > Spell_List::get_names_
  * Throws an Invalid_Element if one of the subelements couldn't be read
  * correctly.
  */
-void Spell_List::add_school_( Spell* const pspell,
+void Spell_List::decode_school_( Spell* const pspell,
                               TiXmlElement const * const pelement )
 {
   std::string type;
@@ -166,7 +166,7 @@ void Spell_List::add_school_( Spell* const pspell,
  * level pelement points to and adds it to the spell. Existing levels remain
  * untouched.
  */
-void Spell_List::add_level_( Spell *const pspell,
+void Spell_List::decode_level_( Spell *const pspell,
                              TiXmlElement const *const pelement )
 {
   std::string type;

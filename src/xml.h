@@ -61,10 +61,10 @@ private:
 
   std::vector < std::string > get_names_( TiXmlElement const * const );
 
-  void add_elements_( Spell* const, TiXmlElement const * const);
-  void add_name_( Spell* const, TiXmlElement const * const );
-  void add_school_( Spell* const, TiXmlElement const * const );
-  void add_level_( Spell* const, TiXmlElement const * const );
+  void decode_elements_( Spell* const, TiXmlElement const * const);
+  void decode_name_( Spell* const, TiXmlElement const * const );
+  void decode_school_( Spell* const, TiXmlElement const * const );
+  void decode_level_( Spell* const, TiXmlElement const * const );
 };
 
 class Spell_RefPtr

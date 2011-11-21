@@ -1,3 +1,9 @@
+2011-11-21    <h.v.raven@googlemail.com>
+
+	* src/xml.h (Spell_List): renamed add_{elements,name,school,level} to decode_
+
+	* src/xmlspelllist.cpp (check_spell_): renamed call of add_elements to decode_elements
+
 2011-11-20    <h.v.raven@googlemail.com>
 
 	* src/xmldecoder.cpp (add_school_): changed xml attribute calls to use query functions for better checks
