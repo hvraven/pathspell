@@ -16,7 +16,7 @@
  * add functions to add them to the given spell.
  */
 void Spell_List::decode_elements_( Spell* const pspell,
-				TiXmlElement const * const pxml)
+                                   TiXmlElement const * const pxml)
 {
   /* map for easy translation of the names to tokens */
   std::map < std::string, Spell_Element_Token > elements;
@@ -74,7 +74,7 @@ void Spell_List::decode_elements_( Spell* const pspell,
  * \todo set a global language and use it only if language matches
  */
 void Spell_List::decode_name_( Spell* const pspell,
-                            TiXmlElement const * const pelement )
+                               TiXmlElement const * const pelement )
 {
   TiXmlAttribute const * plang = pelement->FirstAttribute();
   if ( plang )
@@ -126,7 +126,7 @@ std::vector < std::string > Spell_List::get_names_
  * correctly.
  */
 void Spell_List::decode_school_( Spell* const pspell,
-                              TiXmlElement const * const pelement )
+                                 TiXmlElement const * const pelement )
 {
   std::string type;
   if ( pelement->QueryStringAttribute("type",&type) != TIXML_SUCCESS )
@@ -167,7 +167,7 @@ void Spell_List::decode_school_( Spell* const pspell,
  * untouched.
  */
 void Spell_List::decode_level_( Spell *const pspell,
-                             TiXmlElement const *const pelement )
+                                TiXmlElement const *const pelement )
 {
   std::string type;
   int value = 0;
