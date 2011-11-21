@@ -97,6 +97,9 @@
     <level type="paladin" value="1" />
     <level type="ranger" value="2" />
     <level type="witch" value="1" />
+    <domain type="healing" value="1" />
+    <domain type="restoration" value="1" />
+    <domain type="resurrection" value="1" />
     <casting_time type="standard action" value="1" />
     <component type="V" />
     <component type="S" />
@@ -142,6 +145,7 @@
     <level type="wizard" value="1" />
     <level type="summoner" value="1" />
     <domain type="sun" value="1" />
+    <domain type="day" value="1" />
     <casting_time type="standard action" value="1" />
     <component type="V" />
     <component type="S" />
