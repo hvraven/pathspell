@@ -236,9 +236,9 @@ public:
 
   virtual std::string print();
 
-  void set( const std::string& type )
+  void set_type( const std::string& type )
     { type_ = type; };
-  void set( const int value )
+  void set_value( const int value )
     { value_ = value; };
   void set( const std::string& type, const int value )
     { type_ = type; value_ = value; };
@@ -246,6 +246,22 @@ public:
 protected:
   std::string type_;
   int value_;
+};
+
+class Duration : public Spell_Base_Element
+{
+public:
+  Duration();
+  Duration( const std::string&, const int = 0, const bool = false );
+  virtual ~Duration() {};
+
+  virtual std::string print();
+
+  void set_dismissible( const bool dismissible )
+    { dismissible_ = dismissible; };
+
+protected:
+  bool dismissible_;
 };
 
 class Spell
@@ -276,7 +292,7 @@ public:
     { components_ = components; };
   void set_component_verbal( const bool value )
     { components_.set_verbal(value); };
-  void set_component_somatic( const bool value ) 
+  void set_component_somatic( const bool value )
     { components_.set_somatic(value); };
   void set_component_material( const bool value,
                                const std::string& description )
@@ -305,7 +321,7 @@ private:
   Spell_Base_Element casting_time_;
   Components components_;
   Spell_Base_Element range_;
-  Spell_Base_Element duration_;
+  Duration duration_;
   Saving_Throw saving_throw_;
   Spell_Resistance spell_resistance_;
   Spell_String_Element description_;

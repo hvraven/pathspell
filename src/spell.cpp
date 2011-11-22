@@ -121,3 +121,31 @@ void Spell::base_fill_elements_()
   elements_[DESCRIPTION] = &description_;
   //elements_[LINK] = &link_;
 }
+
+/**** Duration ***************************************************************/
+Duration::Duration()
+  : Spell_Base_Element(),
+    dismissible_(false)
+{
+}
+
+Duration::Duration( const std::string& type, const int value,
+                    const bool dismissible )
+  : Spell_Base_Element( type, value ),
+    dismissible_( dismissible )
+{
+}
+
+std::string Duration::print()
+{
+  std::string output;
+  if ( value_ )
+    output = value_ + " " + type_;
+  else
+    output = type_;
+
+  if ( dismissible_ )
+    output += " (D)";
+
+  return output;
+}

@@ -1,5 +1,12 @@
 2011-11-22    <h.v.raven@googlemail.com>
 
+	* src/spell.h (Duration): new class for dismissible option
+	(Spell): changed class of duration to duration
+
+	* src/spell.cpp (Duration::print): new function
+
+	* src/spell.h (Spell_Element): changed set function names
+
 	* src/xmldecoder.cpp (decode_elements_): added decoder for range
 
 	* src/spell.h (set_range): new function
