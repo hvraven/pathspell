@@ -23,19 +23,19 @@ void Spell_List::decode_elements_( Spell* const pspell,
   elements[ "name" ] = NAME;
   elements[ "school" ] = SCHOOL;
   elements[ "level" ] = LEVEL;
+  elements[ "domain" ] = DOMAIN;
   elements[ "casting_time" ] = CASTING_TIME;
   elements[ "component" ] = COMPONENTS;
   elements[ "range" ] = RANGE;
   elements[ "duration" ] = DURATION;
   elements[ "saving_throw" ] = SAVING_THROW;
   elements[ "spell_resistance" ] = SPELL_RESISTANCE;
+  elements[ "short_description" ] = SHORT_DESCRIPTION;
   elements[ "description" ] = DESCRIPTION;
   elements[ "target" ] = TARGET;
   elements[ "annotation" ] = ANNOTATION;
   elements[ "note" ] = NOTE;
   elements[ "area" ] = AREA;
-  elements[ "short_description" ] = SHORT_DESCRIPTION;
-  elements[ "domain" ] = DOMAIN;
 
   TiXmlElement const * pelement = pxml->FirstChildElement();
   while ( pelement )
@@ -65,6 +65,11 @@ void Spell_List::decode_elements_( Spell* const pspell,
         case COMPONENTS:
           {
             decode_component_( pspell, pelement );
+            break;
+          }
+        case RANGE:
+          {
+            decode_range_( pspell, pelement );
             break;
           }
 	default:
@@ -216,7 +221,7 @@ void Spell_List::decode_casting_time_( Spell *const pspell,
 /**
  * \brief add the component information to the given spell
  * \param pspell spell to add the information to
- * \param pelement pointer to the casting time in the xml
+ * \param pelement pointer to the component in the xml
  *
  * adds the given component to the given spell. This function only decodes
  * the one given component and doesn't search for other components. In the
@@ -264,6 +269,33 @@ void Spell_List::decode_component_( Spell *const pspell,
     }
   else
     throw Invalid_Element(COMPONENTS);
+}
+
+/**
+ * \brief add the range information to the given spell
+ * \param pspell spell to add the information to
+ * \param pelement pointer to the range in the xml
+ */
+void Spell_List::decode_range_( Spell *const pspell,
+                                TiXmlElement const *const pelement )
+{
+  std::string type;
+  int value = 0;
+  if ( pelement->QueryStringAttribute("type", &type) == TIXML_SUCCESS )
+    {
+      if ( type == "personal" || type == "touch" || type == "close" ||
+           type == "medium" || type == "long" || type == "unlimited" )
+        pspell->set_range( type );
+      else
+        {
+          if ( pelement->QueryIntAttribute("value", &value) == TIXML_SUCCESS )
+            pspell->set_range( Spell_Base_Element(type, value) );
+          else
+            throw Invalid_Element(RANGE_VALUE);
+        }
+    }
+  else
+    throw Invalid_Element(RANGE);
 }
 
 /*

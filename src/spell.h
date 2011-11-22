@@ -285,6 +285,8 @@ public:
     { components_.set_focus(value, description); };
   void set_component_divine_focus( const bool value )
     { components_.set_divine_focus(value); };
+  void set_range( const Spell_Base_Element& range )
+    { range_ = range; };
 
   // doesn't realy work and is not necessary
   void add_element( const Spell_Element_Token&, const Spell_Element&);

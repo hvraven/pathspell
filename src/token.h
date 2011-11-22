@@ -1,6 +1,7 @@
 #ifndef PATHSPELL_TOKEN_H
 #define PATHSPELL_TOKEN_H
 
+/// \todo rename all Tokens to prevent conflict with preprocessor variables
 // seems to be a default preprocessor variable
 #undef DOMAIN
 
@@ -18,6 +19,7 @@ enum Spell_Element_Token
     CASTING_TIME_TYPE,
     COMPONENTS,
     RANGE,
+    RANGE_VALUE,
     DURATION,
     SAVING_THROW,
     SPELL_RESISTANCE,

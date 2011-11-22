@@ -1,3 +1,13 @@
+2011-11-22    <h.v.raven@googlemail.com>
+
+	* src/xmldecoder.cpp (decode_elements_): added decoder for range
+
+	* src/spell.h (set_range): new function
+
+	* src/token.h (Spell_Elment_Token): new token for range value
+
+	* src/xmldecoder.cpp (decode_range_): new function
+
 2011-11-21    <h.v.raven@googlemail.com>
 
 	* src/xmldecoder.cpp (decode_school_): removed a bug causing descriptors to be added to the subschool list
