@@ -1,3 +1,10 @@
+2011-11-25    <h.v.raven@googlemail.com>
+
+	* src/savingthrow.cpp (print): added object to output
+	(Saving_Throw): changed constructurs to initialize object_ to false
+
+	* src/spell.h (Saving_Throw): added bool for object
+
 2011-11-22    <h.v.raven@googlemail.com>
 
 	* src/spell.h (Duration): new class for dismissible option

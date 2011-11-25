@@ -6,7 +6,8 @@ Saving_Throw::Saving_Throw()
   : type_(),
     value_(NIL),
     harmless_(false),
-    see_text_(false)
+    see_text_(false),
+    object_(false)
 {
 }
 
@@ -14,7 +15,8 @@ Saving_Throw::Saving_Throw( const Saving_Throw_Value_Token& value )
   : type_(),
     value_(value),
     harmless_(false),
-    see_text_(false)
+    see_text_(false),
+    object_(false)
 {
 }
 
@@ -23,7 +25,8 @@ Saving_Throw::Saving_Throw( const Saving_Throw_Value_Token& value,
   : type_(type),
     value_(value),
     harmless_(false),
-    see_text_(false)
+    see_text_(false),
+    object_(false)
 {
 }
 
@@ -63,17 +66,18 @@ std::string Saving_Throw::print()
       }
     }
 
-  if ( harmless_ )
+  if ( harmless_ || see_text_ || object_ )
     {
+      result += " (";
+      if ( harmless_ )
+        result += "harmless, ";
+      if ( object_ )
+        result += "object, ";
       if ( see_text_ )
-	result += " (harmless, see text)";
-      else
-	result += " (harmless)";
+        result += "see text, ";
+      result.erase(result.length() - 2, 2);
+      result += ")";
     }
-  else
-    if ( see_text_ )
-      result += " (see text)";
-
   return result;
 }
 
