@@ -172,6 +172,7 @@ public:
   Saving_Throw_Value_Token& get_value() { return value_; };
   bool get_harmless() { return harmless_; };
   bool get_see_text() { return see_text_; };
+  bool get_object() { return object_; };
 
   void set_type( const Saving_Throw_Token& type ) { type_ = type; };
   void set_type( const std::string& );
@@ -308,6 +309,8 @@ public:
     { range_ = range; };
   void set_duration( const Duration& duration )
     { duration_ = duration; };
+  void set_saving_throw( const Saving_Throw& saving_throw )
+    { saving_throw_ = saving_throw; };
 
   // doesn't realy work and is not necessary
   void add_element( const Spell_Element_Token&, const Spell_Element&);

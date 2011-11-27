@@ -68,6 +68,8 @@ private:
   void decode_casting_time_( Spell *const, TiXmlElement const *const );
   void decode_component_( Spell *const, TiXmlElement const *const );
   void decode_range_( Spell *const, TiXmlElement const *const );
+  void decode_duration_( Spell *const, TiXmlElement const *const );
+  void decode_saving_throw_( Spell *const, TiXmlElement const *const );
 };
 
 class Spell_RefPtr

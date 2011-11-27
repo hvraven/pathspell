@@ -72,6 +72,16 @@ void Spell_List::decode_elements_( Spell* const pspell,
             decode_range_( pspell, pelement );
             break;
           }
+        case DURATION:
+          {
+            decode_duration_( pspell, pelement );
+            break;
+          }
+        case SAVING_THROW:
+          {
+            decode_saving_throw_( pspell, pelement );
+            break;
+          }
 	default:
 	  {
 	    break;
@@ -296,6 +306,83 @@ void Spell_List::decode_range_( Spell *const pspell,
     }
   else
     throw Invalid_Element(RANGE);
+}
+
+/**
+ * \brief add the duration information to the given spell
+ * \param pspell spell to add the information to
+ * \param pelement pointer to the duration in the xml
+ */
+void Spell_List::decode_duration_( Spell *const pspell,
+                                   TiXmlElement const *const pelement )
+{
+  std::string type;
+  int value = 0;
+  bool dismissible = false;
+  Duration work;
+
+  if ( pelement->QueryBoolAttribute("dismissible", &dismissible)
+       == TIXML_SUCCESS )
+    work.set_dismissible( dismissible );
+
+  if ( pelement->QueryStringAttribute("type", &type) == TIXML_SUCCESS )
+    {
+      work.set_type( type );
+      /// \todo check if list is complete
+      if ( type == "instantaneous" || type == "permanent" )
+          pspell->set_duration( work );
+      else
+        {
+          if ( pelement->QueryIntAttribute("value", &value) == TIXML_SUCCESS )
+            {
+              work.set_value( value );
+              pspell->set_duration( work );
+            }
+          else
+            throw Invalid_Element(DURATION);
+        }
+    }
+  else
+    throw Invalid_Element(DURATION);
+}
+
+/**
+ * \brief add the saving throw information to the given spell
+ * \param pspell spell to add the information to
+ * \param pelement pointer to the saving throw in the xml
+ */
+void Spell_List::decode_saving_throw_( Spell *const pspell,
+                                       TiXmlElement const *const pelement )
+{
+  std::string type;
+  if ( pelement->QueryStringAttribute("type",&type) == TIXML_SUCCESS )
+    {
+      if ( (type == "no") || (type == "none") )
+        pspell->set_saving_throw( Saving_Throw( NO ) );
+      else
+        {
+          std::string value;
+          if ( pelement->QueryStringAttribute("value",&value)
+               == TIXML_SUCCESS)
+            {
+              Saving_Throw work;
+              work.set_type( type );
+              work.set_value( value );
+
+              bool temp = false;
+              if ( (pelement->QueryBoolAttribute("harmless",&temp)
+                    == TIXML_SUCCESS) && temp ) work.set_harmless(temp);
+              temp = false;
+              if ( (pelement->QueryBoolAttribute("see_text",&temp)
+                    == TIXML_SUCCESS) && temp ) work.set_see_text_temp);
+              temp = false;
+              if ( (pelement->QueryBoolAttribute("object",&temp)
+                    == TIXML_SUCCESS) && temp ) work.set_object(temp);
+
+              pspell->set_saving_throw(work);
+            }
+        }
+    }
 }
 
 /*
