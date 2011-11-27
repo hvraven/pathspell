@@ -41,9 +41,7 @@ std::string Saving_Throw::print()
 	break;
       }
     case NIL:
-      {
-	break;
-      }
+      break;
     case NEGATES:
       {
 	result = "Negates";
@@ -66,7 +64,7 @@ std::string Saving_Throw::print()
       }
     }
 
-  if ( harmless_ || see_text_ || object_ )
+  if ( harmless_ or see_text_ or object_ )
     {
       result += " (";
       if ( harmless_ )
