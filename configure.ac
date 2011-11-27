@@ -12,7 +12,7 @@ AC_LANG([C++])
 AC_PROG_CXX
 
 # Checks for header files.
-AC_CHECK_HEADERS([tinyxml.h tinystr.h boost/shared_ptr.hpp])
+AC_CHECK_HEADERS([tinyxml.h tinystr.h])
 
 # Checks for library functions.
 # TODO: Find a function in tinyxml that is found by AC_SEARCH_LIBS
