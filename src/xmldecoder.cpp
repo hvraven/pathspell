@@ -97,29 +97,20 @@ void Spell_List::decode_elements_( Spell* const pspell,
  * \param spell the spell to save the name in
  * \param pelement pointer to the name entry
  * \todo set a global language and use it only if language matches
+ *
+ * reads the language attribute of the spell. If the language is en the
+ * spell name is set to the given name. currently other languages just get
+ * discarded
  */
 void Spell_List::decode_name_( Spell* const pspell,
                                TiXmlElement const * const pelement )
 {
-  TiXmlAttribute const * plang = pelement->FirstAttribute();
-  if ( plang )
+  std::string language;
+  if ( pelement->QueryStringAttribute("language", &language) == TIXML_SUCCESS )
     {
-      const std::string attr = plang->Name();
-      if ( attr == "language" )
-	{
-	  if ( plang->ValueStr() == "en" )
-            pspell->set_name( pelement->GetText() );
-	}
-      else
-	{
-	  std::cerr << "invalid attribute at name" << std::endl;
-	  throw Invalid_Attribute();
-	}
-    }
-  else
-    {
-      std::cerr << "No language given for name element";
-      throw Missing_Element( NAME_LANGUAGE );
+      if ( language == "en" )
+        pspell->set_name( pelement->GetText() );
+      /// \todo adding support for diffrent languages
     }
 }
 
@@ -329,7 +320,7 @@ void Spell_List::decode_duration_( Spell *const pspell,
     {
       work.set_type( type );
       /// \todo check if list is complete
-      if ( type == "instantaneous" || type == "permanent" )
+      if ( type == "instantaneous" || type == "permanent" || type == "see text" )
           pspell->set_duration( work );
       else
         {
@@ -357,30 +348,25 @@ void Spell_List::decode_saving_throw_( Spell *const pspell,
   std::string type;
   if ( pelement->QueryStringAttribute("type",&type) == TIXML_SUCCESS )
     {
-      if ( (type == "no") || (type == "none") )
-        pspell->set_saving_throw( Saving_Throw( NO ) );
-      else
+      std::string value;
+      if ( pelement->QueryStringAttribute("value",&value)
+           == TIXML_SUCCESS)
         {
-          std::string value;
-          if ( pelement->QueryStringAttribute("value",&value)
-               == TIXML_SUCCESS)
-            {
-              Saving_Throw work;
-              work.set_type( type );
-              work.set_value( value );
+          Saving_Throw work;
+          work.set_type( type );
+          work.set_value( value );
 
-              bool temp = false;
-              if ( (pelement->QueryBoolAttribute("harmless",&temp)
-                    == TIXML_SUCCESS) && temp ) work.set_harmless(temp);
-              temp = false;
-              if ( (pelement->QueryBoolAttribute("see_text",&temp)
-                    == TIXML_SUCCESS) && temp ) work.set_see_text_temp);
-              temp = false;
-              if ( (pelement->QueryBoolAttribute("object",&temp)
-                    == TIXML_SUCCESS) && temp ) work.set_object(temp);
+          bool temp = false;
+          if ( (pelement->QueryBoolAttribute("harmless",&temp)
+                == TIXML_SUCCESS) && temp ) work.set_harmless(temp);
+          temp = false;
+          if ( (pelement->QueryBoolAttribute("see_text",&temp)
+                == TIXML_SUCCESS) && temp ) work.set_see_text(temp);
+          temp = false;
+          if ( (pelement->QueryBoolAttribute("object",&temp)
+                == TIXML_SUCCESS) && temp ) work.set_object(temp);
 
-              pspell->set_saving_throw(work);
-            }
+          pspell->set_saving_throw(work);
         }
     }
 }

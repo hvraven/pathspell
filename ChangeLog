@@ -1,3 +1,10 @@
+2011-11-27    <h.v.raven@googlemail.com>
+
+	* src/xmldecoder.cpp (decode_name_): simplified function using QueryStringAttribute (todo: language support)
+	(decode_saving_throw_): removed unnecesary check for type no
+
+	* src/savingthrow.cpp (print): added print_type to the output
+
 2011-11-25    <h.v.raven@googlemail.com>
 
 	* src/savingthrow.cpp (print): added object to output

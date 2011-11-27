@@ -156,6 +156,7 @@ private:
   Amount* pamount_;
 };
 
+/// \todo add support for combined saving throws
 class Saving_Throw : public Spell_Element
 {
 public:

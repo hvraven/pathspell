@@ -44,22 +44,26 @@ std::string Saving_Throw::print()
       break;
     case NEGATES:
       {
-	result = "Negates";
+	result = print_type()
+          + " negates";
 	break;
       }
     case HALF:
       {
-	result = "Half";
+	result = print_type()
+          + " halfs";
 	break;
       }
     case PARTIAL:
       {
-	result = "Partial";
+	result = print_type()
+          + " partial";
 	break;
       }
     case DISBELIEF:
       {
-	result = "Disbelief";
+	result = print_type()
+          + " for disbelief";
 	break;
       }
     }
@@ -127,5 +131,8 @@ void Saving_Throw::set_value( const std::string& value )
 	  if ( work == "disbelief" )
 	    value_ = DISBELIEF;
 	  else
-	    throw Invalid_Argument();
+            if ( work == "" )
+              value_ = NIL;
+            else
+              throw Invalid_Argument();
 }
