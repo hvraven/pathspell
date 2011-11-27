@@ -5,7 +5,6 @@ spell.h spell.cpp school.cpp level.cpp components.cpp savingthrow.cpp spellresis
 gtkwindow.h gtkwindow.cpp \
 error.h \
 strmanip.h strmanip.cpp
-pathspell_CXXFLAGS = -Wall -Werror -Wextra
+pathspell_CXXFLAGS = -Wall -Werror -Wextra -ggdb
 pathspell_CPPFLAGS = $(GTKMM_CFLAGS) 
-#-I/usr/include/boost
 pathspell_LDADD = $(GTKMM_LIBS)
