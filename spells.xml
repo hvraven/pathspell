@@ -260,4 +260,28 @@ If you evoke the barrier so that it appears where creatures are, each creature t
 
 A blade barrier provides cover (+4 bonus to AC, +2 bonus on Reflex saves) against attacks made through it.</description>
   </spell>
+  <spell src="http://www.d20pfsrd.com/magic/all-spells/s/searing-light" publisher="Paizo" book="Core Rulebook">
+    <name language="en">Searing Light</name>
+    <school type="evocation" />
+    <level type="cleric" value="3" />
+    <level type="oracle" value="3" />
+    <level type="inquisitor" value="3" />
+    <domain type="sun" level="3" />
+    <domain type="glory" level="3" />
+    <casting_time type="standard action" value="1" />
+    <component type="V" />
+    <component type="S" />
+    <range type="medium" />
+    <effect type="ray" />
+    <duration type="instantaneous" />
+    <saving_throw value="no" />
+    <spell_resistance value="yes" />
+    <description language="en">Focusing divine power like a ray of the sun, you project a blast of light from your open palm. You must succeed on a ranged touch attack to strike your target.
+
+A creature struck by this ray of light takes 1d8 points of damage per two caster levels (maximum 5d8).
+
+An undead creature takes 1d6 points of damage per caster level (maximum 10d6), and an undead creature particularly vulnerable to bright light takes 1d8 points of damage per caster level (maximum 10d8).
+
+A construct or inanimate object takes only 1d6 points of damage per two caster levels (maximum 5d6).</description>
+  </spell>
 </spell_list>
