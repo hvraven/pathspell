@@ -1,5 +1,9 @@
 2011-11-27    <h.v.raven@googlemail.com>
 
+	* src/strmanip.cpp (to_int, to_uint): new functions for conversion
+
+	* src/spell.cpp (Duration::print): modified print for per_level
+
 	* src/xmldecoder.cpp (decode_name_): simplified function using QueryStringAttribute (todo: language support)
 	(decode_saving_throw_): removed unnecesary check for type no
 
