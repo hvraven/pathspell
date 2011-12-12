@@ -257,15 +257,24 @@ class Duration : public Spell_Base_Element
 {
 public:
   Duration();
-  Duration( const std::string&, const int = 0, const bool = false );
+  Duration( const std::string&, const int = 0, const unsigned int = 0,
+            const bool = false );
   virtual ~Duration() {};
 
   virtual std::string print();
 
+  void set_per_level( const unsigned int per_level )
+    { per_level_ = per_level; };
   void set_dismissible( const bool dismissible )
     { dismissible_ = dismissible; };
 
+  void read_level( const std::string& );
+
+  unsigned int get_per_level() { return per_level_; };
+  bool get_dismissible() { return dismissible_; };
+
 protected:
+  unsigned int per_level_;
   bool dismissible_;
 };
 

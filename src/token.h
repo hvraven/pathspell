@@ -21,6 +21,7 @@ enum Spell_Element_Token
     RANGE,
     RANGE_VALUE,
     DURATION,
+    DURATION_LEVEL,
     SAVING_THROW,
     SPELL_RESISTANCE,
     DESCRIPTION,

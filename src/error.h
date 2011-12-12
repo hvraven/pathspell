@@ -46,4 +46,13 @@ struct Unclear_Arguments : public std::exception
   Unclear_Arguments() {};
 };
 
+struct Invalid_Character : public std::exception
+{
+  Invalid_Character( const char tcharacter )
+    : character(tcharacter)
+  {};
+  
+  char character;
+};
+
 #endif // PATHSPELL_ERROR_H

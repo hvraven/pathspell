@@ -68,7 +68,7 @@ unsigned int to_uint( const std::string& input )
   unsigned int output = 0;
   for ( std::string::const_iterator it = input.begin() ;
         it != input.end() ; it ++ )
-    if ( is_digit(*it) )
+    if ( std::isdigit(*it) )
       output = output * 10 + ( *it - '0' );
     else
       throw Invalid_Character( *it );
