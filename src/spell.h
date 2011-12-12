@@ -252,7 +252,6 @@ protected:
   int value_;
 };
 
-/// \todo add per level
 class Duration : public Spell_Base_Element
 {
 public:
