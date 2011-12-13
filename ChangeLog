@@ -1,3 +1,9 @@
+2011-12-13    <h.v.raven@googlemail.com>
+
+	* src/spell.cpp (read_level): completed reading of input string with per level information
+
+	* src/xmldecoder.cpp (decode_duration_): change to use the read_level of the duration class
+
 2011-11-27    <h.v.raven@googlemail.com>
 
 	* src/strmanip.cpp (to_int, to_uint): new functions for conversion

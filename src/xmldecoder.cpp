@@ -308,7 +308,6 @@ void Spell_List::decode_duration_( Spell *const pspell,
                                    TiXmlElement const *const pelement )
 {
   std::string type;
-  int value = 0;
   bool dismissible = false;
   Duration work;
 
@@ -324,9 +323,9 @@ void Spell_List::decode_duration_( Spell *const pspell,
           pspell->set_duration( work );
       else
         {
-          if ( pelement->QueryIntAttribute("value", &value) == TIXML_SUCCESS )
+          if ( pelement->QueryStringAttribute("value", &type) == TIXML_SUCCESS )
             {
-              work.set_value( value );
+              work.read_level( type );
               pspell->set_duration( work );
             }
           else

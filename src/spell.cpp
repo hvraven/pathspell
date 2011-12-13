@@ -171,6 +171,8 @@ std::string Duration::print()
   return output.str();
 }
 
+#include <iostream>
+
 /**
  * \brief decodes level information given in one string
  * \param input the input to decode
@@ -183,22 +185,35 @@ std::string Duration::print()
  */
 void Duration::read_level( const std::string& input )
 {
-  const size_t pos = input.find('/');
+  size_t pos = input.find('/');
+
+  /// \todo remove that hack
+  if ( pos > input.length() )
+    pos = 0;
+  
+  std::cout << input << " " << pos << std::endl;
   if ( pos )
-    {
-    }
-  else
     try
       {
-        const std::string pre = input.substr(0,pos-1);
+        const std::string pre = input.substr(0,pos);
         set_value(to_int(pre));
         if ( input[pos + 1] == '\0' )
           set_per_level(1);
         else
           {
-            const std::string post = input.substr(pos+1,input.length());
+            const std::string post = input.substr(pos+1,input.length() - pos);
             set_per_level(to_uint(post));
           }
+      }
+    catch ( Invalid_Character e )
+      {
+        throw Invalid_Element(DURATION_LEVEL);
+      }
+  else /* pos == npos */
+    try
+      {
+        set_per_level(0);
+        set_value(to_int(input));
       }
     catch ( Invalid_Character e )
       {
