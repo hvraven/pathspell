@@ -183,11 +183,14 @@ std::string Duration::print()
  */
 void Duration::read_level( const std::string& input )
 {
-  size_t pos = input.find('/');
+  size_t pos = 0;
 
-  /// \todo remove that hack
-  if ( pos > input.length() )
-    pos = 0;
+  while (input[pos] != '/')
+    if (input[pos++] == '\0')
+      {
+        pos = 0;
+        break;
+      }
 
   if ( pos )
     try

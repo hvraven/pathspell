@@ -1,3 +1,7 @@
+2011-12-14    <h.v.raven@googlemail.com>
+
+	* src/spell.cpp (read_level): replaced hack with tiny self-build search function
+
 2011-12-13    <h.v.raven@googlemail.com>
 
 	* src/spell.cpp (read_level): completed reading of input string with per level information
