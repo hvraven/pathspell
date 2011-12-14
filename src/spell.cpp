@@ -171,8 +171,6 @@ std::string Duration::print()
   return output.str();
 }
 
-#include <iostream>
-
 /**
  * \brief decodes level information given in one string
  * \param input the input to decode
@@ -190,8 +188,7 @@ void Duration::read_level( const std::string& input )
   /// \todo remove that hack
   if ( pos > input.length() )
     pos = 0;
-  
-  std::cout << input << " " << pos << std::endl;
+
   if ( pos )
     try
       {
