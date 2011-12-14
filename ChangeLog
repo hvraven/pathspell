@@ -2,6 +2,8 @@
 
 	* src/xmldecoder.cpp (decode_spell_resistance_): new function
 	(decode_elements_): added spell resistance to decoding functions
+	(decode_elements_): added description to decoding functions
+	(decode_description_): new function
 
 	* src/spell.cpp (read_level): replaced hack with tiny self-build search function
 

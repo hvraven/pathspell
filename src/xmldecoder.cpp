@@ -88,6 +88,11 @@ void Spell_List::decode_elements_( Spell* const pspell,
             decode_spell_resistance_( pspell, pelement );
             break;
           }
+        case DESCRIPTION:
+          {
+            decode_description_( pspell, pelement );
+            break;
+          }
 	default:
 	  {
 	    break;
@@ -393,4 +398,18 @@ void Spell_List::decode_spell_resistance_( Spell *const pspell,
   if ( (pelement->QueryBoolAttribute("value",&temp)
         == TIXML_SUCCESS) && temp ) work.set_resistance(true);
   pspell->set_spell_resistance(work);
+}
+
+/**
+ * \brief add the description to the given spell
+ * \param pspell spell to add the description to
+ * \param pelement pointer to the description in the xml
+ *
+ * \todo look for a way to not copy the description (leave it in the xml)
+ * \todo implement language support
+ */
+void Spell_List::decode_description_( Spell *const pspell,
+                                      TiXmlElement const *const pelement )
+{
+  pspell->set_description( Spell_String_Element(pelement->GetText()) );
 }

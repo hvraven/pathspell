@@ -71,6 +71,7 @@ private:
   void decode_duration_( Spell *const, TiXmlElement const *const );
   void decode_saving_throw_( Spell *const, TiXmlElement const *const );
   void decode_spell_resistance_( Spell *const, TiXmlElement const *const );
+  void decode_description_( Spell *const, TiXmlElement const *const );
 };
 
 class Spell_RefPtr
