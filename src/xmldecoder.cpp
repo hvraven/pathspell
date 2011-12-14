@@ -385,6 +385,11 @@ void Spell_List::decode_saving_throw_( Spell *const pspell,
     }
 }
 
+/**
+ * \brief add the spell resistance information to the given spell
+ * \param pspell spell to add the spell resistance to
+ * \param pelement pointer to the resistance in the xml
+ */
 void Spell_List::decode_spell_resistance_( Spell *const pspell,
                                            TiXmlElement const *const pelement )
 {
