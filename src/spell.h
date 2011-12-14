@@ -320,6 +320,8 @@ public:
     { duration_ = duration; };
   void set_saving_throw( const Saving_Throw& saving_throw )
     { saving_throw_ = saving_throw; };
+  void set_spell_resistance( const Spell_Resistance& spell_resistance )
+    { spell_resistance_ = spell_resistance; };
 
   // doesn't realy work and is not necessary
   void add_element( const Spell_Element_Token&, const Spell_Element&);

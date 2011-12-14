@@ -82,6 +82,11 @@ void Spell_List::decode_elements_( Spell* const pspell,
             decode_saving_throw_( pspell, pelement );
             break;
           }
+        case SPELL_RESISTANCE:
+          {
+            decode_spell_resistance_( pspell, pelement );
+            break;
+          }
 	default:
 	  {
 	    break;
@@ -368,6 +373,21 @@ void Spell_List::decode_saving_throw_( Spell *const pspell,
           pspell->set_saving_throw(work);
         }
     }
+}
+
+void Spell_List::decode_spell_resistance_( Spell *const pspell,
+                                           TiXmlElement const *const pelement )
+{
+  bool temp = false;
+  Spell_Resistance work;
+
+  if ( (pelement->QueryBoolAttribute("harmless",&temp)
+        == TIXML_SUCCESS) && temp ) work.set_harmless(true);
+  if ( (pelement->QueryBoolAttribute("see_text",&temp)
+        == TIXML_SUCCESS) && temp ) work.set_see_text(true);
+  if ( (pelement->QueryBoolAttribute("value",&temp)
+        == TIXML_SUCCESS) && temp ) work.set_resistance(true);
+  pspell->set_spell_resistance(work);
 }
 
 /*
