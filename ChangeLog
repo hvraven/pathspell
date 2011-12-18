@@ -1,3 +1,10 @@
+2011-12-18    <h.v.raven@googlemail.com>
+
+	* src/spell.h (Spell): added get-functions
+	removed generic Spell_Element classes using typedef
+
+	* src/gtkwindow.cpp (display_spell): changed to use get-functions
+
 2011-12-14    <h.v.raven@googlemail.com>
 
 	* src/xmldecoder.cpp (decode_spell_resistance_): new function

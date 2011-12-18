@@ -70,29 +70,29 @@ void Gtk_Window::display_spell( const Glib::ustring& spell_name )
   Spell_RefPtr pspell( spells_, spell_name );
 
   Glib::ustring result = "<span font_size=\"medium\"><b>"
-    + (*pspell)[NAME].print()
+    + pspell->get_name().print()
     + "</b>\n</span>";
 
   result += "<b>School:</b> "
-    + (*pspell)[SCHOOL].print()
+    + pspell->get_school().print()
     + " ";
 
   result += "<b>Level:</b> "
-    + (*pspell)[LEVEL].print();
+    + pspell->get_level().print();
 
   result += "\n<b>Casting:</b>\n";
 
   result += "<b>Casting Time</b>: "
-    + (*pspell)[CASTING_TIME].print()
+    + pspell->get_casting_time().print()
     + " ";
 
   result += "<b>Components:</b> "
-    + (*pspell)[COMPONENTS].print();
+    + pspell->get_components().print();
 
   result += "\n<b>Effect:</b>\n";
 
   result += "<b>Range:</b> "
-    + (*pspell)[RANGE].print()
+    + pspell->get_range().print()
     + " ";
 
   /*if ( spell.check_target() )
@@ -103,18 +103,18 @@ void Gtk_Window::display_spell( const Glib::ustring& spell_name )
 	}*/
 
   result += "<b>Duration:</b> "
-    + (*pspell)[DURATION].print()
+    + pspell->get_duration().print()
     + " ";
 
   result += "<b>Saving Throw:</b> "
-    + (*pspell)[SAVING_THROW].print()
+    + pspell->get_saving_throw().print()
     + " ";
 
   result += "<b>Spell Resistance:</b> "
-    + (*pspell)[SPELL_RESISTANCE].print();
+    + pspell->get_spell_resistance().print();
 
   result += "\n<b>Description:</b>\n"
-    + (*pspell)[DESCRIPTION].print();
+    + pspell->get_description().print();
 
   spell_label_.set_markup( result );
 }
