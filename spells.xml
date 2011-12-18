@@ -178,7 +178,11 @@ Endure elements doesn't provide any protection from fire or cold damage, nor doe
     <saving_throw type="will" value="negates" harmless="yes" />
     <spell_resistance value="yes" harmless="yes" />
     <short_description language="en"></short_description>
-    <description language="en">This spell functions like endure elements, except you divide the duration in 1-hour increments among the creatures touched.</description>
+		<description language="en">A creature protected by endure elements suffers no harm from being in a hot or cold environment. It can exist comfortably in conditions between -50 and 140 degrees Fahrenheit (-45 and 60 degrees Celsius) without having to make Fortitude saves. The creature's equipment is likewise protected.
+			
+			Endure elements doesn't provide any protection from fire or cold damage, nor does it protect against other environmental hazards such as smoke, lack of air, and so forth.
+
+			You can divide the duration in 1-hour increments among the creatures touched.</description>
   </spell>
   <spell src="http://www.d20pfsrd.com/magic/all-spells/g/glyph-of-warding" publisher="paizo" book="Core Rulebook">
     <name language="en">Glyph of Warding</name>
@@ -323,6 +327,7 @@ Symbol of healing can be made permanent with a permanency spell by a caster of 1
     <duration type="instantaneous" />
     <saving_throw type="reflex" value="partial" see_text="yes" />
     <spell_resistance value="yes" />
+    <short_description language="en">Blinds all within 80 ft., deals 6d6 damage.</short_description>
     <description language="en">Sunburst causes a globe of searing radiance to explode silently from a point you select. All creatures in the globe are blinded and take 6d6 points of damage. A creature to which sunlight is harmful or unnatural takes double damage. A successful Reflex save negates the blindness and reduces the damage by half.
 
 An undead creature caught within the globe takes 1d6 points of damage per caster level (maximum 25d6), or half damage if a Reflex save is successful. In addition, the burst results in the destruction of any undead creature specifically harmed by bright light if it fails its save.
