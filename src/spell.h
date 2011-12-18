@@ -14,7 +14,7 @@ public:
   virtual ~Spell_Element() {};
 
   // TODO: give string per reference
-  virtual std::string print() = 0;
+  virtual std::string print() const = 0;
 };
 
 class School : public Spell_Element
@@ -27,13 +27,14 @@ public:
   School(const std::string&, const std::vector < std::string >);
   virtual ~School() {};
 
-  virtual std::string print();
-  std::string& print_school() { return school_; };
-  std::string print_subschools();
-  std::string& print_descriptor() { return descriptor_; };
-  std::vector < std::string > get_subschools() { return subschools_; };
-  std::string get_subschool(const int pos = 0) { return subschools_[pos]; };
-  int get_number_of_subschools() { return subschools_.size(); };
+  virtual std::string print() const;
+  const std::string& print_school() const { return school_; };
+  std::string print_subschools() const;
+  const std::string& print_descriptor() const { return descriptor_; };
+  std::vector < std::string > get_subschools() const { return subschools_; };
+  const std::string& get_subschool(const int pos = 0) const
+    { return subschools_[pos]; };
+  int get_number_of_subschools() const { return subschools_.size(); };
 
   void set_school(const std::string& school)
     { school_ = school; };
@@ -59,8 +60,8 @@ public:
   Level( const levelmap& );
   virtual ~Level();
 
-  virtual std::string print();
-  std::string print( const std::string& );
+  virtual std::string print() const;
+  std::string print( const std::string& ) const;
 
   int get_level( const std::string& level )
     { return levels_[level]; };
@@ -94,16 +95,18 @@ public:
     { focus_ = value; focus_description_ = description; };
   void set_divine_focus( const bool value ) { divine_focus_ = value; };
 
-  bool get_verbal() { return verbal_; };
-  bool get_somatic() { return somatic_; };
-  bool get_material() { return material_; };
-  std::string& get_material_description() { return material_description_; };
-  bool get_focus() { return focus_; };
-  std::string& get_focus_description() { return focus_description_; };
-  bool get_divine_focus() { return divine_focus_; };
+  bool get_verbal() const { return verbal_; };
+  bool get_somatic() const { return somatic_; };
+  bool get_material() const { return material_; };
+  const std::string & get_material_description() const
+    { return material_description_; };
+  bool get_focus() const { return focus_; };
+  const std::string& get_focus_description() const
+    { return focus_description_; };
+  bool get_divine_focus() const { return divine_focus_; };
 
-  virtual std::string print() { return print(true); };
-  std::string print( const bool with_description );
+  virtual std::string print() const { return print(true); };
+  std::string print( const bool with_description ) const;
 
 private:
   bool verbal_;
@@ -131,7 +134,7 @@ public:
   Target( const Target_Type_Token& = SPECIAL );
   virtual ~Target();
 
-  virtual std::string print();
+  virtual std::string print() const;
 
   void set_type( const Target_Type_Token& type ) { type_ = type; };
   void set_distance ( const std::string& );
@@ -140,15 +143,16 @@ public:
   void set_amount ( const std::string& );
   void set_amount ( const int, const bool );
 
-  Target_Type_Token& get_type() { return type_; };
-  std::string get_distance();
-  int get_max_between();
-  std::string get_special();
-  std::string get_amount();
+  const Target_Type_Token& get_type() const { return type_; };
+  std::string get_distance() const;
+  int get_max_between() const;
+  std::string get_special() const;
+  std::string get_amount() const;
 
 private:
   Amount read_amount_( const std::string& );
 
+  /// \todo fix that pointer fuck up
   Target_Type_Token type_;
   std::string* pdistance_;
   int* pmax_between_;
@@ -166,14 +170,14 @@ public:
 		const Saving_Throw_Token& );
   virtual ~Saving_Throw() {};
 
-  virtual std::string print();
-  std::string print_type();
+  virtual std::string print() const;
+  std::string print_type() const;
 
-  Saving_Throw_Token& get_type() { return type_; };
-  Saving_Throw_Value_Token& get_value() { return value_; };
-  bool get_harmless() { return harmless_; };
-  bool get_see_text() { return see_text_; };
-  bool get_object() { return object_; };
+  const Saving_Throw_Token& get_type() const { return type_; };
+  const Saving_Throw_Value_Token& get_value() const { return value_; };
+  bool get_harmless() const { return harmless_; };
+  bool get_see_text() const { return see_text_; };
+  bool get_object() const { return object_; };
 
   void set_type( const Saving_Throw_Token& type ) { type_ = type; };
   void set_type( const std::string& );
@@ -198,11 +202,11 @@ public:
 		    const bool = false );
   virtual ~Spell_Resistance() {};
 
-  virtual std::string print();
+  virtual std::string print() const;
 
-  bool get_spell_resistance() { return resistance_; };
-  bool get_harmless() { return harmless_; };
-  bool get_see_text() { return see_text_; };
+  bool get_spell_resistance() const { return resistance_; };
+  bool get_harmless() const { return harmless_; };
+  bool get_see_text() const { return see_text_; };
 
   void set_resistance( const bool resistance )
     { resistance_ = resistance; };
@@ -224,7 +228,7 @@ public:
     : str_(str) {};
   virtual ~Spell_String_Element() {};
 
-  virtual std::string print() { return str_; };
+  virtual std::string print() const { return str_; };
 
 private:
   std::string str_;
@@ -238,7 +242,7 @@ public:
   Spell_Base_Element( const std::string&, const int );
   virtual ~Spell_Base_Element() {};
 
-  virtual std::string print();
+  virtual std::string print() const;
 
   void set_type( const std::string& type )
     { type_ = type; };
@@ -260,7 +264,7 @@ public:
             const bool = false );
   virtual ~Duration() {};
 
-  virtual std::string print();
+  virtual std::string print() const;
 
   void set_per_level( const unsigned int per_level )
     { per_level_ = per_level; };
@@ -269,8 +273,8 @@ public:
 
   void read_level( const std::string& );
 
-  unsigned int get_per_level() { return per_level_; };
-  bool get_dismissible() { return dismissible_; };
+  unsigned int get_per_level() const { return per_level_; };
+  bool get_dismissible() const { return dismissible_; };
 
 protected:
   unsigned int per_level_;
@@ -326,17 +330,17 @@ public:
   void set_description( const Description& description )
     { description_ = description; };
 
-  Name get_name() const { return name_; };
-  School get_school() const { return school_; };
-  Level get_level() const { return level_; };
-  Casting_Time get_casting_time() const { return casting_time_; };
-  Components get_components() const { return components_; };
-  Range get_range() const { return range_; };
-  Duration get_duration() const { return duration_; };
-  Saving_Throw get_saving_throw() const { return saving_throw_; };
-  Spell_Resistance get_spell_resistance() const
+  const Name& get_name() const { return name_; };
+  const School& get_school() const { return school_; };
+  const Level& get_level() const { return level_; };
+  const Casting_Time& get_casting_time() const { return casting_time_; };
+  const Components& get_components() const { return components_; };
+  const Range& get_range() const { return range_; };
+  const Duration& get_duration() const { return duration_; };
+  const Saving_Throw& get_saving_throw() const { return saving_throw_; };
+  const Spell_Resistance& get_spell_resistance() const
     { return spell_resistance_; };
-  Description get_description() const { return description_; };
+  const Description& get_description() const { return description_; };
 
   // doesn't realy work and is not necessary
   void add_element( const Spell_Element_Token&, const Spell_Element&);

@@ -9,7 +9,7 @@ Spell_Resistance::Spell_Resistance( const bool resistance,
 {
 }
 
-std::string Spell_Resistance::print()
+std::string Spell_Resistance::print() const
 {
   std::string result;
   if ( resistance_ )

@@ -68,7 +68,7 @@ void Target::set_amount( const int value, const bool per_level )
     pamount_ = new Amount( value, per_level );
 }
 
-std::string Target::get_distance()
+std::string Target::get_distance() const
 {
   if ( pdistance_ )
     return *pdistance_;
@@ -76,7 +76,7 @@ std::string Target::get_distance()
     return "";
 }
 
-int Target::get_max_between()
+int Target::get_max_between() const
 {
   if ( pmax_between_ )
     return *pmax_between_;
@@ -84,7 +84,7 @@ int Target::get_max_between()
     return 0;
 }
 
-std::string Target::get_special()
+std::string Target::get_special() const
 {
   if ( pspecial_ )
     return *pspecial_;
@@ -92,7 +92,7 @@ std::string Target::get_special()
     return "";
 }
 
-std::string Target::get_amount()
+std::string Target::get_amount() const
 {
   if ( pamount_ )
     {
@@ -126,7 +126,7 @@ std::string Target::get_amount()
     return "";
 }
 
-std::string Target::print()
+std::string Target::print() const
 {
   std::ostringstream output;
 

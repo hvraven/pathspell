@@ -15,16 +15,16 @@ Level::~Level()
 {
 }
 
-std::string Level::print()
+std::string Level::print() const
 {
   std::ostringstream temp;
   for (levelmap::const_iterator it = levels_.begin() ;
        it != levels_.end() ; it++ )
     {
       temp << it->first
-	     << " "
-	     << it->second
-	     << "; ";
+           << " "
+           << it->second
+           << "; ";
     }
   std::string result = temp.str();
   if ( result != "" )
@@ -33,7 +33,7 @@ std::string Level::print()
   return result;
 }
 
-std::string Level::print( const std::string& level)
+std::string Level::print( const std::string& level) const
 {
   if ( levels_[level] )
     {

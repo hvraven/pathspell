@@ -21,7 +21,7 @@ Spell_Base_Element::Spell_Base_Element( const std::string& type,
 {
 }
 
-std::string Spell_Base_Element::print()
+std::string Spell_Base_Element::print() const
 {
   if ( type_ != "" )
     {

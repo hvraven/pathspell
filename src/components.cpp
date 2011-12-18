@@ -40,7 +40,7 @@ Components::Components(const bool verbal, const bool somatic,
     }
 }
 
-std::string Components::print( const bool with_description )
+std::string Components::print( const bool with_description ) const
 {
   std::string result;
   if ( verbal_ )

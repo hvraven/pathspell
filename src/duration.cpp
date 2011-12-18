@@ -23,7 +23,7 @@ Duration::Duration( const std::string& type, const int value,
 /**
  * \brief prints the properties of the class
  */
-std::string Duration::print()
+std::string Duration::print() const
 {
   std::ostringstream output;
   if ( value_ )

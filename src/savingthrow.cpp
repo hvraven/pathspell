@@ -30,7 +30,7 @@ Saving_Throw::Saving_Throw( const Saving_Throw_Value_Token& value,
 {
 }
 
-std::string Saving_Throw::print()
+std::string Saving_Throw::print() const
 {
   std::string result;
   switch ( value_ )
@@ -83,7 +83,7 @@ std::string Saving_Throw::print()
   return result;
 }
 
-std::string Saving_Throw::print_type()
+std::string Saving_Throw::print_type() const
 {
   switch ( type_ )
     {

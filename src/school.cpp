@@ -35,7 +35,7 @@ School::School(const std::string& school,
 {
 }
 
-std::string School::print()
+std::string School::print() const
 {
   if ( school_ != "" )
     {
@@ -58,7 +58,7 @@ std::string School::print()
     return "";
 }
 
-std::string School::print_subschools()
+std::string School::print_subschools() const
 {
   std::vector <std::string>::const_iterator it = subschools_.begin();
   if ( it != subschools_.end() )
