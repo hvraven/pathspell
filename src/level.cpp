@@ -35,12 +35,12 @@ std::string Level::print() const
 
 std::string Level::print( const std::string& level) const
 {
-  if ( levels_[level] )
+  if ( levels_.find(level)->second )
     {
       std::ostringstream sresult;
       sresult << level
 	      << " "
-	      << levels_[level];
+	      << levels_.find(level)->second;
       return sresult.str();
     }
   else
