@@ -24,4 +24,8 @@ oo
 .*project
 doc
 confdefs.h
-
+ltmain.sh
+libtool
+.libs
+*.la
+*.lo
