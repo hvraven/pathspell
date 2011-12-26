@@ -11,12 +11,19 @@
 #include <string>
 #include <vector>
 
+/**
+ * \brief checks if a file exists in filesystem
+ * \param filename path to the file to check
+ */
 bool file_exists(const std::string& filename)
 {
   std::ifstream ifile(filename);
   return ifile;
 }
 
+/**
+ * /param argv ignored
+ */
 int main( int argc, char* argv[] )
 {
   Gtk::Main kit(argc, argv);
