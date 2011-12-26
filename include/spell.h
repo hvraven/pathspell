@@ -230,6 +230,8 @@ public:
 
   virtual std::string print() const { return str_; };
 
+  void set_text( const std::string& str ) { str_ = str; };
+
 private:
   std::string str_;
 };

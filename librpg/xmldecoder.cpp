@@ -12,12 +12,14 @@
  * at every call
  * \todo add missing components
  * \todo add error handling
+ * \todo change from set element to a version, where a pointer to the spell
+ * element is returned (no extra element creation)
  *
  * this function checks element by element what it is and calls the respecting
  * add functions to add them to the given spell.
  */
-void Spell_List::decode_elements_( Spell* const pspell,
-                                   TiXmlElement const * const pxml)
+void Spell_List::decode_elements_( Spell *const pspell,
+                                   const TiXmlElement *const pxml)
 {
   /* map for easy translation of the names to tokens */
   std::map < std::string, Spell_Element_Token > elements;
@@ -45,52 +47,54 @@ void Spell_List::decode_elements_( Spell* const pspell,
 	{
 	case NAME:
 	  {
-	    decode_name_( pspell, pelement );
+	    pspell->set_name( decode_name(pelement) );
 	    break;
 	  }
 	case SCHOOL:
 	  {
-	    decode_school_( pspell, pelement );
+	    pspell->set_school( decode_school(pelement) );
 	    break;
 	  }
         case LEVEL:
 	  {
-	    decode_level_( pspell, pelement );
+	    pspell->set_level( decode_level(pelement) );
 	    break;
           }
         case CASTING_TIME:
           {
-            decode_casting_time_( pspell, pelement );
+            pspell->set_casting_time( decode_casting_time(pelement) );
             break;
           }
         case COMPONENTS:
           {
-            decode_component_( pspell, pelement );
+            Components temp = pspell->get_components();
+            decode_component(temp, pelement);
+            pspell->set_components( temp );
             break;
           }
         case RANGE:
           {
-            decode_range_( pspell, pelement );
+            pspell->set_range( decode_range(pelement) );
             break;
           }
         case DURATION:
           {
-            decode_duration_( pspell, pelement );
+            pspell->set_duration( decode_duration(pelement) );
             break;
           }
         case SAVING_THROW:
           {
-            decode_saving_throw_( pspell, pelement );
+            pspell->set_saving_throw( decode_saving_throw(pelement) );
             break;
           }
         case SPELL_RESISTANCE:
           {
-            decode_spell_resistance_( pspell, pelement );
+            pspell->set_spell_resistance( decode_spell_resistance(pelement) );
             break;
           }
         case DESCRIPTION:
           {
-            decode_description_( pspell, pelement );
+            pspell->set_description( decode_description(pelement) );
             break;
           }
 	default:
@@ -104,25 +108,34 @@ void Spell_List::decode_elements_( Spell* const pspell,
 }
 
 /**
+ * \brief reads the xml information to a name class
+ * \param pelement pointer to the xml name entry
+ * \see decode_name( Name& name, const TiXmlElement *const pelement )
+ */
+Name decode_name( const TiXmlElement *const pelement )
+{
+  Name work;
+  decode_name( work, pelement );
+  return work;
+}
+
+/**
  * \brief gets the xml data of a name element and writes it to the spell
  * \param spell the spell to save the name in
- * \param pelement pointer to the name entry
+ * \param pelement pointer to the xml name entry
  * \todo set a global language and use it only if language matches
+ * \todo add error handling
  *
  * reads the language attribute of the spell. If the language is en the
  * spell name is set to the given name. currently other languages just get
  * discarded
  */
-void Spell_List::decode_name_( Spell* const pspell,
-                               TiXmlElement const * const pelement )
+void decode_name( Name& name, const TiXmlElement *const pelement )
 {
   std::string language;
   if ( pelement->QueryStringAttribute("language", &language) == TIXML_SUCCESS )
-    {
-      if ( language == "en" )
-        pspell->set_name( pelement->GetText() );
-      /// \todo adding support for diffrent languages
-    }
+    if ( language == "en" )
+      name.set_text( pelement->GetText() );
 }
 
 /**
@@ -143,8 +156,20 @@ std::vector < std::string > Spell_List::get_names_
 }
 
 /**
- * \brief adds the school information from the xml to the spell
- * \param pspell spell to add the information to
+ * \brief adds the xml information to a new school class
+ * \param pelement pointer to the xml school entry
+ * \see decode_school( School& school, const TiXmlElement *const pelement )
+ */
+School decode_school( const TiXmlElement *const pelement )
+{
+  School work;
+  decode_school( work, pelement );
+  return work;
+}
+
+/**
+ * \brief adds the xml information to a given school class
+ * \param school school class to add the information to
  * \param pelement the school entry in the xml
  *
  * reads the school information and all information from the subschools
@@ -152,13 +177,12 @@ std::vector < std::string > Spell_List::get_names_
  * Throws an Invalid_Element if one of the subelements couldn't be read
  * correctly.
  */
-void Spell_List::decode_school_( Spell* const pspell,
-                                 TiXmlElement const * const pelement )
+void decode_school( School& school, const TiXmlElement *const pelement )
 {
   std::string type;
   if ( pelement->QueryStringAttribute("type",&type) != TIXML_SUCCESS )
     throw Missing_Element(SCHOOL);
-  School temp( type );
+  school.set_school( type );
 
   const TiXmlElement* psubelement = pelement->FirstChildElement( "subschool" );
   if ( psubelement )
@@ -167,7 +191,7 @@ void Spell_List::decode_school_( Spell* const pspell,
         if ( psubelement->QueryStringAttribute("type",&type)
              != TIXML_SUCCESS )
           throw Invalid_Element(SUBSCHOOL);
-        temp.add_subschool( type );
+        school.add_subschool( type );
         psubelement = psubelement->NextSiblingElement( "subschool" );
       }
     while ( psubelement );
@@ -178,30 +202,41 @@ void Spell_List::decode_school_( Spell* const pspell,
       if ( psubelement->QueryStringAttribute("type",&type)
            != TIXML_SUCCESS )
         throw Invalid_Element(DESCRIPTOR);
-      temp.set_descriptor( type );
+      school.set_descriptor( type );
     }
-
-  pspell->set_school( temp );
 }
 
 /**
- * \brief add the level information to the given spell
- * \param pspell spell to add the information to
+ * \brief adds the xml information to a new level class
+ * \param pelement pointer to the xml level entry
+ * \see decode_level( Level& level, const TiXmlElement *const pelement )
+ * \note this function creates a new level class containing only the last
+ * level
+ */
+Level decode_level( const TiXmlElement *const pelement )
+{
+  Level work;
+  decode_level( work, pelement );
+  return work;
+}
+
+/**
+ * \brief adds the level information to a given level class
+ * \param level level class to add the information to
  * \param pelement pointer to the level in the xml
  *
  * adds the given level to the given spell. This function only adds the one
  * level pelement points to and adds it to the spell. Existing levels remain
  * untouched.
  */
-void Spell_List::decode_level_( Spell *const pspell,
-                                TiXmlElement const *const pelement )
+void decode_level( Level& level, const TiXmlElement *const pelement )
 {
   std::string type;
   int value = 0;
   if ( pelement->QueryStringAttribute("type",&type) == TIXML_SUCCESS )
     {
       if ( pelement->QueryIntAttribute("value", &value) == TIXML_SUCCESS )
-        pspell->add_level( type, value );
+        level.add_level( type, value );
       else
         throw Missing_Element(LEVEL_VALUE);
     }
@@ -210,19 +245,31 @@ void Spell_List::decode_level_( Spell *const pspell,
 }
 
 /**
- * \brief add the casting time information to the given spell
- * \param pspell spell to add the information to
+ * \brief adds the xml information to a new casting time class
+ * \param pelement pointer to the xml casting time entry
+ * \see decode_casting_time( Casting_Time&, const TiXmlElement *const )
+ */
+Casting_Time decode_casting_time( const TiXmlElement *const pelement )
+{
+  Casting_Time work;
+  decode_casting_time(work, pelement);
+  return work;
+}
+
+/**
+ * \brief adds the xml information to a given casting time class
+ * \param time class to add the xml information to
  * \param pelement pointer to the casting time in the xml
  */
-void Spell_List::decode_casting_time_( Spell *const pspell,
-                                       TiXmlElement const *const pelement )
+void decode_casting_time( Casting_Time& time,
+                          const TiXmlElement *const pelement )
 {
   std::string type;
   int value = 0;
   if ( pelement->QueryStringAttribute("type", &type) == TIXML_SUCCESS )
     {
       if ( pelement->QueryIntAttribute("value", &value) == TIXML_SUCCESS )
-        pspell->set_casting_time( Spell_Base_Element( type, value ) );
+        time.set( type, value );
       else
         throw Missing_Element(CASTING_TIME);
     }
@@ -231,7 +278,19 @@ void Spell_List::decode_casting_time_( Spell *const pspell,
 }
 
 /**
- * \brief add the component information to the given spell
+ * \brief adds the xml information to a new components class
+ * \param pelement pointer to the xml component entry
+ * \see decode_component( Components&, const TiXmlElement *const )
+ */
+Components decode_component( const TiXmlElement *const pelement )
+{
+  Components work;
+  decode_component( work, pelement );
+  return work;
+}
+
+/**
+ * \brief add the component information to the given components class
  * \param pspell spell to add the information to
  * \param pelement pointer to the component in the xml
  *
@@ -241,8 +300,8 @@ void Spell_List::decode_casting_time_( Spell *const pspell,
  *
  * \todo add support for M/DF (with description)
  */
-void Spell_List::decode_component_( Spell *const pspell,
-                                    TiXmlElement const *const pelement )
+void decode_component( Components& components,
+                       const TiXmlElement *const pelement )
 {
   std::string type;
   if ( pelement->QueryStringAttribute("type", &type) == TIXML_SUCCESS )
@@ -252,22 +311,22 @@ void Spell_List::decode_component_( Spell *const pspell,
           {
           case 'V':
             {
-              pspell->set_component_verbal(true);
+              components.set_verbal(true);
               break;
             }
           case 'S':
             {
-              pspell->set_component_somatic(true);
+              components.set_somatic(true);
               break;
             }
           case 'M':
             {
-              pspell->set_component_material(true, pelement->GetText() );
+              components.set_material(true, pelement->GetText() );
               break;
             }
           case 'F':
             {
-              pspell->set_component_material(true, pelement->GetText() );
+              components.set_focus(true, pelement->GetText() );
               break;
             }
           default:
@@ -276,7 +335,7 @@ void Spell_List::decode_component_( Spell *const pspell,
       else
         if ( type == "DF" )
           {
-            pspell->set_component_divine_focus( true );
+            components.set_divine_focus( true );
           }
         else
           throw Invalid_Element(COMPONENTS);
@@ -286,12 +345,23 @@ void Spell_List::decode_component_( Spell *const pspell,
 }
 
 /**
+ * \brief adds the xml information to a new range class
+ * \param pelement pointer to the xml range entry
+ * \see decode_range( Range&, const TiXmlElement *const )
+ */
+Range decode_range( const TiXmlElement *const pelement )
+{
+  Range work;
+  decode_range( work, pelement );
+  return work;
+}
+
+/**
  * \brief add the range information to the given spell
- * \param pspell spell to add the information to
+ * \param range range class to add the information to
  * \param pelement pointer to the range in the xml
  */
-void Spell_List::decode_range_( Spell *const pspell,
-                                TiXmlElement const *const pelement )
+void decode_range( Range& range, const TiXmlElement *const pelement )
 {
   std::string type;
   int value = 0;
@@ -299,11 +369,11 @@ void Spell_List::decode_range_( Spell *const pspell,
     {
       if ( type == "personal" || type == "touch" || type == "close" ||
            type == "medium" || type == "long" || type == "unlimited" )
-        pspell->set_range( type );
+        range.set_type(type);
       else
         {
           if ( pelement->QueryIntAttribute("value", &value) == TIXML_SUCCESS )
-            pspell->set_range( Spell_Base_Element(type, value) );
+            range.set(type, value);
           else
             throw Invalid_Element(RANGE_VALUE);
         }
@@ -313,34 +383,42 @@ void Spell_List::decode_range_( Spell *const pspell,
 }
 
 /**
- * \brief add the duration information to the given spell
- * \param pspell spell to add the information to
+ * \brief adds the xml information to a new duration class
+ * \param pelement pointer to the xml duration entry
+ * \see decode_duration( Duration&, const TiXmlElement *const )
+ */
+Duration decode_duration( const TiXmlElement *const pelement )
+{
+  Duration work;
+  decode_duration( work, pelement );
+  return work;
+}
+
+/**
+ * \brief add the duration information to the given class
+ * \param duration class to add the information to
  * \param pelement pointer to the duration in the xml
  */
-void Spell_List::decode_duration_( Spell *const pspell,
-                                   TiXmlElement const *const pelement )
+void decode_duration( Duration& duration,
+                      const TiXmlElement *const pelement )
 {
   std::string type;
   bool dismissible = false;
-  Duration work;
 
   if ( pelement->QueryBoolAttribute("dismissible", &dismissible)
        == TIXML_SUCCESS )
-    work.set_dismissible( dismissible );
+    duration.set_dismissible( dismissible );
 
   if ( pelement->QueryStringAttribute("type", &type) == TIXML_SUCCESS )
     {
-      work.set_type( type );
+      duration.set_type( type );
       /// \todo check if list is complete
       if ( type == "instantaneous" || type == "permanent" || type == "see text" )
-          pspell->set_duration( work );
+        return;
       else
         {
           if ( pelement->QueryStringAttribute("value", &type) == TIXML_SUCCESS )
-            {
-              work.read_level( type );
-              pspell->set_duration( work );
-            }
+            duration.read_level( type );
           else
             throw Invalid_Element(DURATION);
         }
@@ -350,14 +428,26 @@ void Spell_List::decode_duration_( Spell *const pspell,
 }
 
 /**
- * \brief add the saving throw information to the given spell
- * \param pspell spell to add the information to
- * \param pelement pointer to the saving throw in the xml
- *
- * \todo allow type combinations (half or partial)
+ * \brief adds the xml information to a new saving throw class
+ * \param pelement pointer to the xml saving throw entry
+ * \see decode_saving_throw( Saving_Throw&, const TiXmlElement *const )
  */
-void Spell_List::decode_saving_throw_( Spell *const pspell,
-                                       TiXmlElement const *const pelement )
+Saving_Throw decode_saving_throw( const TiXmlElement *const pelement )
+{
+  Saving_Throw result;
+  decode_saving_throw( result, pelement );
+  return result;
+}
+
+/**
+ * \brief function to decode a saving throw xml entry
+ * \param saving_throw the saving throw to store the data in
+ * \param pelement pointer to the saving throw xml entry
+ * \todo add error handling
+ * \todo add support for multiple types
+ */
+void decode_saving_throw( Saving_Throw& saving_throw,
+                          const TiXmlElement *const pelement )
 {
   std::string type;
   if ( pelement->QueryStringAttribute("type",&type) == TIXML_SUCCESS )
@@ -366,55 +456,80 @@ void Spell_List::decode_saving_throw_( Spell *const pspell,
       if ( pelement->QueryStringAttribute("value",&value)
            == TIXML_SUCCESS)
         {
-          Saving_Throw work;
-          work.set_type( type );
-          work.set_value( value );
+          saving_throw.set_type( type );
+          saving_throw.set_value( value );
 
           bool temp = false;
           if ( (pelement->QueryBoolAttribute("harmless",&temp)
-                == TIXML_SUCCESS) && temp ) work.set_harmless(temp);
+                == TIXML_SUCCESS) && temp )
+            saving_throw.set_harmless(temp);
           temp = false;
           if ( (pelement->QueryBoolAttribute("see_text",&temp)
-                == TIXML_SUCCESS) && temp ) work.set_see_text(temp);
+                == TIXML_SUCCESS) && temp )
+            saving_throw.set_see_text(temp);
           temp = false;
           if ( (pelement->QueryBoolAttribute("object",&temp)
-                == TIXML_SUCCESS) && temp ) work.set_object(temp);
-
-          pspell->set_saving_throw(work);
+                == TIXML_SUCCESS) && temp )
+            saving_throw.set_object(temp);
         }
     }
 }
 
 /**
+ * \brief adds the xml information to a new spell resistance class
+ * \param pelement pointer to the xml spell resistance entry
+ * \see decode_spell_resistance( Spell_Resistance&, const TiXmlElement *const )
+ */
+Spell_Resistance decode_spell_resistance( const TiXmlElement *const pelement )
+{
+  Spell_Resistance result;
+  decode_spell_resistance( result, pelement );
+  return result;
+}
+
+/**
  * \brief add the spell resistance information to the given spell
- * \param pspell spell to add the spell resistance to
+ * \param spell_resistance class to add the spell resistance to
  * \param pelement pointer to the resistance in the xml
  */
-void Spell_List::decode_spell_resistance_( Spell *const pspell,
-                                           TiXmlElement const *const pelement )
+void decode_spell_resistance( Spell_Resistance& spell_resistance,
+                              TiXmlElement const *const pelement )
 {
   bool temp = false;
-  Spell_Resistance work;
 
   if ( (pelement->QueryBoolAttribute("harmless",&temp)
-        == TIXML_SUCCESS) && temp ) work.set_harmless(true);
+        == TIXML_SUCCESS) && temp )
+    spell_resistance.set_harmless(true);
   if ( (pelement->QueryBoolAttribute("see_text",&temp)
-        == TIXML_SUCCESS) && temp ) work.set_see_text(true);
+        == TIXML_SUCCESS) && temp )
+    spell_resistance.set_see_text(true);
   if ( (pelement->QueryBoolAttribute("value",&temp)
-        == TIXML_SUCCESS) && temp ) work.set_resistance(true);
-  pspell->set_spell_resistance(work);
+        == TIXML_SUCCESS) && temp )
+    spell_resistance.set_resistance(true);
+}
+
+/**
+ * \brief adds the xml information to a new description class
+ * \param pelement pointer to the xml description entry
+ * \see decode_description( Description&, const TiXmlElement *const )
+ */
+Description decode_description( const TiXmlElement *const pelement )
+{
+  Description result;
+  decode_description( result, pelement );
+  return result;
 }
 
 /**
  * \brief add the description to the given spell
- * \param pspell spell to add the description to
+ * \param description class to add the description to
  * \param pelement pointer to the description in the xml
  *
  * \todo look for a way to not copy the description (leave it in the xml)
  * \todo implement language support
  */
-void Spell_List::decode_description_( Spell *const pspell,
-                                      TiXmlElement const *const pelement )
+void decode_description( Description& description,
+                         TiXmlElement const *const pelement )
 {
-  pspell->set_description( Spell_String_Element(pelement->GetText()) );
+  description.set_text(pelement->GetText());
 }
