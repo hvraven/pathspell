@@ -1,3 +1,8 @@
+2011-12-26    <h.v.raven@googlemail.com>
+
+	* src/pathspell.cpp (file_exists): new function
+	(main): added code for searching spells.xml file and termination if none found
+
 2011-12-20    <h.v.raven@googlemail.com>
 
 	* src/level.cpp (print): changed map-call to find for constness
