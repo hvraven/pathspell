@@ -1,3 +1,7 @@
+2011-12-27    <h.v.raven@googlemail.com>
+
+	* librpg/xmldecoder.cpp (decode_elements_): fixed bug resulting in only the last level being displayed
+
 2011-12-26    <h.v.raven@googlemail.com>
 
 	* src/pathspell.cpp (file_exists): new function

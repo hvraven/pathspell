@@ -57,7 +57,9 @@ void Spell_List::decode_elements_( Spell *const pspell,
 	  }
         case LEVEL:
 	  {
-	    pspell->set_level( decode_level(pelement) );
+            Level temp = pspell->get_level();
+            decode_level(temp, pelement);
+	    pspell->set_level( temp );
 	    break;
           }
         case CASTING_TIME:
