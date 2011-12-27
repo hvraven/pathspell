@@ -62,10 +62,11 @@ public:
   Spell_List( const std::string& );
   virtual ~Spell_List();
 
-  std::vector < std::string > get_spell_list();
-  Spell& get_spell( const std::string& );
+  std::vector < std::string > get_spell_list() const;
+  const Spell& get_spell( const std::string& );
 
 private:
+  const std::string file_path_;
   TiXmlDocument doc_;
   spell_list spell_list_;
   spell_name_map spell_name_map_;
@@ -73,17 +74,17 @@ private:
   friend void load_spell( Spell_Tag const * const );
   void fill_list_( TiXmlDocument& );
 
-  unsigned int find_spell_( const std::string& spell )
-    { return spell_name_map_[ spell ]; };
+  unsigned int find_spell_( const std::string& spell ) const
+    { return spell_name_map_.find(spell)->second; };
 
   Spell* get_checked_spell_pointer_( const unsigned int );
   Spell& get_checked_spell_ref_( const unsigned int );
 
   void check_spell_( spell_list_iterator );
 
-  void decode_elements_( Spell *const, const TiXmlElement *const );
+  void decode_elements_( Spell *const, const TiXmlElement *const ) const;
 
-  std::vector < std::string > get_names_( TiXmlElement const * const );
+  std::vector < std::string > get_names_( TiXmlElement const * const ) const;
 };
 
 class Spell_RefPtr

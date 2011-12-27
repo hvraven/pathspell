@@ -19,7 +19,7 @@
  * add functions to add them to the given spell.
  */
 void Spell_List::decode_elements_( Spell *const pspell,
-                                   const TiXmlElement *const pxml)
+                                   const TiXmlElement *const pxml) const
 {
   /* map for easy translation of the names to tokens */
   std::map < std::string, Spell_Element_Token > elements;
@@ -144,7 +144,7 @@ void decode_name( Name& name, const TiXmlElement *const pelement )
  * \todo find out why we have this function and make a documentation
  */
 std::vector < std::string > Spell_List::get_names_
-    ( TiXmlElement const * const pspell )
+    ( TiXmlElement const * const pspell ) const
 {
   std::vector < std::string > result;
 
