@@ -13,7 +13,6 @@ public:
   Spell_Element() {};
   virtual ~Spell_Element() {};
 
-  // TODO: give string per reference
   virtual std::string print() const = 0;
 };
 

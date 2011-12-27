@@ -104,4 +104,28 @@ private:
   unsigned int spell_;
 };
 
+class Xml_Spell_Element
+{
+public:
+  Xml_Spell_Element(TiXmlElement *const pxml) : pxml_(pxml) {};
+  virtual ~Xml_Spell_Element() {};
+
+  virtual TiXmlElement encode(const Spell_Element&) = 0;
+  virtual void decode(Spell_Element *const) = 0;
+
+private:
+  TiXmlElement *const pxml_;
+};
+
+class Xml_String_Spell_Element : public Xml_Spell_Element,
+                                 public Spell_String_Element
+{
+public:
+  Xml_String_Spell_Element(TiXmlElement *const pxml);
+  virtual ~Xml_String_Spell_Element() {};
+
+  virtual TiXmlElement encode(const Spell_String_Element&);
+  virtual void decode(Spell_String_Element *const);
+};
+
 #endif // PATHSPELL_XML_H
