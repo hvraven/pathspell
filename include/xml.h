@@ -13,6 +13,28 @@
 #include "token.h"
 #include "spell.h"
 
+// functions to decode XML element data
+inline Name decode_name( const TiXmlElement *const );
+void decode_name( Name&, const TiXmlElement *const );
+inline School decode_school( const TiXmlElement *const );
+void decode_school( School&, const TiXmlElement *const );
+inline Level decode_level( const TiXmlElement *const );
+void decode_level( Level&, const TiXmlElement *const );
+inline Casting_Time decode_casting_time( const TiXmlElement *const );
+void decode_casting_time( Casting_Time&, const TiXmlElement *const );
+inline Components decode_component( const TiXmlElement *const );
+void decode_component( Components&, const TiXmlElement *const );
+inline Range decode_range( const TiXmlElement *const );
+void decode_range( Range&, const TiXmlElement *const );
+inline Duration decode_duration( const TiXmlElement *const );
+void decode_duration( Duration&, const TiXmlElement *const );
+inline Saving_Throw decode_saving_throw( const TiXmlElement *const );
+void decode_saving_throw( Saving_Throw&, const TiXmlElement *const );
+inline Spell_Resistance decode_spell_resistance( const TiXmlElement *const );
+void decode_spell_resistance( Spell_Resistance&, const TiXmlElement *const );
+inline Description decode_description( const TiXmlElement *const );
+void decode_description( Description&, const TiXmlElement *const );
+
 struct Spell_Tag;
 
 typedef std::vector < Spell_Tag > spell_list;
@@ -59,19 +81,9 @@ private:
 
   void check_spell_( spell_list_iterator );
 
-  std::vector < std::string > get_names_( TiXmlElement const * const );
+  void decode_elements_( Spell *const, const TiXmlElement *const );
 
-  void decode_elements_( Spell* const, TiXmlElement const * const);
-  void decode_name_( Spell* const, TiXmlElement const * const );
-  void decode_school_( Spell* const, TiXmlElement const * const );
-  void decode_level_( Spell* const, TiXmlElement const * const );
-  void decode_casting_time_( Spell *const, TiXmlElement const *const );
-  void decode_component_( Spell *const, TiXmlElement const *const );
-  void decode_range_( Spell *const, TiXmlElement const *const );
-  void decode_duration_( Spell *const, TiXmlElement const *const );
-  void decode_saving_throw_( Spell *const, TiXmlElement const *const );
-  void decode_spell_resistance_( Spell *const, TiXmlElement const *const );
-  void decode_description_( Spell *const, TiXmlElement const *const );
+  std::vector < std::string > get_names_( TiXmlElement const * const );
 };
 
 class Spell_RefPtr
