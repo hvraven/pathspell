@@ -62,10 +62,11 @@ public:
   Spell_List( const std::string& );
   virtual ~Spell_List();
 
-  std::vector < std::string > get_spell_list();
-  Spell& get_spell( const std::string& );
+  std::vector < std::string > get_spell_list() const;
+  const Spell& get_spell( const std::string& );
 
 private:
+  const std::string file_path_;
   TiXmlDocument doc_;
   spell_list spell_list_;
   spell_name_map spell_name_map_;
@@ -73,17 +74,17 @@ private:
   friend void load_spell( Spell_Tag const * const );
   void fill_list_( TiXmlDocument& );
 
-  unsigned int find_spell_( const std::string& spell )
-    { return spell_name_map_[ spell ]; };
+  unsigned int find_spell_( const std::string& spell ) const
+    { return spell_name_map_.find(spell)->second; };
 
   Spell* get_checked_spell_pointer_( const unsigned int );
   Spell& get_checked_spell_ref_( const unsigned int );
 
   void check_spell_( spell_list_iterator );
 
-  void decode_elements_( Spell *const, const TiXmlElement *const );
+  void decode_elements_( Spell *const, const TiXmlElement *const ) const;
 
-  std::vector < std::string > get_names_( TiXmlElement const * const );
+  std::vector < std::string > get_names_( TiXmlElement const * const ) const;
 };
 
 class Spell_RefPtr
@@ -101,6 +102,30 @@ public:
 private:
   Spell_List * const plist_;
   unsigned int spell_;
+};
+
+class Xml_Spell_Element
+{
+public:
+  Xml_Spell_Element(TiXmlElement *const pxml) : pxml_(pxml) {};
+  virtual ~Xml_Spell_Element() {};
+
+  virtual TiXmlElement encode(const Spell_Element&) = 0;
+  virtual void decode(Spell_Element *const) = 0;
+
+private:
+  TiXmlElement *const pxml_;
+};
+
+class Xml_String_Spell_Element : public Xml_Spell_Element,
+                                 public Spell_String_Element
+{
+public:
+  Xml_String_Spell_Element(TiXmlElement *const pxml);
+  virtual ~Xml_String_Spell_Element() {};
+
+  virtual TiXmlElement encode(const Spell_String_Element&);
+  virtual void decode(Spell_String_Element *const);
 };
 
 #endif // PATHSPELL_XML_H

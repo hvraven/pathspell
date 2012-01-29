@@ -6,7 +6,8 @@
  * \param filename filesystem path, where the xml can be found
  */
 Spell_List::Spell_List( const std::string& filename )
-  : doc_(filename),
+  : file_path_(filename),
+    doc_(filename),
     spell_list_()
 {
   if ( ! doc_.LoadFile() )
@@ -51,7 +52,7 @@ void Spell_List::fill_list_ ( TiXmlDocument& doc )
 /**
  * \brief returns a list of names of all spells saved in the Spell_List
  */
-std::vector < std::string > Spell_List::get_spell_list()
+std::vector < std::string > Spell_List::get_spell_list() const
 {
   std::vector < std::string > result;
 
@@ -66,10 +67,10 @@ std::vector < std::string > Spell_List::get_spell_list()
  * \brief returns a ref to a spell
  * \param spell a name of the spell
  */
-Spell& Spell_List::get_spell( const std::string& spell )
+const Spell& Spell_List::get_spell( const std::string& spell )
 {
   spell_list_iterator ittag = spell_list_.begin()
-    + spell_name_map_[ spell ];
+    + spell_name_map_.find(spell)->second;
   check_spell_( ittag );
   return *( ittag->pspell );
 }
