@@ -3,15 +3,17 @@
 
 #include <string>
 
-typedef std::string Identifier;
 
 namespace RPG
 {
 
+	typedef std::string Identifier;
+
 	class Element
 	{
 	public:
-		Element(const Identifier&);
+		Element(const Identifier& identifier)
+			: identifier_(identifier) {}
 
 		const Identifier& get_identifier() const 
 		{
