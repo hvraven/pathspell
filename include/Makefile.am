@@ -1,1 +1,1 @@
-include_HEADERS = error.h spell.h strmanip.h token.h xml.h
+include_HEADERS = access.h elementfilterlist.h element.h elementlist.h elementsortlist.h filter.h spell.h
