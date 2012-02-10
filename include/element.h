@@ -3,7 +3,7 @@
 
 #include <string>
 
-typedef std::string Identifier
+typedef std::string Identifier;
 
 namespace RPG
 {
