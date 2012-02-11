@@ -24,6 +24,6 @@ namespace RPG
 		const Identifier identifier_;
 	};
 
-}
+} /* namespace RPG */
 
 #endif /* LIBRPG_ELEMENT_H */
