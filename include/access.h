@@ -9,9 +9,9 @@
 namespace RPG
 {
 
-	template <typename U>
+	template <typename T>
 	class Access_Iterator;
-	template <typename U>
+	template <typename T>
 	class Const_Access_Iterator;
 
 	template <typename T = Element>
@@ -45,29 +45,30 @@ namespace RPG
 	private:
 		Element_Map elements_;
 
-		template <typename U> friend class Access_Iterator;
-		template <typename U> friend class Const_Access_Iterator;
+		friend class Access_Iterator<T>;
+		friend class Const_Access_Iterator<T>;
 	};
 
-	template <typename U = Element>
+	template <typename T = Element>
 	class Access_Iterator
 	{
 	public:
-		Access_Iterator(Access<U>& access, int position)
+		Access_Iterator(Access<T>& access, int position)
 			: access_(access), position_(position) {}
 
-		bool operator==(const Access_Iterator<U>& it) const;
-		bool operator!=(const Access_Iterator<U>& it) const
+		bool operator==(const Access_Iterator<T>& it) const;
+		bool operator!=(const Access_Iterator<T>& it) const
 			{ return !(*this == it); }
-		U& operator*();
-		Access_Iterator<U>& operator++() { position_++; return *this; }
-		Access_Iterator<U> operator++(int);
-		Access_Iterator<U>& operator--() { position_--; return *this; }
-		Access_Iterator<U> operator--(int);
+		T& operator*();
+		T* operator->();
+		Access_Iterator<T>& operator++() { position_++; return *this; }
+		Access_Iterator<T> operator++(int);
+		Access_Iterator<T>& operator--() { position_--; return *this; }
+		Access_Iterator<T> operator--(int);
 
 
 	private:
-		Access<U>& access_;
+		Access<T>& access_;
 		int position_;
 	};
 
@@ -111,8 +112,8 @@ namespace RPG
 
 	/**** Access_Iterator *********************************************/
 
-	template <typename U>
-	bool Access_Iterator<U>::operator==(const Access_Iterator<U>& it) const
+	template <typename T>
+	bool Access_Iterator<T>::operator==(const Access_Iterator<T>& it) const
 	{
 		if (access_ == it.access_)
 		{
@@ -135,8 +136,8 @@ namespace RPG
 			return false;
 	}
 
-	template <typename U>
-	U& Access_Iterator<U>::operator*()
+	template <typename T>
+	T& Access_Iterator<T>::operator*()
 	{
 		if (position_ < access_.elements_.length())
 			return *(access_.begin() + position_);
@@ -144,18 +145,27 @@ namespace RPG
 			return 0;
 	}
 
-	template <typename U>
-	Access_Iterator<U> Access_Iterator<U>::operator++(int)
+	template <typename T>
+	T* Access_Iterator<T>::operator->()
 	{
-		Access_Iterator<U> clone(*this);
+		if (position_ < access_.elements_.length())
+			return (access_.begin() + position_);
+		else
+			return 0;
+	}
+
+	template <typename T>
+	Access_Iterator<T> Access_Iterator<T>::operator++(int)
+	{
+		Access_Iterator<T> clone(*this);
 		++position_;
 		return clone;
 	}
 
-	template <typename U>
-	Access_Iterator<U> Access_Iterator<U>::operator--(int)
+	template <typename T>
+	Access_Iterator<T> Access_Iterator<T>::operator--(int)
 	{
-		Access_Iterator<U> clone(*this);
+		Access_Iterator<T> clone(*this);
 		--position_;
 		return clone;
 	}
