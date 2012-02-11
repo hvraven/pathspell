@@ -30,3 +30,4 @@ libtool
 *.la
 *.lo
 *.gch
+tags
