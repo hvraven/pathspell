@@ -40,7 +40,9 @@ namespace RPG
 		typedef T& reference;
 
 		iterator begin() { return iterator(*this, 0); }
+		iterator begin() const { return const_iterator(*this, 0); }
 		iterator end() { return iterator(*this, elements_.length()); }
+		iterator end() const { return const_iterator(*this, elements_.length()); }
 		
 	private:
 		Element_Map elements_;
@@ -69,6 +71,29 @@ namespace RPG
 
 	private:
 		Access<T>& access_;
+		int position_;
+	};
+
+	template <typename T = Element>
+	class Const_Access_Iterator
+	{
+	public:
+		Const_Access_Iterator(const Access<T>& access, int position)
+			: access_(access), position_(position) {}
+
+		bool operator==(const Const_Access_Iterator<T>& it) const;
+		bool operator!=(const Const_Access_Iterator<T>& it) const
+			{ return !(*this == it); }
+		const T& operator*() const;
+		const T* operator->() const;
+		Const_Access_Iterator<T>& operator++() { position_++; return *this; }
+		Const_Access_Iterator<T> operator++(int);
+		Const_Access_Iterator<T>& operator--() { position_--; return *this; }
+		Const_Access_Iterator<T> operator--(int);
+
+
+	private:
+		const Access<T>& access_;
 		int position_;
 	};
 
@@ -166,6 +191,67 @@ namespace RPG
 	Access_Iterator<T> Access_Iterator<T>::operator--(int)
 	{
 		Access_Iterator<T> clone(*this);
+		--position_;
+		return clone;
+	}
+
+	/**** Const_Access_Iterator ***************************************/
+
+	template <typename T>
+	bool Const_Access_Iterator<T>::operator==
+		(const Const_Access_Iterator<T>& it) const
+	{
+		if (access_ == it.access_)
+		{
+			if (position_ < access_.elements_.length())
+			{
+				if (it.position_ < access_.elements_.length())
+					return (position_ == it.position_);
+				else
+					return false;
+			}
+			else
+			{
+				if (it.position_ < access_.elements_.length())
+					return false;
+				else /* both at end */
+					return true;
+			}
+		}
+		else
+			return false;
+	}
+
+	template <typename T>
+	const T& Const_Access_Iterator<T>::operator*() const
+	{
+		if (position_ < access_.elements_.length())
+			return *(access_.begin() + position_);
+		else
+			return 0;
+	}
+
+	template <typename T>
+	const T* Const_Access_Iterator<T>::operator->() const
+	{
+		if (position_ < access_.elements_.length())
+			return (access_.begin() + position_);
+		else
+			return 0;
+	}
+
+	template <typename T>
+	Const_Access_Iterator<T> Const_Access_Iterator<T>::operator++(int)
+	{
+		Const_Access_Iterator<T> clone(*this);
+		++position_;
+		return clone;
+	}
+
+	template <typename T>
+	Const_Access_Iterator<T> Const_Access_Iterator<T>::operator--(int)
+	{
+		Const_Access_Iterator<T> clone(*this);
 		--position_;
 		return clone;
 	}
