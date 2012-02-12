@@ -12,16 +12,9 @@ namespace RPG
 	class Element
 	{
 	public:
-		Element(const Identifier& identifier)
-			: identifier_(identifier) {}
+		Element();
 
-		const Identifier& get_identifier() const 
-		{
-		  return identifier_;
-		}
-
-	private:
-		const Identifier identifier_;
+		virtual const Identifier& get_identifier() const = 0;
 	};
 
 } /* namespace RPG */
