@@ -1,6 +1,8 @@
 #include "spellelements.h"
 #include "error.h"
 
+using namespace RPG::Pathfinder;
+
 Spell_Components::Spell_Components(const bool verbal, const bool somatic,
 		const bool material, const bool focus, const bool divine_focus)
 : verbal_(verbal),
@@ -29,13 +31,13 @@ Spell_Components::Spell_Components(const bool verbal, const bool somatic,
 	else
 	{
 		if ( material_ == focus_ )
-			throw Unclear_Arguments();
+			throw Error::Invalid_Argument();
 
 		if ( material_ )
 			material_description_ = first_description;
 		else
 			focus_description_ = first_description;
-		> }
+	}
 }
 
 std::string Spell_Components::print( const bool with_description ) const
