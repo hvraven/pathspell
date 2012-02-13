@@ -6,47 +6,49 @@ using namespace RPG::Pathfinder;
 
 Spell_Duration::Spell_Duration()
 : Spell_Base_Element(),
-	per_level_(0),
-	dismissible_(false)
+  per_level_(0),
+  dismissible_(false)
 {
 }
 
-Spell_Duration::Spell_Duration( const std::string& type, const int value,
-		const unsigned int per_level, const bool dismissible )
+Spell_Duration::Spell_Duration(const std::string& type, const int value,
+                               const unsigned int per_level,
+                               const bool dismissible )
 : Spell_Base_Element(type, value),
-	per_level_(per_level),
-	dismissible_( dismissible )
+  per_level_(per_level),
+  dismissible_( dismissible )
 {
 }
 
 /**
  * @brief prints the properties of the class
  */
-std::string Spell_Duration::print() const
+std::string
+Spell_Duration::print() const
 {
-	std::ostringstream output;
-	if ( value_ )
-	{
-		output << value_
-			<< " "
-			<< type_;
-		if ( per_level_ )
-		{
-			if ( per_level_ == 1 )
-				output << " per level";
-			else
-				output << " per "
-					<< per_level_
-					<< " levels";
-		}
-	}
-	else
-		output << type_;
+  std::ostringstream output;
+  if ( value_ )
+    {
+      output << value_
+        << " "
+        << type_;
+      if ( per_level_ )
+        {
+          if ( per_level_ == 1 )
+            output << " per level";
+          else
+            output << " per "
+                   << per_level_
+                   << " levels";
+        }
+    }
+  else
+    output << type_;
 
-	if ( dismissible_ )
-		output << " (D)";
+  if ( dismissible_ )
+    output << " (D)";
 
-	return output.str();
+  return output.str();
 }
 
 /**
@@ -59,32 +61,33 @@ std::string Spell_Duration::print() const
  * after it is treated as the per level argument. If no number is given
  * after the slash a 1 is assumed.
  */
-void Spell_Duration::read_level( const std::string& input )
+void
+Spell_Duration::read_level( const std::string& input )
 {
-	size_t pos = 0;
+  size_t pos = 0;
 
-	while (input[pos] != '/')
-		if (input[pos++] == '\0')
-		{
-			pos = 0;
-			break;
-		}
+  while (input[pos] != '/')
+    if (input[pos++] == '\0')
+      {
+        pos = 0;
+        break;
+      }
 
-	if ( pos )
-	{
-		const std::string pre = input.substr(0,pos);
-		set_value(to_int(pre));
-		if ( input[pos + 1] == '\0' )
-			set_per_level(1);
-		else
-		{
-			const std::string post = input.substr(pos+1,input.length() - pos);
-			set_per_level(to_uint(post));
-		}
-	}
-	else /* pos == npos */
-	{
-		set_per_level(0);
-		set_value(to_int(input));
-	}
+  if ( pos )
+    {
+      const std::string pre = input.substr(0,pos);
+      set_value(to_int(pre));
+      if ( input[pos + 1] == '\0' )
+        set_per_level(1);
+      else
+        {
+          const std::string post = input.substr(pos+1,input.length() - pos);
+          set_per_level(to_uint(post));
+        }
+    }
+  else /* pos == npos */
+    {
+      set_per_level(0);
+      set_value(to_int(input));
+    }
 }

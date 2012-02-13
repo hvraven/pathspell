@@ -3,14 +3,14 @@
 
 namespace RPG
 {
-	
-	class Filter
-	{
-	public:
 
-	private:
+  class Filter
+  {
+  public:
 
-	};
+  private:
+
+  };
 }
 
 #endif /* LIBRPG_FILTER_H */

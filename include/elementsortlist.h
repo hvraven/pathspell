@@ -6,11 +6,11 @@
 namespace RPG
 {
 
-	template <typename T>
-	class ElementSortList<T> : public RPG::ElementList<T>
-	{
+  template <typename T>
+  class ElementSortList<T> : public RPG::ElementList<T>
+  {
 
-	};
+  };
 
 }
 

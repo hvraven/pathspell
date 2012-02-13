@@ -3,27 +3,27 @@
 
 namespace RPG
 {
-	namespace Pathfinder
-	{
+  namespace Pathfinder
+  {
 
-		enum Saving_Throw_Token
-		{
-			Will,
-			Fortitude,
-			Reflex
-		};
+    enum Saving_Throw_Token
+    {
+      Will,
+      Fortitude,
+      Reflex
+    };
 
-		enum Saving_Throw_Value_Token
-		{
-			Nil,
-			Half,
-			Negates,
-			No,
-			Partial,
-			Disbelief
-		};
+    enum Saving_Throw_Value_Token
+    {
+      Nil,
+      Half,
+      Negates,
+      No,
+      Partial,
+      Disbelief
+    };
 
-	} /* namespace Pathfinder */
+  } /* namespace Pathfinder */
 } /* namespace RPG */
 
 #endif /* LIBRPG_PATHFINDER_SPELLTOKEN_H */

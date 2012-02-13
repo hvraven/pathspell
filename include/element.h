@@ -7,15 +7,15 @@
 namespace RPG
 {
 
-	typedef std::string Identifier;
+  typedef std::string Identifier;
 
-	class Element
-	{
-	public:
-		Element();
+  class Element
+  {
+  public:
+    Element();
 
-		virtual const Identifier& get_identifier() const = 0;
-	};
+    virtual const Identifier& get_identifier() const = 0;
+  };
 
 } /* namespace RPG */
 
