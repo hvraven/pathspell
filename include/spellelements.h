@@ -20,6 +20,31 @@ namespace RPG
 			virtual std::string print() const = 0;
 		};
 
+		/**
+		 * @brief specialized Spell_Element containing a type and a value
+		 */
+		class Spell_Base_Element : public Spell_Element
+		{
+		public:
+			Spell_Base_Element();
+			Spell_Base_Element( const std::string& );
+			Spell_Base_Element( const std::string&, const int );
+			virtual ~Spell_Base_Element() {};
+
+			virtual std::string print() const;
+
+			void set_type( const std::string& type )
+			{ type_ = type; };
+			void set_value( const int value )
+			{ value_ = value; };
+			void set( const std::string& type, const int value )
+			{ type_ = type; value_ = value; };
+
+		protected:
+			std::string type_;
+			int value_;
+		};
+
 		class Spell_School : public Spell_Element
 		{
 		public:
@@ -189,7 +214,7 @@ namespace RPG
 				bool see_text_;
 		};
 
-		class Spell_Duration : public Spell_Element
+		class Spell_Duration : public Spell_Base_Element
 		{
 		public:
 			Spell_Duration();
@@ -214,27 +239,6 @@ namespace RPG
 			bool dismissible_;
 		};
 
-		class Spell_Base_Element : public Spell_Element
-		{
-		public:
-			Spell_Base_Element();
-			Spell_Base_Element( const std::string& );
-			Spell_Base_Element( const std::string&, const int );
-			virtual ~Spell_Base_Element() {};
-
-			virtual std::string print() const;
-
-			void set_type( const std::string& type )
-			{ type_ = type; };
-			void set_value( const int value )
-			{ value_ = value; };
-			void set( const std::string& type, const int value )
-			{ type_ = type; value_ = value; };
-
-		protected:
-			std::string type_;
-			int value_;
-		};
 
 		// @todo find a solution for those 2
 		typedef Spell_Base_Element Spell_Range;

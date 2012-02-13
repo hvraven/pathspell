@@ -1,5 +1,5 @@
 #include "spellelements.h"
-#include "error.h"
+#include <stdexcept>
 
 using namespace RPG::Pathfinder;
 
@@ -13,6 +13,10 @@ Spell_Components::Spell_Components(const bool verbal, const bool somatic,
 {
 }
 
+/**
+ * @throws invalid_argument if focus and material component are set and a
+ * description is missing
+ */
 Spell_Components::Spell_Components(const bool verbal, const bool somatic,
 		const bool material, const bool focus, const bool divine_focus,
 		const std::string& first_description,
@@ -30,8 +34,8 @@ Spell_Components::Spell_Components(const bool verbal, const bool somatic,
 	}
 	else
 	{
-		if ( material_ == focus_ )
-			throw Error::Invalid_Argument();
+		if ( material_ && focus_ )
+			throw std::invalid_argument("material and focus given, but (at least) one description is missing");
 
 		if ( material_ )
 			material_description_ = first_description;
