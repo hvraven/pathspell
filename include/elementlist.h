@@ -2,6 +2,7 @@
 #define LIBRPG_ELEMENTLIST_H
 
 #include "element.h"
+#include <iterator>
 #include <memory>
 #include <unordered_map>
 
@@ -16,12 +17,14 @@ namespace RPG
     typedef std::shared_ptr<const T> const_pointer;
     typedef T& reference;
     typedef const T& const_reference;
+    typedef std::iterator<std::bidirectional_iterator_tag,T> iterator;
+    typedef std::iterator<std::bidirectional_iterator_tag,T> const_iterator;
 
     virtual bool contains(const Identifier&) const = 0;
     virtual int size() const = 0;
 
-    virtual reference find(const Identifier&) = 0;
-    virtual const_reference find(const Identifier&) const = 0;
+    virtual iterator find(const Identifier&) = 0;
+    virtual const_iterator find(const Identifier&) const = 0;
     virtual reference operator[](const Identifier& identifier) = 0;
 
     virtual void insert(const T&) = 0;
@@ -54,8 +57,8 @@ namespace RPG
     virtual bool contains(const Identifier&) const;
     virtual int size() const;
 
-    virtual reference find(const Identifier&);
-    virtual const_reference find(const Identifier&) const;
+    virtual iterator find(const Identifier&);
+    virtual const_iterator find(const Identifier&) const;
     virtual reference operator[](const Identifier& identifier);
     pointer find_ptr(const Identifier&);
     const_pointer find_ptr(const Identifier&) const;
@@ -79,7 +82,7 @@ namespace RPG
   };
 
   template <typename T = Element>
-  class Element_List_Iterator
+  class Element_List_Iterator : public Base_Element_List<T>::iterator
   {
   public:
     Element_List_Iterator(Element_List<T>& list, int position)
@@ -103,6 +106,7 @@ namespace RPG
 
   template <typename T = Element>
   class Const_Element_List_Iterator
+      : public Base_Element_List<T>::const_iterator
   {
   public:
     Const_Element_List_Iterator(const Element_List<T>& list, int position)
