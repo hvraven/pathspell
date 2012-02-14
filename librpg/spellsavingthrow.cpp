@@ -24,7 +24,7 @@ Spell_Saving_Throw::Spell_Saving_Throw (const Saving_Throw_Value_Token& value)
 }
 
 Spell_Saving_Throw::Spell_Saving_Throw
-    (const Saving_Throw_Value_Token& value, const Saving_Throw_Token& type)
+(const Saving_Throw_Value_Token& value, const Saving_Throw_Token& type)
 : type_(type),
   value_(value),
   harmless_(false),
@@ -38,7 +38,7 @@ Spell_Saving_Throw::print() const
 {
   std::string result;
   switch ( value_ )
-  {
+    {
     case No:
       {
         result = "No";
@@ -70,20 +70,20 @@ Spell_Saving_Throw::print() const
           + " for disbelief";
         break;
       }
-  }
+    }
 
   if ( harmless_ or see_text_ or object_ )
-  {
-    result += " (";
-    if ( harmless_ )
-      result += "harmless, ";
-    if ( object_ )
-      result += "object, ";
-    if ( see_text_ )
-      result += "see text, ";
-    result.erase(result.length() - 2, 2);
-    result += ")";
-  }
+    {
+      result += " (";
+      if ( harmless_ )
+        result += "harmless, ";
+      if ( object_ )
+        result += "object, ";
+      if ( see_text_ )
+        result += "see text, ";
+      result.erase(result.length() - 2, 2);
+      result += ")";
+    }
   return result;
 }
 
@@ -91,7 +91,7 @@ std::string
 Spell_Saving_Throw::print_type() const
 {
   switch ( type_ )
-  {
+    {
     case Will:
       return "Will";
     case Fortitude:
@@ -100,7 +100,7 @@ Spell_Saving_Throw::print_type() const
       return "Ref";
     default:
       return "";
-  }
+    }
 }
 
 void
