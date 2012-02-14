@@ -9,11 +9,6 @@
 namespace RPG
 {
 
-  template <typename T>
-    class Access_Iterator;
-  template <typename T>
-    class Const_Access_Iterator;
-
   /**
    * @brief generic class for storing elements
    *
