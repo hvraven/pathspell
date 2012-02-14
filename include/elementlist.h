@@ -2,43 +2,80 @@
 #define LIBRPG_ELEMENTLIST_H
 
 #include "element.h"
-#include "access.h"
+#include <memory>
+#include <unordered_map>
 
 namespace RPG
 {
+  template <typename T = Element>
+  class Base_Element_List
+  {
+  public:
+    typedef T value_type;
+    typedef std::shared_ptr<T> pointer;
+    typedef std::shared_ptr<const T> const_pointer;
+    typedef T& reference;
+    typedef const T& const_reference;
+
+    virtual bool contains(const Identifier&) const = 0;
+    virtual int size() const = 0;
+
+    virtual reference find(const Identifier&) = 0;
+    virtual const_reference find(const Identifier&) const = 0;
+    virtual reference operator[](const Identifier& identifier) = 0;
+
+    virtual void insert(const T&) = 0;
+    virtual void import(const Base_Element_List<T>&) = 0;
+    virtual void erase(const Identifier&) = 0;
+    virtual void clear() = 0;
+  };
+
   template <typename T>
   class Element_List_Iterator;
   template <typename T>
   class Const_Element_List_Iterator;
 
   template <typename T = Element>
-  class Element_List
+  class Element_List : public Base_Element_List<T>
   {
   public:
-    Element_List<T>(Access<T>& access)
-      : access_(access) {}
+    Element_List<T>();
     virtual ~Element_List<T>() {}
 
     typedef Element_List_Iterator<T> iterator;
     typedef Const_Element_List_Iterator<T> const_iterator;
     typedef T value_type;
-    typedef T* pointer;
+    typedef std::shared_ptr<T> pointer;
+    typedef std::shared_ptr<const T> const_pointer;
     typedef T& reference;
+    typedef const T& const_reference;
+    typedef std::unordered_map<Identifier, pointer> Element_Map;
 
-    virtual bool has_element(const Identifier& identifier)
-      { return access_.has_element(identifier); }
+    virtual bool contains(const Identifier&) const;
+    virtual int size() const;
 
-    virtual reference operator[](const Identifier& identifier)
-      { return *(access_[identifier]); }
+    virtual reference find(const Identifier&);
+    virtual const_reference find(const Identifier&) const;
+    virtual reference operator[](const Identifier& identifier);
+    pointer find_ptr(const Identifier&);
+    const_pointer find_ptr(const Identifier&) const;
+
+    virtual void insert(const T&);
+    virtual void import(const Base_Element_List<T>&);
+    virtual void erase(const Identifier&);
+    virtual void clear();
 
     iterator begin() { return iterator(*this, 0); }
-    iterator begin() const { return const_iterator(*this, 0); }
-    iterator end() { return iterator(*this, access_.number_of_elements()); }
-    iterator end() const
-      { return const_iterator(*this, access_.number_of_elements()); }
+    const_iterator begin() const { return const_iterator(*this, 0); }
+    iterator end() { return iterator(*this, size()); }
+    const_iterator end() const { return const_iterator(*this, size()); }
 
-  protected:
-    Access<T>& access_;
+  private:
+    friend class Element_List_Iterator<T>;
+    friend class Const_Element_List_Iterator<T>;
+
+
+    Element_Map elements_;
   };
 
   template <typename T = Element>
@@ -46,21 +83,22 @@ namespace RPG
   {
   public:
     Element_List_Iterator(Element_List<T>& list, int position)
-      : list_(list), position_(position) {}
+      : list_(list), list_it_(list_.elements_.begin() + position) {}
 
-    bool operator==(const Element_List_Iterator<T>& it) const;
+    bool operator==(const Element_List_Iterator<T>& it) const
+      { return list_it_ == it.list_it_; }
     bool operator!=(const Element_List_Iterator<T>& it) const
       { return !(*this == it); }
-    T& operator*() { return *(list_.elements_.begin() + position_); }
-    T* operator->() { return (list_.elements_.begin() + position_); }
-    Element_List_Iterator<T>& operator++() { position_++; return *this; }
+    typename Element_List<T>::reference operator*() { return *list_it_; }
+    typename Element_List<T>::pointer operator->() { return list_it_; }
+    Element_List_Iterator<T>& operator++() { list_it_++; return *this; }
     Element_List_Iterator<T> operator++(int);
-    Element_List_Iterator<T>& operator--() { position_--; return *this; }
+    Element_List_Iterator<T>& operator--() { list_it_--; return *this; }
     Element_List_Iterator<T> operator--(int);
 
   private:
     Element_List<T>& list_;
-    int position_;
+    typename Element_List<T>::Element_Map::iterator list_it_;
   };
 
   template <typename T = Element>
@@ -68,23 +106,24 @@ namespace RPG
   {
   public:
     Const_Element_List_Iterator(const Element_List<T>& list, int position)
-      : list_(list), position_(position) {}
+      : list_(list), list_it_(list_.elements_.begin() + position) {}
 
-    bool operator==(const Const_Element_List_Iterator<T>& it) const;
+    bool operator==(const Const_Element_List_Iterator<T>& it) const
+      { return list_it_ == it.list_it_; }
     bool operator!=(const Const_Element_List_Iterator<T>& it) const
       { return !(*this == it); }
-    const T& operator*() const
-      { return *(list_.elements_.begin() + position_); }
-    const T* operator->() const
-      { return (list_.elements_.begin() + position_); }
-    Const_Element_List_Iterator<T>& operator++() { position_++; return *this; }
+    typename Element_List<T>::const_reference operator*() const 
+      { return *list_it_; }
+    typename Element_List<T>::const_pointer operator->() const
+      { return list_it_; }
+    Const_Element_List_Iterator<T>& operator++() { list_it_++; return *this; }
     Const_Element_List_Iterator<T> operator++(int);
-    Const_Element_List_Iterator<T>& operator--() { position_--; return *this; }
+    Const_Element_List_Iterator<T>& operator--() { list_it_--; return *this; }
     Const_Element_List_Iterator<T> operator--(int);
 
   private:
     const Element_List<T>& list_;
-    int position_;
+    typename Element_List<T>::Element_Map::const_iterator list_it_;
   };
 
   /**** Element_List ************************************************/
@@ -92,37 +131,11 @@ namespace RPG
   /**** Element_List_Iterator ***************************************/
 
   template <typename T>
-  bool
-  Element_List_Iterator<T>::operator==
-      (const Element_List_Iterator<T>& it) const
-  {
-    if (list_ == it.list_)
-      {
-        if (position_ < list_.elements_.length())
-          {
-            if (it.position_ < list_.elements_.length())
-              return (position_ == it.position_);
-            else
-              return false;
-          }
-        else
-          {
-            if (it.position_ < list_.elements_.length())
-              return false;
-            else /* both at end */
-              return true;
-          }
-      }
-    else
-      return false;
-  }
-
-  template <typename T>
   Element_List_Iterator<T>
   Element_List_Iterator<T>::operator++(int)
   {
     Element_List_Iterator<T> temp = clone *this;
-    position_++;
+    list_it_++;
     return temp;
   }
 
@@ -131,44 +144,18 @@ namespace RPG
   Element_List_Iterator<T>::operator--(int)
   {
     Element_List_Iterator<T> temp = clone *this;
-    position_--;
+    list_it_--;
     return temp;
   }
 
   /**** Const_Element_List_Iterator *********************************/
 
   template <typename T>
-  bool
-  Const_Element_List_Iterator<T>::operator==
-      (const Const_Element_List_Iterator<T>& it) const
-  {
-    if (list_ == it.list_)
-      {
-        if (position_ < list_.elements_.length())
-          {
-            if (it.position_ < list_.elements_.length())
-              return (position_ == it.position_);
-            else
-              return false;
-          }
-        else
-          {
-            if (it.position_ < list_.elements_.length())
-              return false;
-            else /* both at end */
-              return true;
-          }
-      }
-    else
-      return false;
-  }
-
-  template <typename T>
   Const_Element_List_Iterator<T>
   Const_Element_List_Iterator<T>::operator++(int)
   {
     Const_Element_List_Iterator<T> temp = clone *this;
-    position_++;
+    list_it_++;
     return temp;
   }
 
@@ -177,7 +164,7 @@ namespace RPG
   Const_Element_List_Iterator<T>::operator--(int)
   {
     Const_Element_List_Iterator<T> temp = clone *this;
-    position_--;
+    list_it_--;
     return temp;
   }
 
