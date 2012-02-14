@@ -1,11 +1,11 @@
 #include "strmanip.h"
 #include <cctype>
-#include <std_except>
+#include <stdexcept>
 
 using namespace RPG;
 
 std::string
-to_lower( const std::string& input )
+RPG::to_lower( const std::string& input )
 {
   std::string work;
   for (std::string::const_iterator it = input.begin() ;
@@ -15,7 +15,7 @@ to_lower( const std::string& input )
 }
 
 void
-str_lower( std::string& input )
+RPG::str_lower( std::string& input )
 {
   for (std::string::iterator it = input.begin() ;
        it != input.end() ; it++)
@@ -23,7 +23,7 @@ str_lower( std::string& input )
 }
 
 std::string
-to_upper( const std::string& input )
+RPG::to_upper( const std::string& input )
 {
   std::string work;
   for (std::string::const_iterator it = input.begin() ;
@@ -33,7 +33,7 @@ to_upper( const std::string& input )
 }
 
 void
-str_upper( std::string& input )
+RPG::str_upper( std::string& input )
 {
   for (std::string::iterator it = input.begin() ;
        it != input.end() ; it++)
