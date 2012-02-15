@@ -8,7 +8,7 @@
 
 namespace RPG
 {
-  template <typename T = Element>
+  template <typename T>
   class Base_Element_List
   {
   public:
@@ -38,7 +38,7 @@ namespace RPG
   template <typename T>
   class Const_Element_List_Iterator;
 
-  template <typename T = Element>
+  template <typename T>
   class Element_List : public Base_Element_List<T>
   {
   public:
@@ -81,7 +81,7 @@ namespace RPG
     Element_Map elements_;
   };
 
-  template <typename T = Element>
+  template <typename T>
   class Element_List_Iterator : public Base_Element_List<T>::iterator
   {
   public:
@@ -104,7 +104,7 @@ namespace RPG
     typename Element_List<T>::Element_Map::iterator list_it_;
   };
 
-  template <typename T = Element>
+  template <typename T>
   class Const_Element_List_Iterator
       : public Base_Element_List<T>::const_iterator
   {
