@@ -31,6 +31,10 @@ namespace RPG
     virtual void import(const Base_Element_List<T>&) = 0;
     virtual void erase(const Identifier&) = 0;
     virtual void clear() = 0;
+
+  protected:
+    virtual std::shared_ptr<T> get_element_ptr(const Identifier&) = 0;
+    virtual std::shared_ptr<T> get_element_ptr(iterator) = 0;
   };
 
   template <typename T>
@@ -73,10 +77,14 @@ namespace RPG
     iterator end() { return iterator(*this, size()); }
     const_iterator end() const { return const_iterator(*this, size()); }
 
+  protected:
+    virtual std::shared_ptr<T> get_element_ptr(const Identifier& identifier)
+      { return elements_[identifier]; }
+    virtual std::shared_ptr<T> get_element_ptr(iterator it)
+      { return *(it.list_it_); }
+
   private:
     friend class Element_List_Iterator<T>;
-    friend class Const_Element_List_Iterator<T>;
-
 
     Element_Map elements_;
   };
