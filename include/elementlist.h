@@ -5,6 +5,7 @@
 #include <iterator>
 #include <memory>
 #include <unordered_map>
+#include <vector>
 
 namespace RPG
 {
@@ -35,6 +36,7 @@ namespace RPG
   protected:
     virtual std::shared_ptr<T> get_element_ptr(const Identifier&) = 0;
     virtual std::shared_ptr<T> get_element_ptr(iterator) = 0;
+    virtual std::vector<std::shared_ptr<T>> get_all_element_ptr() = 0;
   };
 
   template <typename T>
@@ -85,6 +87,7 @@ namespace RPG
 
   private:
     friend class Element_List_Iterator<T>;
+    friend class Const_Element_List_Iterator<T>;
 
     Element_Map elements_;
   };
