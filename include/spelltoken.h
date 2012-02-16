@@ -6,14 +6,14 @@ namespace RPG
   namespace Pathfinder
   {
 
-    enum Saving_Throw_Token
+    enum class Saving_Throw_Token
     {
       Will,
       Fortitude,
       Reflex
     };
 
-    enum Saving_Throw_Value_Token
+    enum class Saving_Throw_Value_Token
     {
       Nil,
       Half,

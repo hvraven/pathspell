@@ -7,7 +7,7 @@ using namespace RPG::Pathfinder;
 
 Spell_Saving_Throw::Spell_Saving_Throw()
 : type_(),
-  value_(Nil),
+  value_(Saving_Throw_Value_Token::Nil),
   harmless_(false),
   see_text_(false),
   object_(false)
@@ -39,32 +39,32 @@ Spell_Saving_Throw::print() const
   std::string result;
   switch ( value_ )
     {
-    case No:
+    case Saving_Throw_Value_Token::No:
       {
         result = "No";
         break;
       }
-    case Nil:
+    case Saving_Throw_Value_Token::Nil:
       break;
-    case Negates:
+    case Saving_Throw_Value_Token::Negates:
       {
         result = print_type()
           + " negates";
         break;
       }
-    case Half:
+    case Saving_Throw_Value_Token::Half:
       {
         result = print_type()
           + " halfs";
         break;
       }
-    case Partial:
+    case Saving_Throw_Value_Token::Partial:
       {
         result = print_type()
           + " partial";
         break;
       }
-    case Disbelief:
+    case Saving_Throw_Value_Token::Disbelief:
       {
         result = print_type()
           + " for disbelief";
@@ -92,11 +92,11 @@ Spell_Saving_Throw::print_type() const
 {
   switch ( type_ )
     {
-    case Will:
+    case Saving_Throw_Token::Will:
       return "Will";
-    case Fortitude:
+    case Saving_Throw_Token::Fortitude:
       return "Fort";
-    case Reflex:
+    case Saving_Throw_Token::Reflex:
       return "Ref";
     default:
       return "";
@@ -108,13 +108,13 @@ Spell_Saving_Throw::set_type( const std::string& type )
 {
   std::string work = to_lower( type );
   if ( work == "will" )
-    type_ = Will;
+    type_ = Saving_Throw_Token::Will;
   else
     if (work == "fort")
-      type_ = Fortitude;
+      type_ = Saving_Throw_Token::Fortitude;
     else
       if (work == "ref")
-        type_ = Reflex;
+        type_ = Saving_Throw_Token::Reflex;
       else
         throw std::invalid_argument(type + " is not a valid type");
 }
@@ -124,22 +124,22 @@ Spell_Saving_Throw::set_value( const std::string& value )
 {
   const std::string work = to_lower( value );
   if ( ( work == "no" ) or ( work == "none" ) )
-    value_ = No;
+    value_ = Saving_Throw_Value_Token::No;
   else
     if (work == "negates")
-      value_ = Negates;
+      value_ = Saving_Throw_Value_Token::Negates;
     else
       if ( work == "half")
-        value_ = Half;
+        value_ = Saving_Throw_Value_Token::Half;
       else
         if ( work == "partial")
-          value_ = Partial;
+          value_ = Saving_Throw_Value_Token::Partial;
         else
           if ( work == "disbelief" )
-            value_ = Disbelief;
+            value_ = Saving_Throw_Value_Token::Disbelief;
           else
             if ( work == "" )
-              value_ = Nil;
+              value_ = Saving_Throw_Value_Token::Nil;
             else
               throw std::invalid_argument(value + " is not a valid value");
 }
