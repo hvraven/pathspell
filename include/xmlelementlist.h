@@ -52,10 +52,10 @@ namespace RPG
     const_iterator begin() const;
     const_iterator end() const;
 
-    virtual void insert(const T&);
-    virtual void import(const Base_Element_List<T>&);
-    virtual void erase(const Identifier&);
-    virtual void clear();
+    void insert(const T&) override;
+    void import(const Base_Element_List<T>&) override;
+    void erase(const Identifier&) override;
+    void clear() override;
 
 	protected:
     typedef std::unordered_map<Identifier, TiXmlElement*> Index_Map;
@@ -70,7 +70,7 @@ namespace RPG
     virtual std::vector<std::shared_ptr<T>> get_all_element_ptr();
 
     virtual T decode(const TiXmlElement*) const = 0;
-    virtual T decode_index(const TiXmlElement*) const;
+    virtual Identifier decode_index(const TiXmlElement*) const;
     virtual TiXmlElement encode(const T&) const = 0;
 	};
 
