@@ -15,8 +15,6 @@ namespace RPG
 	typedef std::string filetype;
 
   template <typename T>
-  class Xml_Element_List_Iterator;
-  template <typename T>
   class Const_Xml_Element_List_Iterator;
 
   template <typename T>
@@ -47,7 +45,7 @@ namespace RPG
     std::vector<T> get_elements() const;
 
     virtual const_iterator find(const Identifier&) const;
-    virtual reference operator[](const Identifier& identifier) = delete;
+    //virtual reference operator[](const Identifier& identifier) = delete;
 
     const_iterator begin() const;
     const_iterator end() const;
@@ -69,10 +67,19 @@ namespace RPG
     virtual std::shared_ptr<T> get_element_ptr(const_iterator);
     virtual std::vector<std::shared_ptr<T>> get_all_element_ptr();
 
-    virtual T decode(const TiXmlElement*) const = 0;
-    virtual Identifier decode_index(const TiXmlElement*) const;
+    virtual T decode(const TiXmlElement *const) const = 0;
+    virtual Identifier decode_index(const TiXmlElement *const) const;
     virtual TiXmlElement encode(const T&) const = 0;
+
+    friend class Const_Xml_Element_List_Iterator<T>;
 	};
+
+  template <typename T>
+  class Const_Xml_Element_List_Iterator
+    : public std::iterator<std::bidirectional_iterator_tag,T>
+  {
+
+  };
 
   /***** Xml_Element_List ******************************************/
 
@@ -142,8 +149,8 @@ namespace RPG
   bool
   Xml_Element_List<T>::contains(const Identifier& identifier) const
   {
-    if (index_valid_ = true)
-      return index_[identifier];
+    if (index_valid_ == true)
+      return (index_.find(identifier) != index_.end());
     else
       {
         for (TiXmlElement const* pelement
@@ -162,12 +169,12 @@ namespace RPG
   int
   Xml_Element_List<T>::size() const
   {
-    if (index_valid_ = true)
+    if (index_valid_ == true)
       return index_.size();
     else
       {
         int i = 0;
-        for (TiXmlElement* pelement
+        for (const TiXmlElement* pelement
                = doc_.FirstChildElement()->FirstChildElement();
              pelement; pelement = pelement->NextSiblingElement())
           i++;
