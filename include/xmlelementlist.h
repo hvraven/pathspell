@@ -50,10 +50,10 @@ namespace RPG
     const_iterator begin() const;
     const_iterator end() const;
 
-    void insert(const T&) override;
-    void import(const Base_Element_List<T>&) override;
-    void erase(const Identifier&) override;
-    void clear() override;
+    virtual void insert(const T&);
+    virtual void import(const Base_Element_List<T>&);
+    virtual void erase(const Identifier&);
+    virtual void clear();
 
 	protected:
     typedef std::unordered_map<Identifier, TiXmlElement*> Index_Map;

@@ -60,19 +60,19 @@ namespace RPG
     typedef const T& const_reference;
     typedef std::unordered_map<Identifier, pointer> Element_Map;
 
-    bool contains(const Identifier&) const override;
-    int size() const override;
+    virtual bool contains(const Identifier&) const;
+    virtual int size() const;
 
-    iterator find(const Identifier&) override;
-    const_iterator find(const Identifier&) const override;
-    reference operator[](const Identifier& identifier) override;
+    virtual iterator find(const Identifier&);
+    virtual const_iterator find(const Identifier&) const;
+    virtual reference operator[](const Identifier& identifier);
     pointer find_ptr(const Identifier&);
     const_pointer find_ptr(const Identifier&) const;
 
-    void insert(const T&) override;
-    void import(const Base_Element_List<T>&) override;
-    void erase(const Identifier&) override;
-    void clear() override;
+    virtual void insert(const T&);
+    virtual void import(const Base_Element_List<T>&);
+    virtual void erase(const Identifier&);
+    virtual void clear();
 
     iterator begin() { return iterator(*this, 0); }
     const_iterator begin() const { return const_iterator(*this, 0); }
@@ -80,9 +80,9 @@ namespace RPG
     const_iterator end() const { return const_iterator(*this, size()); }
 
   protected:
-    std::shared_ptr<T> get_element_ptr(const Identifier& identifier) override
+    virtual std::shared_ptr<T> get_element_ptr(const Identifier& identifier)
       { return elements_[identifier]; }
-    std::shared_ptr<T> get_element_ptr(iterator it) override;
+    virtual std::shared_ptr<T> get_element_ptr(iterator it)
       { return *(it.list_it_); }
 
   private:
