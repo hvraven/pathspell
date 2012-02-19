@@ -35,8 +35,6 @@ namespace RPG
     void load_file(const filetype& file);
 
     void generate_index();
-    void clear_index() { index_valid_ = false; index_.clear(); }
-    bool index_is_valid() { return index_valid_; }
 
     bool contains(const Identifier&) const;
     int size() const;
@@ -44,11 +42,14 @@ namespace RPG
     T get_element(const Identifier&) const;
     std::vector<T> get_elements() const;
 
-    virtual const_iterator find(const Identifier&) const;
+    /// @todo find out if there is a way for the correct return value
+    typename Base_Element_List<T>::const_iterator find(const Identifier&) const;
     //virtual reference operator[](const Identifier& identifier) = delete;
 
-    const_iterator begin() const;
-    const_iterator end() const;
+    const_iterator begin() const 
+      { return const_iterator(*this, index_.begin()); }
+    const_iterator end() const
+      { return const_iterator(*this, index_.end()); }
 
     virtual void insert(const T&);
     virtual void import(const Base_Element_List<T>&);
@@ -61,7 +62,6 @@ namespace RPG
 		TiXmlDocument doc_;
     std::string index_name_;
     Index_Map index_;
-    bool index_valid_;
 
     virtual std::shared_ptr<T> get_element_ptr(const Identifier&);
     virtual std::shared_ptr<T> get_element_ptr(const_iterator);
@@ -76,9 +76,27 @@ namespace RPG
 
   template <typename T>
   class Const_Xml_Element_List_Iterator
-    : public std::iterator<std::bidirectional_iterator_tag,T>
+      : public RPG::Base_Element_List<T>::const_iterator
   {
+  public:
+    Const_Xml_Element_List_Iterator<T>(const Xml_Element_List<T>& list,
+        std::unordered_map<Identifier, TiXmlElement*>::const_iterator list_it)
+      : list_(list), list_it_(list_it) {}
 
+    bool operator==(const Const_Xml_Element_List_Iterator<T>& it) const
+      { return list_it_ = it.list_it_; }
+    bool operator!=(const Const_Xml_Element_List_Iterator<T>& it) const
+      { return !(*this == it); }
+    typename Xml_Element_List<T>::value_type operator*() const;
+    typename Xml_Element_List<T>::pointer operator->() const
+      { return std::shared_ptr<T>(new T(**this)); }
+    Const_Xml_Element_List_Iterator<T>& operator++()
+      { ++list_it_; return *this; }
+    Const_Xml_Element_List_Iterator<T> operator++(int);
+
+  private:
+    const Xml_Element_List<T>& list_;
+    std::unordered_map<Identifier, TiXmlElement*>::const_iterator list_it_;
   };
 
   /***** Xml_Element_List ******************************************/
@@ -137,8 +155,6 @@ namespace RPG
            = doc_.FirstChildElement()->FirstChildElement();
          pelement; pelement = pelement->NextSiblingElement())
       index_[decode_index(pelement)] = pelement;
-
-    index_valid_ = true;
   }
 
   /**
@@ -149,17 +165,7 @@ namespace RPG
   bool
   Xml_Element_List<T>::contains(const Identifier& identifier) const
   {
-    if (index_valid_ == true)
-      return (index_.find(identifier) != index_.end());
-    else
-      {
-        for (TiXmlElement const* pelement
-               = doc_.FirstChildElement()->FirstChildElement();
-             pelement; pelement = pelement->NextSiblingElement())
-          if (decode_index(pelement) == identifier)
-            return true;
-        return false;
-      }
+    return (index_.find(identifier) != index_.end());
   }
 
   /**
@@ -169,17 +175,7 @@ namespace RPG
   int
   Xml_Element_List<T>::size() const
   {
-    if (index_valid_ == true)
-      return index_.size();
-    else
-      {
-        int i = 0;
-        for (const TiXmlElement* pelement
-               = doc_.FirstChildElement()->FirstChildElement();
-             pelement; pelement = pelement->NextSiblingElement())
-          i++;
-        return i;
-      }
+    return index_.size();
   }
 
   /**
@@ -190,24 +186,11 @@ namespace RPG
   T
   Xml_Element_List<T>::get_element(const Identifier& identifier) const
   {
-    if (index_valid_)
-      {
-        Index_Map::const_iterator it = index_.find(identifier);
-        if (it == index_.end())
-          throw std::invalid_argument(identifier + " not in list");
+    Index_Map::const_iterator it = index_.find(identifier);
+    if (it == index_.end())
+      throw std::invalid_argument(identifier + " not in list");
 
-        return *it;
-      }
-    else
-      {
-        for (TiXmlElement* pelement
-               = doc_.FirstChildElement()->FirstChildElement();
-             pelement; pelement = pelement->NextSiblingElement())
-          if (decode_index(pelement) == identifier)
-            return decode(pelement);
-
-        throw std::invalid_argument(identifier + " not in list");
-      }
+    return *it;
   }
 
   /**
@@ -231,6 +214,13 @@ namespace RPG
     return result;
   }
 
+  template <typename T>
+  typename Base_Element_List<T>::const_iterator
+  Xml_Element_List<T>::find(const Identifier& identifier) const
+  {
+    return Const_Xml_Element_List_Iterator<T>((*this), index_.find(identifier));
+  }
+
   /**
    * @brief generates a shared_ptr with a new object in it
    * @return the generated element. Each time this function is called a new
@@ -240,16 +230,7 @@ namespace RPG
   std::shared_ptr<T>
   Xml_Element_List<T>::get_element_ptr(const Identifier& identifier)
   {
-    TiXmlElement* pelement;
-    if (index_valid_)
-      pelement = index_[identifier];
-    else
-      for (pelement = doc_.FirstChildElement()->FirstChildElement();
-           pelement; pelement = pelement->NextSiblingElement())
-        if (decode_index(pelement) == identifier)
-          break;
-
-    return std::shared_ptr<T>(new T(decode(pelement)));
+    return std::shared_ptr<T>(new T(decode(index_[identifier])));
   }
 
   /**
@@ -267,6 +248,29 @@ namespace RPG
       result.push_back(std::shared_ptr<T>(new T(decode(pelement))));
 
     return result;
+  }
+
+  /***** Const_Xml_Element_List_Iterator ***************************/
+
+  /**
+   * @brief operator for derefercation. Creates a new T
+   * @return a new generated T. Multiple dereferenction will generate multiple
+   * instances of the corresponding object
+   */
+  template <typename T>
+  typename Xml_Element_List<T>::value_type
+  Const_Xml_Element_List_Iterator<T>::operator*() const
+  {
+    return list_.decode(*list_it_);
+  }
+
+  template <typename T>
+  Const_Xml_Element_List_Iterator<T>
+  Const_Xml_Element_List_Iterator<T>::operator++(int)
+  {
+    auto temp = clone *this;
+    list_it_++;
+    return temp;
   }
 
 } /* namespace RPG */

@@ -18,8 +18,8 @@ namespace RPG
     typedef std::shared_ptr<const T> const_pointer;
     typedef T& reference;
     typedef const T& const_reference;
-    typedef std::iterator<std::bidirectional_iterator_tag,T> iterator;
-    typedef std::iterator<std::bidirectional_iterator_tag,T> const_iterator;
+    typedef std::iterator<std::forward_iterator_tag,T> iterator;
+    typedef std::iterator<std::forward_iterator_tag,T> const_iterator;
 
     virtual bool contains(const Identifier&) const = 0;
     virtual int size() const = 0;
