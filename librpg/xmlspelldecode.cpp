@@ -56,12 +56,8 @@ Xml_Spell_List::decode(const TiXmlElement *const pxml) const
           result.set_school( decode_school(pelement) );
           break;
         case Spell_Token::Level:
-          {
-            Spell_Level temp = result.get_level();
-            decode_level(temp, pelement);
-            result.set_levels( temp );
-            break;
-          }
+          decode_level(result.get_levels, pelement);
+          break;
         case Spell_Token::Casting_Time:
           result.set_casting_time( decode_casting_time(pelement) );
           break;
