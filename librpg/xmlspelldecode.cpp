@@ -56,7 +56,7 @@ Xml_Spell_List::decode(const TiXmlElement *const pxml) const
           result.set_school( decode_school(pelement) );
           break;
         case Spell_Token::Level:
-          decode_level(result.get_levels, pelement);
+          decode_level(result.get_level(), pelement);
           break;
         case Spell_Token::Casting_Time:
           result.set_casting_time( decode_casting_time(pelement) );
@@ -80,7 +80,8 @@ Xml_Spell_List::decode(const TiXmlElement *const pxml) const
           result.set_description( decode_description(pelement) );
           break;
         default:
-          break;
+          throw RPG::xml_error("Unknown element " +
+                               pelement->ValueStr() + " found");
         }
 
       pelement = pelement->NextSiblingElement();
