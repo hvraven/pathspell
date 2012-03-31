@@ -50,15 +50,11 @@ Xml_Spell_List::decode(const TiXmlElement *const pxml) const
       switch( elements[ pelement->Value() ] )
         {
         case Spell_Token::Name:
-          {
-            result.set_name( decode_name(pelement) );
-            break;
-          }
+          result.set_name( decode_name(pelement) );
+          break;
         case Spell_Token::School:
-          {
-            result.set_school( decode_school(pelement) );
-            break;
-          }
+          result.set_school( decode_school(pelement) );
+          break;
         case Spell_Token::Level:
           {
             Spell_Level temp = result.get_level();
@@ -67,46 +63,28 @@ Xml_Spell_List::decode(const TiXmlElement *const pxml) const
             break;
           }
         case Spell_Token::Casting_Time:
-          {
-            result.set_casting_time( decode_casting_time(pelement) );
-            break;
-          }
+          result.set_casting_time( decode_casting_time(pelement) );
+          break;
         case Spell_Token::Components:
-          {
-            Spell_Components temp = result.get_components();
-            decode_component(temp, pelement);
-            result.set_components( temp );
-            break;
-          }
+          decode_component(result.get_components(), pelement);
+          break;
         case Spell_Token::Range:
-          {
-            result.set_range( decode_range(pelement) );
-            break;
-          }
+          result.set_range( decode_range(pelement) );
+          break;
         case Spell_Token::Duration:
-          {
-            result.set_duration( decode_duration(pelement) );
-            break;
-          }
+          result.set_duration( decode_duration(pelement) );
+          break;
         case Spell_Token::Saving_Throw:
-          {
-            result.set_saving_throw( decode_saving_throw(pelement) );
-            break;
-          }
+          result.set_saving_throw( decode_saving_throw(pelement) );
+          break;
         case Spell_Token::Spell_Resistance:
-          {
-            result.set_spell_resistance( decode_spell_resistance(pelement) );
-            break;
-          }
+          result.set_spell_resistance( decode_spell_resistance(pelement) );
+          break;
         case Spell_Token::Description:
-          {
-            result.set_description( decode_description(pelement) );
-            break;
-          }
+          result.set_description( decode_description(pelement) );
+          break;
         default:
-          {
-            break;
-          }
+          break;
         }
 
       pelement = pelement->NextSiblingElement();
@@ -185,8 +163,8 @@ Xml_Spell_List::decode_school(Spell_School& school,
   if ( psubelement )
     do
       {
-        if ( psubelement->QueryStringAttribute("type",&type)
-            != TIXML_SUCCESS )
+        if (psubelement->QueryStringAttribute("type",&type)
+            != TIXML_SUCCESS)
           throw RPG::xml_error("decoding of school subelement type failed");
         school.add_subschool( type );
         psubelement = psubelement->NextSiblingElement( "subschool" );
@@ -196,8 +174,8 @@ Xml_Spell_List::decode_school(Spell_School& school,
   psubelement = pelement->FirstChildElement( "descriptor" );
   if ( psubelement )
     {
-      if ( psubelement->QueryStringAttribute("type",&type)
-          != TIXML_SUCCESS )
+      if (psubelement->QueryStringAttribute("type",&type)
+          != TIXML_SUCCESS)
         throw RPG::xml_error("decoding of school descriptor type failed");
       school.set_descriptor( type );
     }
@@ -414,11 +392,11 @@ Xml_Spell_List::decode_duration(Spell_Duration& duration,
   std::string type;
   bool dismissible = false;
 
-  if ( pelement->QueryBoolAttribute("dismissible", &dismissible)
-      == TIXML_SUCCESS )
+  if (pelement->QueryBoolAttribute("dismissible", &dismissible)
+      == TIXML_SUCCESS)
     duration.set_dismissible( dismissible );
 
-  if ( pelement->QueryStringAttribute("type", &type) == TIXML_SUCCESS )
+  if (pelement->QueryStringAttribute("type", &type) == TIXML_SUCCESS)
     {
       duration.set_type( type );
       /// @todo check if list is complete
@@ -464,7 +442,7 @@ Xml_Spell_List::decode_saving_throw(Spell_Saving_Throw& saving_throw,
   if ( pelement->QueryStringAttribute("type",&type) == TIXML_SUCCESS )
     {
       std::string value;
-      if ( pelement->QueryStringAttribute("value",&value)
+      if (pelement->QueryStringAttribute("value",&value)
           == TIXML_SUCCESS)
         {
           saving_throw.set_type( type );
