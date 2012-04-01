@@ -2,7 +2,7 @@
 #define LIBRPG_PATHFINDER_XMLSPELL_H
 
 #include "spell.h"
-#include "xmlelementlist.h"
+#include "xmlaccess.h"
 
 namespace RPG
 {
@@ -10,8 +10,8 @@ namespace RPG
   namespace Pathfinder
   {
 
-    class Xml_Spell_List 
-      : public RPG::Xml_Element_List<RPG::Pathfinder::Spell>
+    class Xml_Spell_Access
+      : public RPG::Xml_Access<RPG::Pathfinder::Spell>
     {
     protected:
       Spell decode(const TiXmlElement *const) const;

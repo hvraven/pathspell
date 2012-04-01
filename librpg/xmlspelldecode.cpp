@@ -18,7 +18,7 @@ using namespace RPG::Pathfinder;
  * add functions to add them to the given spell.
  */
 Spell
-Xml_Spell_List::decode(const TiXmlElement *const pxml) const
+Xml_Spell_Access::decode(const TiXmlElement *const pxml) const
 {
   /* map for easy translation of the names to tokens */
   static std::map < std::string, Spell_Token > elements;
@@ -96,7 +96,7 @@ Xml_Spell_List::decode(const TiXmlElement *const pxml) const
  * @see decode_name( Name& name, const TiXmlElement *const pelement )
  */
 std::string
-Xml_Spell_List::decode_name(const TiXmlElement *const pelement) const
+Xml_Spell_Access::decode_name(const TiXmlElement *const pelement) const
 {
   std::string work;
   decode_name(work, pelement);
@@ -115,7 +115,7 @@ Xml_Spell_List::decode_name(const TiXmlElement *const pelement) const
  * discarded
  */
 void
-Xml_Spell_List::decode_name(std::string& name,
+Xml_Spell_Access::decode_name(std::string& name,
                             const TiXmlElement *const pelement) const
 {
   std::string language;
@@ -130,7 +130,7 @@ Xml_Spell_List::decode_name(std::string& name,
  * @see decode_school( School& school, const TiXmlElement *const pelement )
  */
 Spell_School
-Xml_Spell_List::decode_school(const TiXmlElement *const pelement) const
+Xml_Spell_Access::decode_school(const TiXmlElement *const pelement) const
 {
   Spell_School work;
   decode_school( work, pelement );
@@ -148,7 +148,7 @@ Xml_Spell_List::decode_school(const TiXmlElement *const pelement) const
  * correctly.
  */
 void
-Xml_Spell_List::decode_school(Spell_School& school,
+Xml_Spell_Access::decode_school(Spell_School& school,
                               const TiXmlElement *const pelement) const
 {
   std::string type;
@@ -186,7 +186,7 @@ Xml_Spell_List::decode_school(Spell_School& school,
  * level
  */
 Spell_Level
-Xml_Spell_List::decode_level(const TiXmlElement *const pelement) const
+Xml_Spell_Access::decode_level(const TiXmlElement *const pelement) const
 {
   Spell_Level work;
   decode_level( work, pelement );
@@ -203,7 +203,7 @@ Xml_Spell_List::decode_level(const TiXmlElement *const pelement) const
  * untouched.
  */
 void
-Xml_Spell_List::decode_level(Spell_Level& level,
+Xml_Spell_Access::decode_level(Spell_Level& level,
                              const TiXmlElement *const pelement) const
 {
   std::string type;
@@ -225,7 +225,7 @@ Xml_Spell_List::decode_level(Spell_Level& level,
  * @see decode_casting_time( Casting_Time&, const TiXmlElement *const )
  */
 Spell_Casting_Time
-Xml_Spell_List::decode_casting_time(const TiXmlElement *const pelement) const
+Xml_Spell_Access::decode_casting_time(const TiXmlElement *const pelement) const
 {
   Spell_Casting_Time work;
   decode_casting_time(work, pelement);
@@ -238,7 +238,7 @@ Xml_Spell_List::decode_casting_time(const TiXmlElement *const pelement) const
  * @param pelement pointer to the casting time in the xml
  */
 void
-Xml_Spell_List::decode_casting_time(Spell_Casting_Time& time,
+Xml_Spell_Access::decode_casting_time(Spell_Casting_Time& time,
                                     const TiXmlElement *const pelement) const
 {
   std::string type;
@@ -260,7 +260,7 @@ Xml_Spell_List::decode_casting_time(Spell_Casting_Time& time,
  * @see decode_component( Components&, const TiXmlElement *const )
  */
 Spell_Components
-Xml_Spell_List::decode_component(const TiXmlElement *const pelement) const
+Xml_Spell_Access::decode_component(const TiXmlElement *const pelement) const
 {
   Spell_Components work;
   decode_component( work, pelement );
@@ -279,7 +279,7 @@ Xml_Spell_List::decode_component(const TiXmlElement *const pelement) const
  * @todo add support for M/DF (with description)
  */
 void
-Xml_Spell_List::decode_component(Spell_Components& components,
+Xml_Spell_Access::decode_component(Spell_Components& components,
                                  const TiXmlElement *const pelement) const
 {
   std::string type;
@@ -329,7 +329,7 @@ Xml_Spell_List::decode_component(Spell_Components& components,
  * @see decode_range( Range&, const TiXmlElement *const )
  */
 Spell_Range
-Xml_Spell_List::decode_range(const TiXmlElement *const pelement) const
+Xml_Spell_Access::decode_range(const TiXmlElement *const pelement) const
 {
   Spell_Range work;
   decode_range( work, pelement );
@@ -342,7 +342,7 @@ Xml_Spell_List::decode_range(const TiXmlElement *const pelement) const
  * @param pelement pointer to the range in the xml
  */
 void
-Xml_Spell_List::decode_range(Spell_Range& range,
+Xml_Spell_Access::decode_range(Spell_Range& range,
                              const TiXmlElement *const pelement) const
 {
   std::string type;
@@ -370,7 +370,7 @@ Xml_Spell_List::decode_range(Spell_Range& range,
  * @see decode_duration( Duration&, const TiXmlElement *const )
  */
 Spell_Duration
-Xml_Spell_List::decode_duration(const TiXmlElement *const pelement) const
+Xml_Spell_Access::decode_duration(const TiXmlElement *const pelement) const
 {
   Spell_Duration work;
   decode_duration( work, pelement );
@@ -383,7 +383,7 @@ Xml_Spell_List::decode_duration(const TiXmlElement *const pelement) const
  * @param pelement pointer to the duration in the xml
  */
 void
-Xml_Spell_List::decode_duration(Spell_Duration& duration,
+Xml_Spell_Access::decode_duration(Spell_Duration& duration,
                                 const TiXmlElement *const pelement) const
 {
   std::string type;
@@ -417,7 +417,7 @@ Xml_Spell_List::decode_duration(Spell_Duration& duration,
  * @see decode_saving_throw( Saving_Throw&, const TiXmlElement *const )
  */
 Spell_Saving_Throw
-Xml_Spell_List::decode_saving_throw(const TiXmlElement *const pelement) const
+Xml_Spell_Access::decode_saving_throw(const TiXmlElement *const pelement) const
 {
   Spell_Saving_Throw result;
   decode_saving_throw( result, pelement );
@@ -432,7 +432,7 @@ Xml_Spell_List::decode_saving_throw(const TiXmlElement *const pelement) const
  * @todo add support for multiple types
  */
 void
-Xml_Spell_List::decode_saving_throw(Spell_Saving_Throw& saving_throw,
+Xml_Spell_Access::decode_saving_throw(Spell_Saving_Throw& saving_throw,
                                     const TiXmlElement *const pelement) const
 {
   std::string type;
@@ -467,7 +467,7 @@ Xml_Spell_List::decode_saving_throw(Spell_Saving_Throw& saving_throw,
  * @see decode_spell_resistance( Spell_Resistance&, const TiXmlElement *const )
  */
 Spell_Spell_Resistance
-Xml_Spell_List::decode_spell_resistance
+Xml_Spell_Access::decode_spell_resistance
     (const TiXmlElement *const pelement) const
 {
   Spell_Spell_Resistance result;
@@ -481,7 +481,7 @@ Xml_Spell_List::decode_spell_resistance
  * @param pelement pointer to the resistance in the xml
  */
 void
-Xml_Spell_List::decode_spell_resistance
+Xml_Spell_Access::decode_spell_resistance
     (Spell_Spell_Resistance& spell_resistance,
      TiXmlElement const *const pelement) const
 {
@@ -504,7 +504,7 @@ Xml_Spell_List::decode_spell_resistance
  * @see decode_description( Description&, const TiXmlElement *const )
  */
 std::string
-Xml_Spell_List::decode_description(const TiXmlElement *const pelement) const
+Xml_Spell_Access::decode_description(const TiXmlElement *const pelement) const
 {
   std::string result;
   decode_description( result, pelement );
@@ -520,7 +520,7 @@ Xml_Spell_List::decode_description(const TiXmlElement *const pelement) const
  * @todo implement language support
  */
 void
-Xml_Spell_List::decode_description(std::string& description,
+Xml_Spell_Access::decode_description(std::string& description,
                                    TiXmlElement const *const pelement) const
 {
   description = pelement->GetText();
