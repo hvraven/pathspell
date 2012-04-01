@@ -81,12 +81,12 @@ namespace RPG
 
     typedef std::map < std::string, int > Spell_Level_Map;
 
-    class Spell_Level : public Spell_Element
+    class Spell_Levels : public Spell_Element
     {
     public:
-      Spell_Level();
-      Spell_Level( const Spell_Level_Map& );
-      virtual ~Spell_Level();
+      Spell_Levels();
+      Spell_Levels( const Spell_Level_Map& );
+      virtual ~Spell_Levels();
 
       virtual std::string print() const;
       std::string print( const std::string& ) const;

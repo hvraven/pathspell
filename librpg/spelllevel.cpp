@@ -3,22 +3,22 @@
 
 using namespace RPG::Pathfinder;
 
-Spell_Level::Spell_Level()
+Spell_Levels::Spell_Levels()
 : levels_()
 {
 }
 
-Spell_Level::Spell_Level( const Spell_Level_Map& levels)
+Spell_Levels::Spell_Levels( const Spell_Level_Map& levels)
 : levels_(levels)
 {
 }
 
-Spell_Level::~Spell_Level()
+Spell_Levels::~Spell_Levels()
 {
 }
 
 std::string
-Spell_Level::print() const
+Spell_Levels::print() const
 {
   std::ostringstream temp;
   for (Spell_Level_Map::const_iterator it = levels_.begin() ;
@@ -37,7 +37,7 @@ Spell_Level::print() const
 }
 
 std::string
-Spell_Level::print( const std::string& level) const
+Spell_Levels::print( const std::string& level) const
 {
   if ( levels_.find(level)->second )
     {

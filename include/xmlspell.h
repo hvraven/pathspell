@@ -23,8 +23,8 @@ namespace RPG
       void decode_name(std::string&, const TiXmlElement *const) const;
       inline Spell_School decode_school(const TiXmlElement *const) const;
       void decode_school(Spell_School&, const TiXmlElement *const) const;
-      inline Spell_Level decode_level(const TiXmlElement *const) const;
-      void decode_level(Spell_Level&, const TiXmlElement *const) const;
+      inline Spell_Levels decode_level(const TiXmlElement *const) const;
+      void decode_level(Spell_Levels&, const TiXmlElement *const) const;
       inline Spell_Casting_Time decode_casting_time
         (const TiXmlElement *const) const;
       void decode_casting_time(Spell_Casting_Time&,

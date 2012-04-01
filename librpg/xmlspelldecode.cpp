@@ -6,6 +6,34 @@
 using namespace RPG::Pathfinder;
 
 /**
+ * @brief function to initialize element translation map
+ */
+std::map<std::string, Spell_Token>
+generate_elements_map()
+{
+  std::map<std::string, Spell_Token> elements;
+
+  elements[ "name" ] = Spell_Token::Name;
+  elements[ "school" ] = Spell_Token::School;
+  elements[ "level" ] = Spell_Token::Level;
+  elements[ "domain" ] = Spell_Token::Domain;
+  elements[ "casting_time" ] = Spell_Token::Casting_Time;
+  elements[ "component" ] = Spell_Token::Components;
+  elements[ "range" ] = Spell_Token::Range;
+  elements[ "duration" ] = Spell_Token::Duration;
+  elements[ "saving_throw" ] = Spell_Token::Saving_Throw;
+  elements[ "spell_resistance" ] = Spell_Token::Spell_Resistance;
+  elements[ "short_description" ] = Spell_Token::Short_Description;
+  elements[ "description" ] = Spell_Token::Description;
+  elements[ "target" ] = Spell_Token::Target;
+  elements[ "annotation" ] = Spell_Token::Annotation;
+  elements[ "note" ] = Spell_Token::Note;
+  elements[ "area" ] = Spell_Token::Area;
+
+  return elements;
+}
+
+/**
  * @brief reads the elements from the xml and copies them to the Spell
  * @param pxml the element to decode
  * @return new generated spell
@@ -23,24 +51,7 @@ Xml_Spell_Access::decode(const TiXmlElement *const pxml) const
   /* map for easy translation of the names to tokens */
   static std::map < std::string, Spell_Token > elements;
   if (elements.size() == 0)
-    {
-      elements[ "name" ] = Spell_Token::Name;
-      elements[ "school" ] = Spell_Token::School;
-      elements[ "level" ] = Spell_Token::Level;
-      elements[ "domain" ] = Spell_Token::Domain;
-      elements[ "casting_time" ] = Spell_Token::Casting_Time;
-      elements[ "component" ] = Spell_Token::Components;
-      elements[ "range" ] = Spell_Token::Range;
-      elements[ "duration" ] = Spell_Token::Duration;
-      elements[ "saving_throw" ] = Spell_Token::Saving_Throw;
-      elements[ "spell_resistance" ] = Spell_Token::Spell_Resistance;
-      elements[ "short_description" ] = Spell_Token::Short_Description;
-      elements[ "description" ] = Spell_Token::Description;
-      elements[ "target" ] = Spell_Token::Target;
-      elements[ "annotation" ] = Spell_Token::Annotation;
-      elements[ "note" ] = Spell_Token::Note;
-      elements[ "area" ] = Spell_Token::Area;
-    }
+    elements = generate_elements_map();
 
   Spell result;
 
@@ -50,34 +61,34 @@ Xml_Spell_Access::decode(const TiXmlElement *const pxml) const
       switch( elements[ pelement->Value() ] )
         {
         case Spell_Token::Name:
-          result.set_name( decode_name(pelement) );
+          decode_name(result.name, pelement);
           break;
         case Spell_Token::School:
-          result.set_school( decode_school(pelement) );
+          decode_school(result.school, pelement);
           break;
         case Spell_Token::Level:
-          decode_level(result.get_level(), pelement);
+          decode_level(result.levels, pelement);
           break;
         case Spell_Token::Casting_Time:
-          result.set_casting_time( decode_casting_time(pelement) );
+          decode_casting_time(result.casting_time, pelement);
           break;
         case Spell_Token::Components:
-          decode_component(result.get_components(), pelement);
+          decode_component(result.components, pelement);
           break;
         case Spell_Token::Range:
-          result.set_range( decode_range(pelement) );
+          decode_range(result.range, pelement);
           break;
         case Spell_Token::Duration:
-          result.set_duration( decode_duration(pelement) );
+          decode_duration(result.duration, pelement);
           break;
         case Spell_Token::Saving_Throw:
-          result.set_saving_throw( decode_saving_throw(pelement) );
+          decode_saving_throw(result.saving_throw, pelement);
           break;
         case Spell_Token::Spell_Resistance:
-          result.set_spell_resistance( decode_spell_resistance(pelement) );
+          decode_spell_resistance(result.spell_resistance, pelement);
           break;
         case Spell_Token::Description:
-          result.set_description( decode_description(pelement) );
+          decode_description(result.description, pelement);
           break;
         default:
           throw RPG::xml_error("Unknown element " +
@@ -185,10 +196,10 @@ Xml_Spell_Access::decode_school(Spell_School& school,
  * @note this function creates a new level class containing only the last
  * level
  */
-Spell_Level
+Spell_Levels
 Xml_Spell_Access::decode_level(const TiXmlElement *const pelement) const
 {
-  Spell_Level work;
+  Spell_Levels work;
   decode_level( work, pelement );
   return work;
 }
@@ -203,8 +214,8 @@ Xml_Spell_Access::decode_level(const TiXmlElement *const pelement) const
  * untouched.
  */
 void
-Xml_Spell_Access::decode_level(Spell_Level& level,
-                             const TiXmlElement *const pelement) const
+Xml_Spell_Access::decode_level(Spell_Levels& level,
+                               const TiXmlElement *const pelement) const
 {
   std::string type;
   int value = 0;
