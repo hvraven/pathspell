@@ -1,7 +1,10 @@
-#include <map>
+#include "xmlspell.h"
+
 #include "error.h"
 #include "strmanip.h"
-#include "xmlspell.h"
+#include "xmldecode.h"
+#include <cctype>
+#include <map>
 
 using namespace RPG::Pathfinder;
 
@@ -106,7 +109,7 @@ Xml_Spell_Access::decode(const TiXmlElement *const pxml) const
  * @param pelement pointer to the xml name entry
  * @see decode_name( Name& name, const TiXmlElement *const pelement )
  */
-std::string
+inline std::string
 Xml_Spell_Access::decode_name(const TiXmlElement *const pelement) const
 {
   std::string work;
@@ -125,14 +128,12 @@ Xml_Spell_Access::decode_name(const TiXmlElement *const pelement) const
  * spell name is set to the given name. currently other languages just get
  * discarded
  */
-void
+inline void
 Xml_Spell_Access::decode_name(std::string& name,
-                            const TiXmlElement *const pelement) const
+                              const TiXmlElement *const pelement) const
 {
-  std::string language;
-  if (((pelement->QueryStringAttribute("language", &language)) == TIXML_SUCCESS))
-    if (language == "en")
-      name = pelement->GetText();
+  if (attribute_to_string("language", pelement) == "en")
+    name = text_to_string(pelement);
 }
 
 /**
@@ -140,7 +141,7 @@ Xml_Spell_Access::decode_name(std::string& name,
  * @param pelement pointer to the xml school entry
  * @see decode_school( School& school, const TiXmlElement *const pelement )
  */
-Spell_School
+inline Spell_School
 Xml_Spell_Access::decode_school(const TiXmlElement *const pelement) const
 {
   Spell_School work;
@@ -160,33 +161,19 @@ Xml_Spell_Access::decode_school(const TiXmlElement *const pelement) const
  */
 void
 Xml_Spell_Access::decode_school(Spell_School& school,
-                              const TiXmlElement *const pelement) const
+                                const TiXmlElement *const pelement) const
 {
-  std::string type;
-  if ( pelement->QueryStringAttribute("type",&type) != TIXML_SUCCESS )
-    throw RPG::xml_error("decoding of school type failed");
-  school.set_school( type );
+  school.set_school(attribute_to_string("type", pelement));
 
   const TiXmlElement* psubelement = pelement->FirstChildElement( "subschool" );
   if ( psubelement )
     do
-      {
-        if (psubelement->QueryStringAttribute("type",&type)
-            != TIXML_SUCCESS)
-          throw RPG::xml_error("decoding of school subelement type failed");
-        school.add_subschool( type );
-        psubelement = psubelement->NextSiblingElement( "subschool" );
-      }
-    while ( psubelement );
+      school.add_subschool(attribute_to_string("type", psubelement));
+    while (psubelement->NextSiblingElement("subschool"));
 
   psubelement = pelement->FirstChildElement( "descriptor" );
   if ( psubelement )
-    {
-      if (psubelement->QueryStringAttribute("type",&type)
-          != TIXML_SUCCESS)
-        throw RPG::xml_error("decoding of school descriptor type failed");
-      school.set_descriptor( type );
-    }
+    school.set_descriptor(attribute_to_string("type", psubelement));
 }
 
 /**
@@ -196,7 +183,7 @@ Xml_Spell_Access::decode_school(Spell_School& school,
  * @note this function creates a new level class containing only the last
  * level
  */
-Spell_Levels
+inline Spell_Levels
 Xml_Spell_Access::decode_level(const TiXmlElement *const pelement) const
 {
   Spell_Levels work;
@@ -235,7 +222,7 @@ Xml_Spell_Access::decode_level(Spell_Levels& level,
  * @param pelement pointer to the xml casting time entry
  * @see decode_casting_time( Casting_Time&, const TiXmlElement *const )
  */
-Spell_Casting_Time
+inline Spell_Casting_Time
 Xml_Spell_Access::decode_casting_time(const TiXmlElement *const pelement) const
 {
   Spell_Casting_Time work;
@@ -248,21 +235,12 @@ Xml_Spell_Access::decode_casting_time(const TiXmlElement *const pelement) const
  * @param time class to add the xml information to
  * @param pelement pointer to the casting time in the xml
  */
-void
+inline void
 Xml_Spell_Access::decode_casting_time(Spell_Casting_Time& time,
-                                    const TiXmlElement *const pelement) const
+                                      const TiXmlElement *const pelement) const
 {
-  std::string type;
-  int value = 0;
-  if ( pelement->QueryStringAttribute("type", &type) == TIXML_SUCCESS )
-    {
-      if ( pelement->QueryIntAttribute("value", &value) == TIXML_SUCCESS )
-        time.set( type, value );
-      else
-        throw RPG::xml_error("failed to decode casting time value");
-    }
-  else
-    throw RPG::xml_error("failed to decode casting time type");
+  time.set(attribute_to_string("type", pelement),
+           attribute_to_int("value", pelement));
 }
 
 /**
@@ -270,7 +248,7 @@ Xml_Spell_Access::decode_casting_time(Spell_Casting_Time& time,
  * @param pelement pointer to the xml component entry
  * @see decode_component( Components&, const TiXmlElement *const )
  */
-Spell_Components
+inline Spell_Components
 Xml_Spell_Access::decode_component(const TiXmlElement *const pelement) const
 {
   Spell_Components work;
@@ -291,47 +269,32 @@ Xml_Spell_Access::decode_component(const TiXmlElement *const pelement) const
  */
 void
 Xml_Spell_Access::decode_component(Spell_Components& components,
-                                 const TiXmlElement *const pelement) const
+                                   const TiXmlElement *const pelement) const
 {
-  std::string type;
-  if ( pelement->QueryStringAttribute("type", &type) == TIXML_SUCCESS )
-    {
-      if ( type.length() == 1 )
-        switch ( type[0] )
-          {
-          case 'V':
-            {
-              components.set_verbal(true);
-              break;
-            }
-          case 'S':
-            {
-              components.set_somatic(true);
-              break;
-            }
-          case 'M':
-            {
-              components.set_material(true, pelement->GetText() );
-              break;
-            }
-          case 'F':
-            {
-              components.set_focus(true, pelement->GetText() );
-              break;
-            }
-          default:
-            throw RPG::xml_error("invalid component type: " + type);
-          }
-      else
-        if ( type == "DF" )
-          {
-            components.set_divine_focus( true );
-          }
-        else
-          throw RPG::xml_error("invalid component type: " + type);
-    }
+  std::string type = attribute_to_string("type", pelement);
+  if ( type.length() == 1 )
+    switch ( std::tolower(type[0]) )
+      {
+      case 'v':
+        components.set_verbal(true);
+        break;
+      case 's':
+        components.set_somatic(true);
+        break;
+      case 'm':
+        components.set_material(true, text_to_string(pelement));
+        break;
+      case 'f':
+        components.set_focus(true, text_to_string(pelement));
+        break;
+      default:
+        throw RPG::xml_error("invalid component type: " + type);
+      }
   else
-    throw RPG::xml_error("failed to decode component type");
+    if (to_lower(type) == "df")
+      components.set_divine_focus(true);
+    else
+      throw RPG::xml_error("invalid component type: " + type);
 }
 
 /**
@@ -339,7 +302,7 @@ Xml_Spell_Access::decode_component(Spell_Components& components,
  * @param pelement pointer to the xml range entry
  * @see decode_range( Range&, const TiXmlElement *const )
  */
-Spell_Range
+inline Spell_Range
 Xml_Spell_Access::decode_range(const TiXmlElement *const pelement) const
 {
   Spell_Range work;
@@ -354,25 +317,14 @@ Xml_Spell_Access::decode_range(const TiXmlElement *const pelement) const
  */
 void
 Xml_Spell_Access::decode_range(Spell_Range& range,
-                             const TiXmlElement *const pelement) const
+                               const TiXmlElement *const pelement) const
 {
-  std::string type;
-  int value = 0;
-  if (pelement->QueryStringAttribute("type", &type) == TIXML_SUCCESS)
-    {
-      if (type == "personal" || type == "touch" || type == "close" ||
-          type == "medium" || type == "long" || type == "unlimited")
-        range.set_type(type);
-      else
-        {
-          if ( pelement->QueryIntAttribute("value", &value) == TIXML_SUCCESS )
-            range.set(type, value);
-          else
-            throw RPG::xml_error("failed to decode range value");
-        }
-    }
+  std::string type = to_lower(attribute_to_string("type", pelement));
+  if (type == "personal" || type == "touch" || type == "close" ||
+      type == "medium" || type == "long" || type == "unlimited")
+    range.set_type(type);
   else
-    throw RPG::xml_error("failed to decode range type");
+    range.set_type(attribute_to_string("value", pelement));
 }
 
 /**
@@ -380,7 +332,7 @@ Xml_Spell_Access::decode_range(Spell_Range& range,
  * @param pelement pointer to the xml duration entry
  * @see decode_duration( Duration&, const TiXmlElement *const )
  */
-Spell_Duration
+inline Spell_Duration
 Xml_Spell_Access::decode_duration(const TiXmlElement *const pelement) const
 {
   Spell_Duration work;
@@ -395,31 +347,19 @@ Xml_Spell_Access::decode_duration(const TiXmlElement *const pelement) const
  */
 void
 Xml_Spell_Access::decode_duration(Spell_Duration& duration,
-                                const TiXmlElement *const pelement) const
+                                  const TiXmlElement *const pelement) const
 {
-  std::string type;
-  bool dismissible = false;
+  duration.set_dismissible(attribute_to_bool("dismissible", pelement));
 
-  if (pelement->QueryBoolAttribute("dismissible", &dismissible)
-      == TIXML_SUCCESS)
-    duration.set_dismissible( dismissible );
+  std::string type = attribute_to_string("type", pelement);
+  duration.set_type(type);
 
-  if (pelement->QueryStringAttribute("type", &type) == TIXML_SUCCESS)
-    {
-      duration.set_type( type );
-      /// @todo check if list is complete
-      if ( type == "instantaneous" || type == "permanent" || type == "see text" )
-        return;
-      else
-        {
-          if ( pelement->QueryStringAttribute("value", &type) == TIXML_SUCCESS )
-            duration.read_level( type );
-          else
-            throw RPG::xml_error("failed to decode duration value");
-        }
-    }
+  str_lower(type);
+  /// @todo check if list is complete
+  if ( type == "instantaneous" || type == "permanent" || type == "see text" )
+    return;
   else
-    throw RPG::xml_error("failed to decode duration type");
+    duration.read_level(attribute_to_string("value", pelement));
 }
 
 /**
@@ -427,7 +367,7 @@ Xml_Spell_Access::decode_duration(Spell_Duration& duration,
  * @param pelement pointer to the xml saving throw entry
  * @see decode_saving_throw( Saving_Throw&, const TiXmlElement *const )
  */
-Spell_Saving_Throw
+inline Spell_Saving_Throw
 Xml_Spell_Access::decode_saving_throw(const TiXmlElement *const pelement) const
 {
   Spell_Saving_Throw result;
@@ -444,32 +384,13 @@ Xml_Spell_Access::decode_saving_throw(const TiXmlElement *const pelement) const
  */
 void
 Xml_Spell_Access::decode_saving_throw(Spell_Saving_Throw& saving_throw,
-                                    const TiXmlElement *const pelement) const
+                                      const TiXmlElement *const pelement) const
 {
-  std::string type;
-  if ( pelement->QueryStringAttribute("type",&type) == TIXML_SUCCESS )
-    {
-      std::string value;
-      if (pelement->QueryStringAttribute("value",&value)
-          == TIXML_SUCCESS)
-        {
-          saving_throw.set_type( type );
-          saving_throw.set_value( value );
-
-          bool temp = false;
-          if ( (pelement->QueryBoolAttribute("harmless",&temp)
-                == TIXML_SUCCESS) && temp )
-            saving_throw.set_harmless(temp);
-          temp = false;
-          if ( (pelement->QueryBoolAttribute("see_text",&temp)
-                == TIXML_SUCCESS) && temp )
-            saving_throw.set_see_text(temp);
-          temp = false;
-          if ( (pelement->QueryBoolAttribute("object",&temp)
-                == TIXML_SUCCESS) && temp )
-            saving_throw.set_object(temp);
-        }
-    }
+  saving_throw.set_type(attribute_to_string("type", pelement));
+  saving_throw.set_value(attribute_to_string("value", pelement));
+  saving_throw.set_harmless(attribute_to_bool("harmless", pelement));
+  saving_throw.set_see_text(attribute_to_bool("see_text", pelement));
+  saving_throw.set_object(attribute_to_bool("object", pelement));
 }
 
 /**
@@ -477,7 +398,7 @@ Xml_Spell_Access::decode_saving_throw(Spell_Saving_Throw& saving_throw,
  * @param pelement pointer to the xml spell resistance entry
  * @see decode_spell_resistance( Spell_Resistance&, const TiXmlElement *const )
  */
-Spell_Spell_Resistance
+inline Spell_Spell_Resistance
 Xml_Spell_Access::decode_spell_resistance
     (const TiXmlElement *const pelement) const
 {
@@ -496,17 +417,9 @@ Xml_Spell_Access::decode_spell_resistance
     (Spell_Spell_Resistance& spell_resistance,
      TiXmlElement const *const pelement) const
 {
-  bool temp = false;
-
-  if ( (pelement->QueryBoolAttribute("harmless",&temp)
-        == TIXML_SUCCESS) && temp )
-    spell_resistance.set_harmless(true);
-  if ( (pelement->QueryBoolAttribute("see_text",&temp)
-        == TIXML_SUCCESS) && temp )
-    spell_resistance.set_see_text(true);
-  if ( (pelement->QueryBoolAttribute("value",&temp)
-        == TIXML_SUCCESS) && temp )
-    spell_resistance.set_resistance(true);
+  spell_resistance.set_resistance(attribute_to_bool("value", pelement));
+  spell_resistance.set_harmless(attribute_to_bool("harmless", pelement));
+  spell_resistance.set_see_text(attribute_to_bool("see_text", pelement));
 }
 
 /**
@@ -514,7 +427,7 @@ Xml_Spell_Access::decode_spell_resistance
  * @param pelement pointer to the xml description entry
  * @see decode_description( Description&, const TiXmlElement *const )
  */
-std::string
+inline std::string
 Xml_Spell_Access::decode_description(const TiXmlElement *const pelement) const
 {
   std::string result;
@@ -530,9 +443,9 @@ Xml_Spell_Access::decode_description(const TiXmlElement *const pelement) const
  * @todo look for a way to not copy the description (leave it in the xml)
  * @todo implement language support
  */
-void
+inline void
 Xml_Spell_Access::decode_description(std::string& description,
-                                   TiXmlElement const *const pelement) const
+                                     TiXmlElement const *const pelement) const
 {
-  description = pelement->GetText();
+  description = text_to_string(pelement);
 }
