@@ -1,12 +1,10 @@
 #ifndef LIBRPG_XMLACCESS_H
 #define LIBRPG_XMLACCESS_H
 
-#define TIXML_USE_STL
-
 #include "elementlist.h"
 #include "error.h"
+#include "xml.h"
 #include <string>
-#include <tinyxml.h>
 #include <unordered_map>
 
 namespace RPG
