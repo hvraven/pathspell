@@ -91,6 +91,20 @@ namespace RPG
     Index_Map::const_iterator list_it_;
   };
 
+  template <class T>
+  typename Xml_Access<T>::const_iterator
+  begin(const Xml_Access<T>& e)
+  {
+    return e.begin();
+  }
+
+  template <class T>
+  typename Xml_Access<T>::const_iterator
+  end(const Xml_Access<T>& e)
+  {
+    return e.end();
+  }
+
   /***** Xml_Access ***********************************************/
 
   /**
@@ -182,7 +196,7 @@ namespace RPG
   inline typename Xml_Access<T>::value_type
   Const_Xml_Access_Iterator<T>::operator*() const
   {
-    return list_.decode(*list_it_);
+    return list_.decode(list_it_->second);
   }
 
   template <class T>
@@ -198,7 +212,7 @@ namespace RPG
   Const_Xml_Access_Iterator<T>::operator++(int)
   {
     auto temp = clone *this;
-    list_it_++;
+    ++list_it_;
     return temp;
   }
 
