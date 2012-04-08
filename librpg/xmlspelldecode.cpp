@@ -38,19 +38,6 @@ generate_elements_map()
 }
 
 /**
- * @brief reads the xml information to a name class
- * @param pelement pointer to the xml name entry
- * @see decode_name( Name& name, const TiXmlElement *const pelement )
- */
-inline std::string
-decode_name(const TiXmlElement *const pelement)
-{
-  std::string work;
-  decode_name(work, pelement);
-  return work;
-}
-
-/**
  * @brief gets the xml data of a name element and writes it to the spell
  * @param spell the spell to save the name in
  * @param pelement pointer to the xml name entry
@@ -63,23 +50,10 @@ decode_name(const TiXmlElement *const pelement)
  */
 inline void
 decode_name(std::string& name,
-                              const TiXmlElement *const pelement)
+            const TiXmlElement *const pelement)
 {
   if (attribute_to_string("language", pelement) == "en")
     name = text_to_string(pelement);
-}
-
-/**
- * @brief adds the xml information to a new school class
- * @param pelement pointer to the xml school entry
- * @see decode_school( School& school, const TiXmlElement *const pelement )
- */
-inline Spell_School
-decode_school(const TiXmlElement *const pelement)
-{
-  Spell_School work;
-  decode_school( work, pelement );
-  return work;
 }
 
 /**
@@ -94,7 +68,7 @@ decode_school(const TiXmlElement *const pelement)
  */
 void
 decode_school(Spell_School& school,
-                                const TiXmlElement *const pelement)
+              const TiXmlElement *const pelement)
 {
   school.set_school(attribute_to_string("type", pelement));
 
@@ -110,21 +84,6 @@ decode_school(Spell_School& school,
 }
 
 /**
- * @brief adds the xml information to a new level class
- * @param pelement pointer to the xml level entry
- * @see decode_level( Level& level, const TiXmlElement *const pelement )
- * @note this function creates a new level class containing only the last
- * level
- */
-inline Spell_Levels
-decode_level(const TiXmlElement *const pelement)
-{
-  Spell_Levels work;
-  decode_level( work, pelement );
-  return work;
-}
-
-/**
  * @brief adds the level information to a given level class
  * @param level level class to add the information to
  * @param pelement pointer to the level in the xml
@@ -135,7 +94,7 @@ decode_level(const TiXmlElement *const pelement)
  */
 void
 decode_level(Spell_Levels& level,
-                               const TiXmlElement *const pelement)
+             const TiXmlElement *const pelement)
 {
   std::string type;
   int value = 0;
@@ -151,42 +110,16 @@ decode_level(Spell_Levels& level,
 }
 
 /**
- * @brief adds the xml information to a new casting time class
- * @param pelement pointer to the xml casting time entry
- * @see decode_casting_time( Casting_Time&, const TiXmlElement *const )
- */
-inline Spell_Casting_Time
-decode_casting_time(const TiXmlElement *const pelement)
-{
-  Spell_Casting_Time work;
-  decode_casting_time(work, pelement);
-  return work;
-}
-
-/**
  * @brief adds the xml information to a given casting time class
  * @param time class to add the xml information to
  * @param pelement pointer to the casting time in the xml
  */
 inline void
 decode_casting_time(Spell_Casting_Time& time,
-                                      const TiXmlElement *const pelement)
+                    const TiXmlElement *const pelement)
 {
   time.set(attribute_to_string("type", pelement),
            attribute_to_int("value", pelement));
-}
-
-/**
- * @brief adds the xml information to a new components class
- * @param pelement pointer to the xml component entry
- * @see decode_component( Components&, const TiXmlElement *const )
- */
-inline Spell_Components
-decode_component(const TiXmlElement *const pelement)
-{
-  Spell_Components work;
-  decode_component( work, pelement );
-  return work;
 }
 
 /**
@@ -202,7 +135,7 @@ decode_component(const TiXmlElement *const pelement)
  */
 void
 decode_component(Spell_Components& components,
-                                   const TiXmlElement *const pelement)
+                 const TiXmlElement *const pelement)
 {
   std::string type = attribute_to_string("type", pelement);
   if ( type.length() == 1 )
@@ -231,26 +164,13 @@ decode_component(Spell_Components& components,
 }
 
 /**
- * @brief adds the xml information to a new range class
- * @param pelement pointer to the xml range entry
- * @see decode_range( Range&, const TiXmlElement *const )
- */
-inline Spell_Range
-decode_range(const TiXmlElement *const pelement)
-{
-  Spell_Range work;
-  decode_range( work, pelement );
-  return work;
-}
-
-/**
  * @brief add the range information to the given spell
  * @param range range class to add the information to
  * @param pelement pointer to the range in the xml
  */
 void
 decode_range(Spell_Range& range,
-                               const TiXmlElement *const pelement)
+             const TiXmlElement *const pelement)
 {
   std::string type = to_lower(attribute_to_string("type", pelement));
   if (type == "personal" || type == "touch" || type == "close" ||
@@ -261,26 +181,13 @@ decode_range(Spell_Range& range,
 }
 
 /**
- * @brief adds the xml information to a new duration class
- * @param pelement pointer to the xml duration entry
- * @see decode_duration( Duration&, const TiXmlElement *const )
- */
-inline Spell_Duration
-decode_duration(const TiXmlElement *const pelement)
-{
-  Spell_Duration work;
-  decode_duration( work, pelement );
-  return work;
-}
-
-/**
  * @brief add the duration information to the given class
  * @param duration class to add the information to
  * @param pelement pointer to the duration in the xml
  */
 void
 decode_duration(Spell_Duration& duration,
-                                  const TiXmlElement *const pelement)
+                const TiXmlElement *const pelement)
 {
   duration.set_dismissible(attribute_to_bool("dismissible", pelement));
 
@@ -296,19 +203,6 @@ decode_duration(Spell_Duration& duration,
 }
 
 /**
- * @brief adds the xml information to a new saving throw class
- * @param pelement pointer to the xml saving throw entry
- * @see decode_saving_throw( Saving_Throw&, const TiXmlElement *const )
- */
-inline Spell_Saving_Throw
-decode_saving_throw(const TiXmlElement *const pelement)
-{
-  Spell_Saving_Throw result;
-  decode_saving_throw( result, pelement );
-  return result;
-}
-
-/**
  * @brief function to decode a saving throw xml entry
  * @param saving_throw the saving throw to store the data in
  * @param pelement pointer to the saving throw xml entry
@@ -317,7 +211,7 @@ decode_saving_throw(const TiXmlElement *const pelement)
  */
 void
 decode_saving_throw(Spell_Saving_Throw& saving_throw,
-                                      const TiXmlElement *const pelement)
+                    const TiXmlElement *const pelement)
 {
   saving_throw.set_type(attribute_to_string("type", pelement));
   saving_throw.set_value(attribute_to_string("value", pelement));
@@ -327,45 +221,17 @@ decode_saving_throw(Spell_Saving_Throw& saving_throw,
 }
 
 /**
- * @brief adds the xml information to a new spell resistance class
- * @param pelement pointer to the xml spell resistance entry
- * @see decode_spell_resistance( Spell_Resistance&, const TiXmlElement *const )
- */
-inline Spell_Spell_Resistance
-decode_spell_resistance
-    (const TiXmlElement *const pelement)
-{
-  Spell_Spell_Resistance result;
-  decode_spell_resistance( result, pelement );
-  return result;
-}
-
-/**
  * @brief add the spell resistance information to the given spell
  * @param spell_resistance class to add the spell resistance to
  * @param pelement pointer to the resistance in the xml
  */
 void
-decode_spell_resistance
-    (Spell_Spell_Resistance& spell_resistance,
-     TiXmlElement const *const pelement)
+decode_spell_resistance(Spell_Spell_Resistance& spell_resistance,
+                        TiXmlElement const *const pelement)
 {
   spell_resistance.set_resistance(attribute_to_bool("value", pelement));
   spell_resistance.set_harmless(attribute_to_bool("harmless", pelement));
   spell_resistance.set_see_text(attribute_to_bool("see_text", pelement));
-}
-
-/**
- * @brief adds the xml information to a new description class
- * @param pelement pointer to the xml description entry
- * @see decode_description( Description&, const TiXmlElement *const )
- */
-inline std::string
-decode_description(const TiXmlElement *const pelement)
-{
-  std::string result;
-  decode_description( result, pelement );
-  return result;
 }
 
 /**
@@ -381,4 +247,73 @@ decode_description(std::string& description,
                    TiXmlElement const *const pelement)
 {
   description = text_to_string(pelement);
+}
+
+/**
+ * @brief reads the elements from the xml and copies them to the Spell
+ * @param pxml the element to decode
+ * @return new generated spell
+ *
+ * @todo add a check if all necessary elements have been found
+ * @todo add missing components
+ * @todo add error handling
+ *
+ * this function checks element by element what it is and calls the respecting
+ * add functions to add them to the given spell.
+ */
+template <>
+typename Xml_Access<Pathfinder::Spell>::value_type
+Xml_Access<Pathfinder::Spell>::decode(const TiXmlElement *const pxml) const
+{
+  /* map for easy translation of the names to tokens */
+  static std::map < std::string, Spell_Token > elements;
+  if (elements.size() == 0)
+    elements = generate_elements_map();
+
+  Spell result;
+
+  TiXmlElement const * pelement = pxml->FirstChildElement();
+  while (pelement)
+    {
+      switch(elements[pelement->Value()])
+        {
+        case Spell_Token::Name:
+          decode_name(result.name, pelement);
+          break;
+        case Spell_Token::School:
+          decode_school(result.school, pelement);
+          break;
+        case Spell_Token::Level:
+          decode_level(result.levels, pelement);
+          break;
+        case Spell_Token::Casting_Time:
+          decode_casting_time(result.casting_time, pelement);
+          break;
+        case Spell_Token::Components:
+          decode_component(result.components, pelement);
+          break;
+        case Spell_Token::Range:
+          decode_range(result.range, pelement);
+          break;
+        case Spell_Token::Duration:
+          decode_duration(result.duration, pelement);
+          break;
+        case Spell_Token::Saving_Throw:
+          decode_saving_throw(result.saving_throw, pelement);
+          break;
+        case Spell_Token::Spell_Resistance:
+          decode_spell_resistance(result.spell_resistance, pelement);
+          break;
+        case Spell_Token::Description:
+          decode_description(result.description, pelement);
+          break;
+        default:
+          throw RPG::xml_error("Unknown element " +
+                               pelement->ValueStr() + " found");
+        }
+
+      pelement = pelement->NextSiblingElement();
+    }
+
+  return result;
 }
