@@ -4,20 +4,6 @@
 #include "strmanip.h"
 
 /**
- * @brief get the text defined in a element as string
- * @param pelem element containing text
- * @return the text
- *
- * text_to_string called to a element of the form <elem>testtext</elem>
- * will return "testtext"
- */
-inline std::string
-RPG::text_to_string(const TiXmlElement *const pelem)
-{
-  return pelem->GetText();
-}
-
-/**
  * @brief evaluates an attribute as bool
  * @param attribute attribute containing the bool
  * @param pelem element containing the attribute
