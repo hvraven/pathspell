@@ -1,5 +1,7 @@
-#include "xml.h"
 #include "gtkwindow.h"
+#include "spell.h"
+#include "storage.h"
+#include "xmlspell.h"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -10,6 +12,9 @@
 #include <fstream>
 #include <string>
 #include <vector>
+
+using namespace RPG;
+using namespace RPG::Pathfinder;
 
 /**
  * \brief checks if a file exists in filesystem
@@ -29,14 +34,16 @@ int main( int argc, char* argv[] )
   Gtk::Main kit(argc, argv);
 
   const std::string spell_file_name = "spells.xml";
-  std::vector<std::string> path_list = {
+  std::vector<std::string> path_list;
+  //  std::vector<std::string> path_list = {
 #ifdef HAVE_CONFIG_H
-    "/usr/share/" PACKAGE "/",
-    "/usr/share/" PACKAGE "-" PACKAGE_VERSION "/",
+  //    "/usr/share/" PACKAGE "/",
+  //    "/usr/share/" PACKAGE "-" PACKAGE_VERSION "/",
+
 #endif /* HAVE_CONFIG_H */
-    "./",
-    "../"
-  };
+      //    "./",
+      //    "../"
+      // };
 
   std::string spell_list_path = "";
   for ( std::vector<std::string>::const_iterator it = path_list.begin();
@@ -46,6 +53,9 @@ int main( int argc, char* argv[] )
         spell_list_path = *it + spell_file_name;
         break;
       }
+
+/// @TODO TEMP!
+  spell_list_path = "./";
 
   if ( spell_list_path == "" )
     {
@@ -58,9 +68,12 @@ int main( int argc, char* argv[] )
       return 1;
     }
 
-  Spell_List spell_list( spell_list_path );
+  RPG::Pathfinder::Xml_Spell_Access spell_access(spell_list_path);
+  RPG::Spell_Storage spell_list;
+  for (auto e : spell_access)
+    spell_list.insert(make_pair(e.get_identifier(), e));
+  Gtk_Window window(spell_list);
 
-  Gtk_Window window( &spell_list );
   Gtk::Main::run(window);
 
   return 0;

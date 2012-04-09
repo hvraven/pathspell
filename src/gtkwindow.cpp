@@ -1,9 +1,9 @@
 #include "gtkwindow.h"
 
-Gtk_Window::Gtk_Window( Spell_List * const spells )
+Gtk_Window::Gtk_Window(const RPG::Spell_Storage& storage)
   : search_entry_(),
     spell_label_(),
-    spells_(spells)
+    storage_(storage)
 {
   set_title( "pathspell" );
   set_border_width(5);
@@ -27,7 +27,7 @@ Gtk_Window::Gtk_Window( Spell_List * const spells )
   ref_tree_model_ = Gtk::ListStore::create( columns_ );
   tree_view_.set_model( ref_tree_model_ );
 
-  import_spells( spells_->get_spell_list() );
+  read_spells();
 
   search_entry_.signal_changed().connect( sigc::mem_fun( *this,
 	                &Gtk_Window::on_search_entry_change) );
@@ -35,10 +35,6 @@ Gtk_Window::Gtk_Window( Spell_List * const spells )
 		        &Gtk_Window::on_tree_view_row_activated) );
 
   show_all_children();
-}
-
-Gtk_Window::~Gtk_Window()
-{
 }
 
 void Gtk_Window::on_tree_view_row_activated
@@ -53,46 +49,47 @@ void Gtk_Window::on_tree_view_row_activated
     }
 }
 
-void Gtk_Window::import_spells( std::vector < std::string > spell_list )
+void
+Gtk_Window::read_spells()
 {
-  std::vector < std::string >::const_iterator it = spell_list.begin();
-  for ( ; it != spell_list.end() ; it++ )
+  for (const auto& it : storage_)
     {
-      Gtk::TreeModel::Row row = *( ref_tree_model_->append() );
-      row[columns_.col_name_] = *it;
+      Gtk::TreeModel::Row row = *(ref_tree_model_->append());
+      row[columns_.col_name_] = it.first;
     }
 
-  tree_view_.append_column( "Spell", columns_.col_name_ );
+  tree_view_.append_column("Spell", columns_.col_name_);
 }
 
-void Gtk_Window::display_spell( const Glib::ustring& spell_name )
+void Gtk_Window::display_spell(const Glib::ustring& spell_name)
 {
-  Spell_RefPtr pspell( spells_, spell_name );
+  const RPG::Pathfinder::Spell *const pspell
+    (&(storage_.find(spell_name)->second));
 
   Glib::ustring result = "<span font_size=\"medium\"><b>"
-    + pspell->get_name().print()
+    + pspell->name
     + "</b>\n</span>";
 
   result += "<b>School:</b> "
-    + pspell->get_school().print()
+    + pspell->school.print()
     + " ";
 
   result += "<b>Level:</b> "
-    + pspell->get_level().print();
+    + pspell->levels.print();
 
   result += "\n<b>Casting:</b>\n";
 
   result += "<b>Casting Time</b>: "
-    + pspell->get_casting_time().print()
+    + pspell->casting_time.print()
     + " ";
 
   result += "<b>Components:</b> "
-    + pspell->get_components().print();
+    + pspell->components.print();
 
   result += "\n<b>Effect:</b>\n";
 
   result += "<b>Range:</b> "
-    + pspell->get_range().print()
+    + pspell->range.print()
     + " ";
 
   /*if ( spell.check_target() )
@@ -103,18 +100,18 @@ void Gtk_Window::display_spell( const Glib::ustring& spell_name )
 	}*/
 
   result += "<b>Duration:</b> "
-    + pspell->get_duration().print()
+    + pspell->duration.print()
     + " ";
 
   result += "<b>Saving Throw:</b> "
-    + pspell->get_saving_throw().print()
+    + pspell->saving_throw.print()
     + " ";
 
   result += "<b>Spell Resistance:</b> "
-    + pspell->get_spell_resistance().print();
+    + pspell->spell_resistance.print();
 
   result += "\n<b>Description:</b>\n"
-    + pspell->get_description().print();
+    + pspell->description;
 
   spell_label_.set_markup( result );
 }
