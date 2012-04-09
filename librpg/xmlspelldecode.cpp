@@ -317,3 +317,18 @@ Xml_Access<Pathfinder::Spell>::decode(const TiXmlElement *const pxml) const
 
   return result;
 }
+
+  template<>
+    Identifier
+    Xml_Access<Pathfinder::Spell>::decode_index(const TiXmlElement *const p) const
+  {
+    for (const auto& elem : p)
+      if (elem.Value() == index_name_)
+        {
+          std::string result;
+          decode_name(result, &elem);
+          return result;
+        }
+    throw xml_error("Decodation of index failed. Index " +
+                    index_name_ + " not found!");
+  }
