@@ -4,7 +4,7 @@ librpg_la_SOURCES = spellcomponents.cpp spellduration.cpp spelllevel.cpp \
                     spellspellresistance.cpp \
                     spellelements.cpp \
                     storage.cpp \
-                    xmldecode.cpp \
+                    xml.cpp xmldecode.cpp \
                     xmlspelldecode.cpp \
                     strmanip.cpp
 librpg_la_CXXFLAGS = -Wall -Wextra -Werror -std=c++0x
