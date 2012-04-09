@@ -1,4 +1,5 @@
 #include "gtkwindow.h"
+#include <algorithm>
 
 Gtk_Window::Gtk_Window(const RPG::Spell_Storage& storage)
   : search_entry_(),
@@ -52,10 +53,17 @@ void Gtk_Window::on_tree_view_row_activated
 void
 Gtk_Window::read_spells()
 {
-  for (const auto& it : storage_)
+  // elements are unsorted in storage_, thus we sort them first
+  std::vector<std::string> sorter;
+  sorter.reserve(storage_.size());
+  for (const auto& e : storage_)
+    sorter.push_back(e.first);
+  std::sort(begin(sorter), end(sorter));
+
+  for (const auto& e : sorter)
     {
       Gtk::TreeModel::Row row = *(ref_tree_model_->append());
-      row[columns_.col_name_] = it.first;
+      row[columns_.col_name_] = e;
     }
 
   tree_view_.append_column("Spell", columns_.col_name_);
