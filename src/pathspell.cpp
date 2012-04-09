@@ -35,15 +35,12 @@ int main( int argc, char* argv[] )
 
   const std::string spell_file_name = "spells.xml";
   std::vector<std::string> path_list;
-  //  std::vector<std::string> path_list = {
 #ifdef HAVE_CONFIG_H
-  //    "/usr/share/" PACKAGE "/",
-  //    "/usr/share/" PACKAGE "-" PACKAGE_VERSION "/",
-
+  path_list.push_back("/usr/share/" PACKAGE "/");
+  path_list.push_back("/usr/share/" PACKAGE "-" PACKAGE_VERSION "/");
 #endif /* HAVE_CONFIG_H */
-      //    "./",
-      //    "../"
-      // };
+  path_list.push_back("./");
+  path_list.push_back("../");
 
   std::string spell_list_path = "";
   for ( std::vector<std::string>::const_iterator it = path_list.begin();
@@ -53,9 +50,6 @@ int main( int argc, char* argv[] )
         spell_list_path = *it + spell_file_name;
         break;
       }
-
-/// @TODO TEMP!
-  spell_list_path = "./";
 
   if ( spell_list_path == "" )
     {
