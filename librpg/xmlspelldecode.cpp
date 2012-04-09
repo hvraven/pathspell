@@ -275,45 +275,58 @@ Xml_Access<Pathfinder::Spell>::decode(const TiXmlElement *const pxml) const
   TiXmlElement const * pelement = pxml->FirstChildElement();
   while (pelement)
     {
-      switch(elements[pelement->Value()])
+      try
         {
-        case Spell_Token::Name:
-          decode_name(result.name, pelement);
-          break;
-        case Spell_Token::School:
-          decode_school(result.school, pelement);
-          break;
-        case Spell_Token::Level:
-          decode_level(result.levels, pelement);
-          break;
-        case Spell_Token::Casting_Time:
-          decode_casting_time(result.casting_time, pelement);
-          break;
-        case Spell_Token::Components:
-          decode_component(result.components, pelement);
-          break;
-        case Spell_Token::Range:
-          decode_range(result.range, pelement);
-          break;
-        case Spell_Token::Duration:
-          decode_duration(result.duration, pelement);
-          break;
-        case Spell_Token::Saving_Throw:
-          decode_saving_throw(result.saving_throw, pelement);
-          break;
-        case Spell_Token::Spell_Resistance:
-          decode_spell_resistance(result.spell_resistance, pelement);
-          break;
-        case Spell_Token::Description:
-          decode_description(result.description, pelement);
-          break;
-        default:
-          throw RPG::xml_error("Unknown element " +
-                               pelement->ValueStr() + " found");
+          switch(elements[pelement->Value()])
+            {
+            case Spell_Token::Name:
+              decode_name(result.name, pelement);
+              break;
+            case Spell_Token::School:
+              decode_school(result.school, pelement);
+              break;
+            case Spell_Token::Level:
+              decode_level(result.levels, pelement);
+              break;
+            case Spell_Token::Casting_Time:
+              decode_casting_time(result.casting_time, pelement);
+              break;
+            case Spell_Token::Components:
+              decode_component(result.components, pelement);
+              break;
+            case Spell_Token::Range:
+              decode_range(result.range, pelement);
+              break;
+            case Spell_Token::Duration:
+              decode_duration(result.duration, pelement);
+              break;
+            case Spell_Token::Saving_Throw:
+              decode_saving_throw(result.saving_throw, pelement);
+              break;
+            case Spell_Token::Spell_Resistance:
+              decode_spell_resistance(result.spell_resistance, pelement);
+              break;
+            case Spell_Token::Description:
+              decode_description(result.description, pelement);
+              break;
+            default:
+              throw RPG::xml_error("Unknown element " +
+                                   pelement->ValueStr() + " found");
+            }
+        } // try
+      catch (RPG::xml_error e)
+        {
+          std::cerr << "In element " << result.name << ":\n"
+                    << "\t" << e.what() << std::endl;
+        }
+      catch (std::invalid_argument e)
+        {
+          std::cerr << "In element " << result.name << ":\n"
+                    << "\t" << e.what() << std::endl;
         }
 
       pelement = pelement->NextSiblingElement();
-    }
+    } // loop
 
   return result;
 }
