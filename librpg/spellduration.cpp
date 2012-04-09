@@ -1,6 +1,6 @@
 #include "spellelements.h"
-#include "strmanip.h"
 #include <sstream>
+#include <string>
 
 using namespace RPG::Pathfinder;
 
@@ -76,18 +76,18 @@ Spell_Duration::read_level( const std::string& input )
   if ( pos )
     {
       const std::string pre = input.substr(0,pos);
-      set_value(to_int(pre));
+      set_value(stoi(pre));
       if ( input[pos + 1] == '\0' )
         set_per_level(1);
       else
         {
           const std::string post = input.substr(pos+1,input.length() - pos);
-          set_per_level(to_uint(post));
+          set_per_level(stoul(post));
         }
     }
   else /* pos == npos */
     {
       set_per_level(0);
-      set_value(to_int(input));
+      set_value(stoi(input));
     }
 }
