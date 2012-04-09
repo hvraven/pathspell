@@ -1,7 +1,6 @@
 #ifndef LIBRPG_XMLACCESS_H
 #define LIBRPG_XMLACCESS_H
 
-#include "elementlist.h"
 #include "error.h"
 #include "xml.h"
 #include <string>
@@ -38,8 +37,7 @@ namespace RPG
     typedef unsigned int size_type;
     typedef Const_Xml_Access_Iterator<T> const_iterator;
 
-    explicit Xml_Access(const std::string& file);
-    Xml_Access(const std::string& file, const std::string& index);
+    Xml_Access(const std::string& file, const std::string& index = "name");
     virtual ~Xml_Access();
 
     bool contains(const Identifier&) const;
@@ -111,10 +109,10 @@ namespace RPG
    * @brief constructor with default index "name"
    * @param file path to the XML file to load
    */
-  template <class T>
+  /*  template <class T>
   Xml_Access<T>::Xml_Access(const std::string& file)
-    : Xml_Access(file, "name")
-  {}
+    : Xml_Access<T>(file, "name")
+    {}*/
 
   /**
    * @brief constructor with a given index
