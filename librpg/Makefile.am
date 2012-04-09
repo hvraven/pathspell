@@ -3,6 +3,7 @@ librpg_la_SOURCES = spellcomponents.cpp spellduration.cpp spelllevel.cpp \
                     spellsavingthrow.cpp spellschool.cpp \
                     spellspellresistance.cpp \
                     spellelements.cpp \
+                    storage.cpp \
                     xmldecode.cpp \
                     xmlspelldecode.cpp \
                     strmanip.cpp
