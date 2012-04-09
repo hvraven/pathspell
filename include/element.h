@@ -12,8 +12,6 @@ namespace RPG
   class Element
   {
   public:
-    Element();
-
     virtual const Identifier& get_identifier() const = 0;
   };
 
