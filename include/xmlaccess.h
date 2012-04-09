@@ -38,7 +38,6 @@ namespace RPG
     typedef Const_Xml_Access_Iterator<T> const_iterator;
 
     Xml_Access(const std::string& file, const std::string& index = "name");
-    virtual ~Xml_Access();
 
     bool contains(const Identifier&) const;
     size_type size() const;
@@ -65,6 +64,8 @@ namespace RPG
     TiXmlDocument doc_;
     const std::string index_name_;
     Index_Map index_;
+
+    void generate_index_();
 
     friend class Const_Xml_Access_Iterator<T>;
   };
@@ -106,28 +107,21 @@ namespace RPG
   /***** Xml_Access ***********************************************/
 
   /**
-   * @brief constructor with default index "name"
-   * @param file path to the XML file to load
-   */
-  /*  template <class T>
-  Xml_Access<T>::Xml_Access(const std::string& file)
-    : Xml_Access<T>(file, "name")
-    {}*/
-
-  /**
    * @brief constructor with a given index
    * @param file path to the XML file to load
    * @param index index keywoard to use
    */
   template <class T>
   Xml_Access<T>::Xml_Access(const std::string& file, const std::string& index)
-    : file_(file), index_name_(index)
+    : file_(file),
+      doc_(file),
+      index_name_(index),
+      index_()
   {
-  }
+    if (!doc_.LoadFile())
+      throw RPG::xml_error("failed to load file: " + file);
 
-  template <class T>
-  Xml_Access<T>::~Xml_Access()
-  {
+    generate_index_();
   }
 
   /**
@@ -165,6 +159,16 @@ namespace RPG
   Xml_Access<T>::size() const
   {
     return index_.size();
+  }
+
+  template <class T>
+  void
+  Xml_Access<T>::generate_index_()
+  {
+    TiXmlHandle hroot = &doc_;
+    for (auto p = hroot.FirstChildElement().FirstChild().ToElement();
+         p; p = p->NextSiblingElement())
+      index_.insert(make_pair(decode_index(p),p));
   }
 
   /***** Const_Xml_Access_Iterator ***************************/
