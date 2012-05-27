@@ -23,7 +23,7 @@ using namespace RPG::Pathfinder;
 bool file_exists(const std::string& filename)
 {
   std::ifstream ifile(filename);
-  return ifile;
+  return ifile.good();
 }
 
 /**
