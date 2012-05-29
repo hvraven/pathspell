@@ -1,22 +1,22 @@
-#include "spellelements.h"
+#include "spell.h"
 #include <sstream>
 #include <string>
 
 using namespace RPG::Pathfinder;
 
-Spell_Duration::Spell_Duration()
-: Spell_Base_Element(),
-  per_level_(0),
-  dismissible_(false)
+Spell::Duration::Duration()
+  : Base_Element(),
+    per_level_(0),
+    dismissible_(false)
 {
 }
 
-Spell_Duration::Spell_Duration(const std::string& type, const int value,
-                               const unsigned int per_level,
-                               const bool dismissible )
-: Spell_Base_Element(type, value),
-  per_level_(per_level),
-  dismissible_( dismissible )
+Spell::Duration::Duration(const std::string& type, const int value,
+                          const unsigned int per_level,
+                          const bool dismissible)
+  : Base_Element(type, value),
+    per_level_(per_level),
+    dismissible_( dismissible )
 {
 }
 
@@ -24,14 +24,14 @@ Spell_Duration::Spell_Duration(const std::string& type, const int value,
  * @brief prints the properties of the class
  */
 std::string
-Spell_Duration::print() const
+Spell::Duration::print() const
 {
   std::ostringstream output;
   if ( value_ )
     {
       output << value_
-        << " "
-        << type_;
+             << " "
+             << type_;
       if ( per_level_ )
         {
           if ( per_level_ == 1 )
@@ -62,7 +62,7 @@ Spell_Duration::print() const
  * after the slash a 1 is assumed.
  */
 void
-Spell_Duration::read_level( const std::string& input )
+Spell::Duration::read_level( const std::string& input )
 {
   size_t pos = 0;
 

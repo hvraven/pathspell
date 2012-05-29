@@ -1,28 +1,29 @@
-#include "spellelements.h"
+#include "spell.h"
 #include <sstream>
 
 using namespace RPG::Pathfinder;
 
-Spell_Base_Element::Spell_Base_Element()
+Spell::Base_Element::Base_Element()
   : type_(),
     value_(0)
 {
 }
 
-Spell_Base_Element::Spell_Base_Element( const std::string& type )
+Spell::Base_Element::Base_Element(const std::string& type)
   : type_(type),
     value_(0)
 {
 }
 
-Spell_Base_Element::Spell_Base_Element( const std::string& type,
-                                        const int value )
+Spell::Base_Element::Base_Element(const std::string& type,
+                                  const int value)
   : type_(type),
     value_(value)
 {
 }
 
-std::string Spell_Base_Element::print() const
+std::string
+Spell::Base_Element::print() const
 {
   if ( type_ != "" )
     {

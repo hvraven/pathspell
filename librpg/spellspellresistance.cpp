@@ -1,17 +1,17 @@
-#include "spellelements.h"
+#include "spell.h"
 
 using namespace RPG::Pathfinder;
 
-Spell_Spell_Resistance::Spell_Spell_Resistance(const bool resistance,
-                                               const bool harmless,
-                                               const bool see_text)
-: resistance_(resistance),
-  harmless_(harmless),
-  see_text_(see_text)
+Spell::Resistance::Resistance(const bool resistance, const bool harmless,
+                              const bool see_text)
+  : resistance_(resistance),
+    harmless_(harmless),
+    see_text_(see_text)
 {
 }
 
-std::string Spell_Spell_Resistance::print() const
+std::string
+Spell::Resistance::print() const
 {
   std::string result;
   if ( resistance_ )

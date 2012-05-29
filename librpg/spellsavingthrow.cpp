@@ -1,40 +1,40 @@
-#include "spellelements.h"
+#include "spell.h"
 #include "spelltoken.h"
 #include "strmanip.h"
 #include <stdexcept>
 
 using namespace RPG::Pathfinder;
 
-Spell_Saving_Throw::Spell_Saving_Throw()
-: type_(),
-  value_(Saving_Throw_Value_Token::Nil),
-  harmless_(false),
-  see_text_(false),
-  object_(false)
+Spell::Saving_Throw::Saving_Throw()
+  : type_(),
+    value_(Saving_Throw_Value_Token::Nil),
+    harmless_(false),
+    see_text_(false),
+    object_(false)
 {
 }
 
-Spell_Saving_Throw::Spell_Saving_Throw (const Saving_Throw_Value_Token& value)
-: type_(),
-  value_(value),
-  harmless_(false),
-  see_text_(false),
-  object_(false)
+Spell::Saving_Throw::Saving_Throw(const Saving_Throw_Value_Token& value)
+  : type_(),
+    value_(value),
+    harmless_(false),
+    see_text_(false),
+    object_(false)
 {
 }
 
-Spell_Saving_Throw::Spell_Saving_Throw
-(const Saving_Throw_Value_Token& value, const Saving_Throw_Token& type)
-: type_(type),
-  value_(value),
-  harmless_(false),
-  see_text_(false),
-  object_(false)
+Spell::Saving_Throw::Saving_Throw(const Saving_Throw_Value_Token& value,
+                                  const Saving_Throw_Token& type)
+  : type_(type),
+    value_(value),
+    harmless_(false),
+    see_text_(false),
+    object_(false)
 {
 }
 
 std::string
-Spell_Saving_Throw::print() const
+Spell::Saving_Throw::print() const
 {
   std::string result;
   switch ( value_ )
@@ -88,7 +88,7 @@ Spell_Saving_Throw::print() const
 }
 
 std::string
-Spell_Saving_Throw::print_type() const
+Spell::Saving_Throw::print_type() const
 {
   switch ( type_ )
     {
@@ -104,7 +104,7 @@ Spell_Saving_Throw::print_type() const
 }
 
 void
-Spell_Saving_Throw::set_type( const std::string& type )
+Spell::Saving_Throw::set_type(const std::string& type)
 {
   std::string work = to_lower( type );
   if ( work == "will" )
@@ -120,7 +120,7 @@ Spell_Saving_Throw::set_type( const std::string& type )
 }
 
 void
-Spell_Saving_Throw::set_value( const std::string& value )
+Spell::Saving_Throw::set_value(const std::string& value)
 {
   const std::string work = to_lower( value );
   if ( ( work == "no" ) or ( work == "none" ) )

@@ -67,7 +67,7 @@ decode_name(std::string& name,
  * correctly.
  */
 void
-decode_school(Spell_School& school,
+decode_school(Spell::School& school,
               const TiXmlElement *const pelement)
 {
   school.set_school(attribute_to_string("type", pelement));
@@ -93,7 +93,7 @@ decode_school(Spell_School& school,
  * untouched.
  */
 void
-decode_level(Spell_Levels& level,
+decode_level(Spell::Levels& level,
              const TiXmlElement *const pelement)
 {
   std::string type;
@@ -115,7 +115,7 @@ decode_level(Spell_Levels& level,
  * @param pelement pointer to the casting time in the xml
  */
 inline void
-decode_casting_time(Spell_Casting_Time& time,
+decode_casting_time(Spell::Casting_Time& time,
                     const TiXmlElement *const pelement)
 {
   time.set(attribute_to_string("type", pelement),
@@ -134,7 +134,7 @@ decode_casting_time(Spell_Casting_Time& time,
  * @todo add support for M/DF (with description)
  */
 void
-decode_component(Spell_Components& components,
+decode_component(Spell::Components& components,
                  const TiXmlElement *const pelement)
 {
   std::string type = attribute_to_string("type", pelement);
@@ -169,7 +169,7 @@ decode_component(Spell_Components& components,
  * @param pelement pointer to the range in the xml
  */
 void
-decode_range(Spell_Range& range,
+decode_range(Spell::Range& range,
              const TiXmlElement *const pelement)
 {
   std::string type = to_lower(attribute_to_string("type", pelement));
@@ -186,7 +186,7 @@ decode_range(Spell_Range& range,
  * @param pelement pointer to the duration in the xml
  */
 void
-decode_duration(Spell_Duration& duration,
+decode_duration(Spell::Duration& duration,
                 const TiXmlElement *const pelement)
 {
   duration.set_dismissible(attribute_to_bool("dismissible", pelement));
@@ -210,7 +210,7 @@ decode_duration(Spell_Duration& duration,
  * @todo add support for multiple types
  */
 void
-decode_saving_throw(Spell_Saving_Throw& saving_throw,
+decode_saving_throw(Spell::Saving_Throw& saving_throw,
                     const TiXmlElement *const pelement)
 {
   saving_throw.set_type(attribute_to_string("type", pelement));
@@ -226,7 +226,7 @@ decode_saving_throw(Spell_Saving_Throw& saving_throw,
  * @param pelement pointer to the resistance in the xml
  */
 void
-decode_spell_resistance(Spell_Spell_Resistance& spell_resistance,
+decode_spell_resistance(Spell::Spell::Resistance& spell_resistance,
                         TiXmlElement const *const pelement)
 {
   spell_resistance.set_resistance(attribute_to_bool("value", pelement));
@@ -334,14 +334,14 @@ Xml_Access<Pathfinder::Spell>::decode(const TiXmlElement *const pxml) const
 template<>
 Identifier
 Xml_Access<Pathfinder::Spell>::decode_index(const TiXmlElement *const p) const
-  {
-    for (const auto& elem : p)
-      if (elem.Value() == index_name_)
-        {
-          std::string result;
-          decode_name(result, &elem);
-          return result;
-        }
-    throw xml_error("Decodation of index failed. Index " +
-                    index_name_ + " not found!");
-  }
+{
+  for (const auto& elem : p)
+    if (elem.Value() == index_name_)
+      {
+        std::string result;
+        decode_name(result, &elem);
+        return result;
+      }
+  throw xml_error("Decodation of index failed. Index " +
+                  index_name_ + " not found!");
+}

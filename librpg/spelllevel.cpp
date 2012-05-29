@@ -1,27 +1,27 @@
-#include "spellelements.h"
+#include "spell.h"
 #include <sstream>
 
 using namespace RPG::Pathfinder;
 
-Spell_Levels::Spell_Levels()
-: levels_()
+Spell::Levels::Levels()
+  : levels_()
 {
 }
 
-Spell_Levels::Spell_Levels( const Spell_Level_Map& levels)
-: levels_(levels)
+Spell::Levels::Levels(const Level_Map& levels)
+  : levels_(levels)
 {
 }
 
-Spell_Levels::~Spell_Levels()
+Spell::Levels::~Levels()
 {
 }
 
 std::string
-Spell_Levels::print() const
+Spell::Levels::print() const
 {
   std::ostringstream temp;
-  for (Spell_Level_Map::const_iterator it = levels_.begin() ;
+  for (Level_Map::const_iterator it = levels_.begin() ;
        it != levels_.end() ; it++)
     {
       temp << it->first
@@ -37,7 +37,7 @@ Spell_Levels::print() const
 }
 
 std::string
-Spell_Levels::print( const std::string& level) const
+Spell::Levels::print(const std::string& level) const
 {
   if ( levels_.find(level)->second )
     {

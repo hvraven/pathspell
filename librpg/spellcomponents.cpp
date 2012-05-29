@@ -1,16 +1,16 @@
-#include "spellelements.h"
+#include "spell.h"
 #include <stdexcept>
 
 using namespace RPG::Pathfinder;
 
-Spell_Components::Spell_Components(const bool verbal, const bool somatic,
-                                   const bool material, const bool focus,
-                                   const bool divine_focus)
-: verbal_(verbal),
-  somatic_(somatic),
-  material_(material),
-  focus_(focus),
-  divine_focus_(divine_focus)
+Spell::Components::Components(const bool verbal, const bool somatic,
+                              const bool material, const bool focus,
+                              const bool divine_focus)
+  : verbal_(verbal),
+    somatic_(somatic),
+    material_(material),
+    focus_(focus),
+    divine_focus_(divine_focus)
 {
 }
 
@@ -18,16 +18,16 @@ Spell_Components::Spell_Components(const bool verbal, const bool somatic,
  * @throws invalid_argument if focus and material component are set and a
  * description is missing
  */
-Spell_Components::Spell_Components(const bool verbal, const bool somatic,
-                                   const bool material, const bool focus,
-                                   const bool divine_focus,
-                                   const std::string& first_description,
-                                   const std::string& second_description)
-: verbal_(verbal),
-  somatic_(somatic),
-  material_(material),
-  focus_(focus),
-  divine_focus_(divine_focus)
+Spell::Components::Components(const bool verbal, const bool somatic,
+                              const bool material, const bool focus,
+                              const bool divine_focus,
+                              const std::string& first_description,
+                              const std::string& second_description)
+  : verbal_(verbal),
+    somatic_(somatic),
+    material_(material),
+    focus_(focus),
+    divine_focus_(divine_focus)
 {
   if ( second_description != "" )
     {
@@ -47,7 +47,7 @@ Spell_Components::Spell_Components(const bool verbal, const bool somatic,
 }
 
 std::string
-Spell_Components::print( const bool with_description ) const
+Spell::Components::print(const bool with_description) const
 {
   std::string result;
   if ( verbal_ )
