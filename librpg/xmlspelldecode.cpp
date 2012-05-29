@@ -331,9 +331,9 @@ Xml_Access<Pathfinder::Spell>::decode(const TiXmlElement *const pxml) const
   return result;
 }
 
-  template<>
-    Identifier
-    Xml_Access<Pathfinder::Spell>::decode_index(const TiXmlElement *const p) const
+template<>
+Identifier
+Xml_Access<Pathfinder::Spell>::decode_index(const TiXmlElement *const p) const
   {
     for (const auto& elem : p)
       if (elem.Value() == index_name_)
