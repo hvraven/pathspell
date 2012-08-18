@@ -17,6 +17,7 @@ depcomp
 install-sh
 missing
 pathspell
+pathspell-gtk
 stamp-h1
 core
 oo
@@ -31,3 +32,4 @@ libtool
 *.lo
 *.gch
 tags
+install

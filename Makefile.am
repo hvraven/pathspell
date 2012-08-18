@@ -1,3 +1,3 @@
-SUBDIRS = include librpg src
+SUBDIRS = librpg src
 
 EXTRA_DIST = spells.xml

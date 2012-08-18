@@ -26,8 +26,9 @@ LIBS="${LIBS} -ltinyxml"
 PKG_CHECK_MODULES([GTKMM], [gtkmm-3.0])
 
 AC_CONFIG_FILES([Makefile
-     include/Makefile
      librpg/Makefile
+		 librpg/src/Makefile
+		 librpg/include/Makefile
 		 src/Makefile])
 AC_OUTPUT
 

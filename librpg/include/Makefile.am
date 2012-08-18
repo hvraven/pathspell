@@ -1,0 +1,19 @@
+include_HEADERS= \
+  ability.h \
+  character.h \
+  elementfilterlist.h \
+  element.h \
+  elementlist.h \
+  elementsortlist.h \
+  error.h \
+  filter.h \
+  Makefile.am \
+  modifier.h \
+  spell.h \
+  spelltoken.h \
+  storage.h \
+  strmanip.h \
+  xmlaccess.h \
+  xmldecode.h \
+  xml.h \
+  xmlspell.h
