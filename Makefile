@@ -5,8 +5,7 @@ SRCDIR        = src
 CXX           = clang++
 CXXFLAGS      = -std=c++11 -stdlib=libc++ -Wall -Wextra
 LDFLAGS       = -stdlib=libc++
-df            = $(BUILDDIR)/$(*F)
-MAKEDEPEND    = $(CXX) -MM $(CXXFLAGS) -o $(df).d $<
+MAKEDEPEND    = $(CXX) -MM $(CXXFLAGS) $<
 
 SRCS          = $(shell egrep -L '^(int )?main' $(SRCDIR)/*.cpp | sort)
 OBJS          = $(patsubst $(SRCDIR)/%.cpp,$(BUILDDIR)/%.o, $(SRCS))
@@ -22,11 +21,7 @@ $(TARGETS): %: $(OBJS) $(BUILDDIR)/%.o
 	$(CXX) $(LDFLAGS) $^ -o $@
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.cpp $(BUILDDIR)/.ghost
-	@$(MAKEDEPEND) && \
-	  cp $(df).d $(df).P && \
-	  sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
-	    -e '/^$$/ d' -e 's/$$/ :/' < $(df).d >> $(df).P && \
-	  rm -f $(df).d
+	@$(MAKEDEPEND) | sed -e 's:^$(@F):$@:' > $(@:.o=.P)
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c -o $@ $<
 
 $(BUILDDIR)/.ghost:
