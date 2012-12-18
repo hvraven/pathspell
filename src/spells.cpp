@@ -57,40 +57,54 @@ transform_format(std::string input)
 void
 print_spell(std::map<std::string, std::string>& spell)
 {
-  std::cout << " == "  << spell["name"] << " ==" << std::endl;
+  switch (options.output_type)
+    {
+    case output_type::full:
+      {
+        std::cout << " == "  << spell["name"] << " ==" << std::endl;
 
-  std::cout << "School: " << spell["school"];
-  if (spell["subschool"] != std::string())
-    std::cout << "[" << spell["subschool"] << "]";
-  std::cout << "  Level: " << spell["spell_level"];
-  if (spell["domain"] != "NULL")
-    std::cout << "  Domain: " << spell["domain"];
-  std::cout << std::endl;
+        std::cout << "School: " << spell["school"];
+        if (spell["subschool"] != std::string())
+          std::cout << "[" << spell["subschool"] << "]";
+        std::cout << "  Level: " << spell["spell_level"];
+        if (spell["domain"] != "NULL")
+          std::cout << "  Domain: " << spell["domain"];
+        std::cout << std::endl;
 
-  std::cout << "Casting Time: " << spell["casting_time"]
-            << "  Components: " << spell["components"]
-            << std::endl;
+        std::cout << "Casting Time: " << spell["casting_time"]
+          << "  Components: " << spell["components"]
+          << std::endl;
 
-  std::cout << "Range: " << spell["range"];
-  if (spell["area"] != std::string())
-    std::cout << "  Area: " << spell["area"];
-  if (spell["effect"] != std::string())
-    std::cout << "  Effect: " << spell["effect"];
-  if (spell["targets"] != std::string())
-    std::cout << "  Targets: " << spell["targets"];
-  if (spell["duration"] != "NULL")
-    std::cout << "  Duration: " << spell["duration"];
-  std::cout << std::endl;
+        std::cout << "Range: " << spell["range"];
+        if (spell["area"] != std::string())
+          std::cout << "  Area: " << spell["area"];
+        if (spell["effect"] != std::string())
+          std::cout << "  Effect: " << spell["effect"];
+        if (spell["targets"] != std::string())
+          std::cout << "  Targets: " << spell["targets"];
+        if (spell["duration"] != "NULL")
+          std::cout << "  Duration: " << spell["duration"];
+        std::cout << std::endl;
 
-  std::cout << "Saving Throw: " << spell["saving_throw"]
-            << "  Spell Resistence: " << spell["spell_resistence"] 
-            << std::endl << std::endl;
+        std::cout << "Saving Throw: " << spell["saving_throw"]
+          << "  Spell Resistence: " << spell["spell_resistence"]
+          << std::endl << std::endl;
 
-  std::cout << format_width(transform_format(spell["description_formated"]),80) << std::endl;
+        std::cout << format_width(transform_format(spell["description_formated"]),80) << std::endl;
+        break;
+      }
+    case output_type::list:
+      {
+        std::cout << spell["name"] << std::endl;
+        break;
+      }
+    }
 }
 
 int main(int argc, char** argv)
 {
+  options.parse_args(argc, argv);
+
   CSV::indexed_stream input("./spell_full.tsv", '\t');
 
   CSV::indexed_stream::value_type temp;
@@ -108,8 +122,6 @@ int main(int argc, char** argv)
       input >> temp;
       spells[temp["name"]] = temp;
     }
-
-  options.filter.rules.emplace_back("name", std::string(argv[1]));
 
   for (auto spell : spells)
     if (options.filter.match(spell.second))

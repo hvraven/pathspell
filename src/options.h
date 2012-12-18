@@ -3,11 +3,22 @@
 
 #include "filter.h"
 
-struct options
+enum class output_type : int
 {
-  filter filter;
+  full,
+  list
 };
 
-options options;
+struct options
+{
+  options();
+
+  filter filter;
+  output_type output_type;
+
+  void parse_args(int argc, char** argv);
+};
+
+extern options options;
 
 #endif /* SPELLS_OPTIONS_H */
