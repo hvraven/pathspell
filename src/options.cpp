@@ -12,7 +12,10 @@ usage(std::ostream& s)
     << "Options:" << endl
     << "  -c,--class    <opt>  list only spells with specified class" << endl
     << "  -d,--domain   <opt>  list only spells with specified domain" << endl
-    << "  -l,--list-only       list only the names" << endl;
+    << "  -l,--list-only       display only the names" << endl
+    << "  -r,--range    <opt>  list only spells with specified range" << endl
+    << "  -s,--school   <opt>  list only spells with specified school" << endl
+    ;
 }
 
 options::options()
@@ -24,14 +27,16 @@ options::options()
 void
 options::parse_args(int argc, char** argv)
 {
-  const char opts[] = "c:d:hl";
+  const char opts[] = "c:d:hlr:s:";
 
   const struct option long_opts[] = {
-    { "class" ,    required_argument, nullptr,      'c'              },
-    { "domain",    required_argument, nullptr,      'd'              },
+    { "class" ,    required_argument, nullptr, 'c'},
+    { "domain",    required_argument, nullptr, 'd'},
     { "list-only", no_argument,       reinterpret_cast<int*>(&output_type),
         static_cast<int>(output_type::list)},
-    { nullptr,     no_argument,       nullptr,      0                }
+    { "range",     required_argument, nullptr, 'r'},
+    { "school",    required_argument, nullptr, 's'},
+    { nullptr,     no_argument,       nullptr, 0  }
   };
 
   int long_index = 0;
@@ -53,6 +58,12 @@ options::parse_args(int argc, char** argv)
         break;
       case 'l':
         output_type = output_type::list;
+        break;
+      case 'r':
+        filter.add_filter("range", optarg);
+        break;
+      case 's':
+        filter.add_filter("school", optarg);
         break;
       case '?':
         usage(cerr);
