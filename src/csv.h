@@ -1,3 +1,6 @@
+#ifndef SPELLS_CSV_H
+#define SPELLS_CSV_H
+
 #include <fstream>
 #include <map>
 #include <vector>
@@ -65,3 +68,5 @@ namespace CSV
   };
 
 }
+
+#endif /* SPELL_CSV_H */
