@@ -3,7 +3,7 @@ SRCDIR        = src
 
 # regex in gcc is broken (at least till 4.7.1)
 CXX           = clang++
-CXXFLAGS      = -std=c++11 -stdlib=libc++ -Wall -Wextra
+CXXFLAGS      = -std=c++11 -stdlib=libc++ -Wall -Wextra -ggdb
 LDFLAGS       = -stdlib=libc++
 MAKEDEPEND    = $(CXX) -MM $(CXXFLAGS) $<
 
