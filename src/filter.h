@@ -4,11 +4,15 @@
 #include <map>
 #include <regex>
 #include <string>
+#include <utility>
 #include <vector>
 
 struct filter_rule
 {
-  filter_rule(std::string&& attr, std::string&& match);
+  template <class U, class V>
+  filter_rule(U&& attr, V&& rgx)
+      : attribute(std::forward<U>(attr)),
+        match(std::forward<V>(rgx), std::regex_constants::icase) {}
 
   std::string attribute;
   std::regex match;
@@ -20,6 +24,10 @@ public:
   typedef std::map<std::string, std::string> value_type;
 
   bool match(const value_type& value);
+
+  template <typename... Args>
+  void add_filter(Args&&... args)
+    { rules.emplace_back(std::forward<Args>(args)...); }
 
   std::vector<filter_rule> rules;
 };
