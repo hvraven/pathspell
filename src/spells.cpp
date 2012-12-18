@@ -1,4 +1,5 @@
 #include "csv.h"
+#include "options.h"
 #include <iomanip>
 #include <iostream>
 #include <regex>
@@ -97,10 +98,10 @@ int main(int argc, char** argv)
   std::map<std::string,std::map<std::string, std::string>> spells;
 
   if (argc == 1)
-    return 1;
-
-  std::string argvin(argv[1]);
-  std::regex rgx(argvin, std::regex_constants::icase);
+    {
+      std::cerr << "Missing argument" << std::endl;
+      return 1;
+    }
 
   while(input)
     {
@@ -108,7 +109,9 @@ int main(int argc, char** argv)
       spells[temp["name"]] = temp;
     }
 
+  options.filter.rules.emplace_back("name", std::string(argv[1]));
+
   for (auto spell : spells)
-    if (std::regex_search(begin(spell.first), end(spell.first), rgx))
+    if (options.filter.match(spell.second))
       print_spell(spell.second);
 }
