@@ -12,6 +12,7 @@ usage(std::ostream& s)
     << "Options:" << endl
     << "  -c,--class    <opt>  list only spells with specified class" << endl
     << "  -d,--domain   <opt>  list only spells with specified domain" << endl
+    << "  -h,--help            print this message" << endl
     << "  -l,--list-only       display only the names" << endl
     << "  -r,--range    <opt>  list only spells with specified range" << endl
     << "  -s,--school   <opt>  list only spells with specified school" << endl
@@ -32,6 +33,7 @@ options::parse_args(int argc, char** argv)
   const struct option long_opts[] = {
     { "class" ,    required_argument, nullptr, 'c'},
     { "domain",    required_argument, nullptr, 'd'},
+    { "help",      no_argument,       nullptr, 'h'},
     { "list-only", no_argument,       reinterpret_cast<int*>(&output_type),
         static_cast<int>(output_type::list)},
     { "range",     required_argument, nullptr, 'r'},
