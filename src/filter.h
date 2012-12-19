@@ -23,13 +23,14 @@ class filter
 public:
   typedef std::map<std::string, std::string> value_type;
 
-  bool match(const value_type& value);
+  bool match(const value_type& value) const;
 
   template <typename... Args>
   void add_filter(Args&&... args)
     { rules.emplace_back(std::forward<Args>(args)...); }
 
   std::vector<filter_rule> rules;
+
 };
 
 #endif /* SPELLS_FILTER_H */
