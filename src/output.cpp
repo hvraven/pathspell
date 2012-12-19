@@ -31,37 +31,47 @@ print_spell(std::map<std::string, std::string>& spell)
     {
     case output_type::full:
       {
-        std::cout << " == "  << spell["name"] << " ==" << std::endl;
+        std::ostringstream out;
+        out << " == "  << spell["name"] << " ==" << std::endl;
 
-        std::cout << "School: " << spell["school"];
+        out << "School: " << spell["school"];
         if (spell["subschool"] != std::string())
-          std::cout << "[" << spell["subschool"] << "]";
-        std::cout << "  Level: " << spell["spell_level"];
+          out << "[" << spell["subschool"] << "]";
+        out << "  Level: " << spell["spell_level"];
         if (spell["domain"] != "NULL")
-          std::cout << "  Domain: " << spell["domain"];
-        std::cout << std::endl;
+          out << "  Domain: " << spell["domain"];
+        out << std::endl;
 
-        std::cout << "Casting Time: " << spell["casting_time"]
-          << "  Components: " << spell["components"]
-          << std::endl;
+        out << "Casting Time: " << spell["casting_time"]
+            << "  Components: " << spell["components"]
+            << std::endl;
 
-        std::cout << "Range: " << spell["range"];
+        out << "Range: " << spell["range"];
         if (spell["area"] != std::string())
-          std::cout << "  Area: " << spell["area"];
+          out << "  Area: " << spell["area"];
         if (spell["effect"] != std::string())
-          std::cout << "  Effect: " << spell["effect"];
+          out << "  Effect: " << spell["effect"];
         if (spell["targets"] != std::string())
-          std::cout << "  Targets: " << spell["targets"];
+          out << "  Targets: " << spell["targets"];
         if (spell["duration"] != "NULL")
-          std::cout << "  Duration: " << spell["duration"];
-        std::cout << std::endl;
+          out << "  Duration: " << spell["duration"];
+        out << std::endl;
 
-        std::cout << "Saving Throw: " << spell["saving_throw"]
-          << "  Spell Resistence: " << spell["spell_resistence"]
-          << std::endl << std::endl;
+        out << "Saving Throw: " << spell["saving_throw"]
+            << "  Spell Resistence: " << spell["spell_resistence"]
+            << std::endl;
 
-        std::cout << format_width(transform_format(spell["description_formated"]),80) << std::endl;
+        const size_t width = 72;
+        std::cout << std::endl
+                  << format_width(out.str(), width)
+                  << std::endl;
+
+        std::cout << format_width(transform_format(spell["description_formated"]),
+                                  width)
+                  << std::endl;
+
         break;
+
       }
     case output_type::list:
       {
