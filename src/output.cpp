@@ -1,32 +1,17 @@
 #include "output.h"
 #include "options.h"
-#include "util.h"
 #include <iostream>
 #include <regex>
+#include <sstream>
 
 std::string
 format_width(const std::string& input, size_t width)
 {
   std::string output;
-  auto it = begin(input);
-  const std::string space(" ");
-  for (size_t i = 0; i < input.size() / width; ++i)
-    {
-      auto next = std::find(it, it + width, '\n');
-      // check if newline is in that line
-      if (next != it + width)
-        {
-          output.insert(end(output), it, next);
-          it = next;
-        }
-
-      next = find_last(it, it + width, ' ');
-      output.insert(end(output), it, next);
-      output.insert(end(output), '\n');
-      it = next;
-    }
-
-  return output;
+  std::ostringstream ss;
+  ss << "([^\\n]{1," << width << "})\\s+";
+  std::regex linebreak(ss.str());
+  return std::regex_replace(input, linebreak, "$1\n");
 }
 
 std::string
