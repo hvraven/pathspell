@@ -1,23 +1,8 @@
-#include "csv.h"
+#include "output.h"
 #include "options.h"
-#include <iomanip>
+#include "util.h"
 #include <iostream>
 #include <regex>
-
-template <typename It, typename T>
-It
-find_last(It first, It last, const T& value)
-{
-  for (; first != last; ++first)
-    {
-      auto next = std::find(first, last, value);
-      if (next == last)
-        return first;
-      first = next;
-    }
-
-  return last;
-}
 
 std::string
 format_width(const std::string& input, size_t width)
@@ -101,29 +86,3 @@ print_spell(std::map<std::string, std::string>& spell)
     }
 }
 
-int main(int argc, char** argv)
-{
-  options.parse_args(argc, argv);
-
-  CSV::indexed_stream input("./spell_full.tsv", '\t');
-
-  CSV::indexed_stream::value_type temp;
-
-  std::map<std::string,std::map<std::string, std::string>> spells;
-
-  if (argc == 1)
-    {
-      std::cerr << "Missing argument" << std::endl;
-      return 1;
-    }
-
-  while(input)
-    {
-      input >> temp;
-      spells[temp["name"]] = temp;
-    }
-
-  for (auto spell : spells)
-    if (options.filter.match(spell.second))
-      print_spell(spell.second);
-}

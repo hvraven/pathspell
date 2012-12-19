@@ -39,6 +39,12 @@ options::parse_args(int argc, char** argv)
     { nullptr,     no_argument,       nullptr, 0  }
   };
 
+  if (argc == 1)
+    {
+      usage(cerr);
+      exit(1);
+    }
+
   int long_index = 0;
   int opt = 0;
   while ((opt = getopt_long(argc, argv, opts, long_opts, &long_index)) != -1)
