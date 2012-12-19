@@ -1,4 +1,5 @@
 #include "options.h"
+#include "util.h"
 #include <getopt.h>
 #include <iostream>
 using namespace std;
@@ -12,6 +13,7 @@ usage(std::ostream& s)
     << "Options:" << endl
     << "  -c,--class    <opt>  list only spells with specified class" << endl
     << "  -d,--domain   <opt>  list only spells with specified domain" << endl
+    << "  -e,--excact          display only spells with exact name match" << endl
     << "  -h,--help            print this message" << endl
     << "  -l,--list-only       display only the names" << endl
     << "  -r,--range    <opt>  list only spells with specified range" << endl
@@ -21,18 +23,20 @@ usage(std::ostream& s)
 
 options::options()
    : filter(),
-     output_type(output_type::full)
+     output_type(output_type::full),
+     exact_match(false)
 {
 }
 
 void
 options::parse_args(int argc, char** argv)
 {
-  const char opts[] = "c:d:hlr:s:";
+  const char opts[] = "c:d:ehlr:s:";
 
   const struct option long_opts[] = {
     { "class" ,    required_argument, nullptr, 'c'},
     { "domain",    required_argument, nullptr, 'd'},
+    { "exact",     no_argument,       reinterpret_cast<int*>(&exact_match), 1},
     { "help",      no_argument,       nullptr, 'h'},
     { "list-only", no_argument,       reinterpret_cast<int*>(&output_type),
         static_cast<int>(output_type::list)},
@@ -60,6 +64,9 @@ options::parse_args(int argc, char** argv)
       case 'd':
         filter.add_filter("domain", optarg);
         break;
+      case 'e':
+        exact_match = true;
+        break;
       case 'h':
         usage(cout);
         exit(0);
@@ -81,6 +88,14 @@ options::parse_args(int argc, char** argv)
         break;
       }
 
-  for (int i = optind; i < argc; ++i)
-    filter.add_filter("name", argv[i]);
+  if (exact_match)
+    {
+      std::string regex{"^"};
+      regex += join(argv + optind, argv + argc, ' ');
+      regex += "$";
+      filter.add_filter("name", regex);
+    }
+  else
+    for (int i = optind; i < argc; ++i)
+      filter.add_filter("name", argv[i]);
 }
