@@ -73,9 +73,6 @@ options::parse_args(int argc, char** argv)
         break;
       }
 
-  if (optind < argc)
-    filter.add_filter("name", argv[optind]);
-
-  for (int i = optind + 1; i < argc; ++i)
-    cerr << "Warning: Unused parameter \"" << argv[i] << "\"" << endl;
+  for (int i = optind; i < argc; ++i)
+    filter.add_filter("name", argv[i]);
 }
