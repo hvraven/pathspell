@@ -15,7 +15,7 @@ TARGETS       = $(patsubst $(SRCDIR)/%.cpp, %, $(TARGETSRCS))
 BUILD_TARGETS = $(patsubst %, $(BUILDDIR)/%, $(TARGETS))
 
 .DEFAULT_GOAL: all
-all: spells
+all: $(TARGETS)
 
 $(TARGETS): %: $(OBJS) $(BUILDDIR)/%.o
 	$(CXX) $(LDFLAGS) $^ -o $@
