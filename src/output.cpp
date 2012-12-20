@@ -24,6 +24,18 @@ transform_format(std::string input)
                             trash, "");
 }
 
+inline std::string
+h1(const std::string& input)
+{
+  return "\033[1m" + input + "\033[0m";
+}
+
+inline std::string
+h3(const std::string& input)
+{
+  return "\033[1m" + input + "\033[0m";
+}
+
 void
 print_spell(std::map<std::string, std::string>& spell)
 {
@@ -32,36 +44,36 @@ print_spell(std::map<std::string, std::string>& spell)
     case output_type::full:
       {
         std::ostringstream out;
-        out << " == "  << spell["name"] << " ==" << std::endl;
+        out << " == "  << h1(spell["name"]) << "\033[0m ==" << std::endl;
 
-        out << "School: " << spell["school"];
+        out << h3("School: ") << spell["school"];
         if (spell["subschool"] != std::string())
           out << "[" << spell["subschool"] << "]";
-        out << "  Level: " << spell["spell_level"];
+        out << h3("  Level: ") << spell["spell_level"];
         if (spell["domain"] != "NULL")
-          out << "  Domain: " << spell["domain"];
+          out << h3("  Domain: ") << spell["domain"];
         out << std::endl;
 
-        out << "Casting Time: " << spell["casting_time"]
-            << "  Components: " << spell["components"]
+        out << h3("Casting Time: ") << spell["casting_time"]
+            << h3("  Components: ") << spell["components"]
             << std::endl;
 
-        out << "Range: " << spell["range"];
+        out << h3("Range: ") << spell["range"];
         if (spell["area"] != std::string())
-          out << "  Area: " << spell["area"];
+          out << h3("  Area: ") << spell["area"];
         if (spell["effect"] != std::string())
-          out << "  Effect: " << spell["effect"];
+          out << h3("  Effect: ") << spell["effect"];
         if (spell["targets"] != std::string())
-          out << "  Targets: " << spell["targets"];
+          out << h3("  Targets: ") << spell["targets"];
         if (spell["duration"] != "NULL")
-          out << "  Duration: " << spell["duration"];
+          out << h3("  Duration: ") << spell["duration"];
         out << std::endl;
 
-        out << "Saving Throw: " << spell["saving_throw"]
-            << "  Spell Resistence: " << spell["spell_resistence"]
+        out << h3("Saving Throw: ") << spell["saving_throw"]
+            << h3("  Spell Resistence: ") << spell["spell_resistence"]
             << std::endl;
 
-        const size_t width = 72;
+        const size_t width = 75;
         std::cout << std::endl
                   << format_width(out.str(), width)
                   << std::endl;
