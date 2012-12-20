@@ -18,7 +18,7 @@ std::string
 transform_format(std::string input)
 {
   static std::regex newline("</p>\\s*<p>");
-  static std::regex trash("</?[ip]+>");
+  static std::regex trash("</?[bip]+>");
 
   return std::regex_replace(std::regex_replace(input, newline, "\n"),
                             trash, "");
