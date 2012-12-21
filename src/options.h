@@ -16,6 +16,7 @@ struct options
   filter filter;
   output_type output_type;
   bool exact_match;
+  bool interactive;
 
   void parse_args(int argc, char** argv);
 };

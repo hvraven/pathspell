@@ -22,26 +22,21 @@ options::options()
 void
 options::parse_args(int argc, char** argv)
 {
-  const char opts[] = "c:d:ehl:r:s:";
+  const char opts[] = "c:d:ehil:r:s:";
 
   const struct option long_opts[] = {
-    { "class" ,    required_argument, nullptr, 'c'},
-    { "domain",    required_argument, nullptr, 'd'},
-    { "exact",     no_argument,       reinterpret_cast<int*>(&exact_match), 1},
-    { "help",      no_argument,       nullptr, 'h'},
-    { "level",     required_argument, nullptr, 'l'},
-    { "list-only", no_argument,       reinterpret_cast<int*>(&output_type),
+    { "class" ,      required_argument, nullptr, 'c'},
+    { "domain",      required_argument, nullptr, 'd'},
+    { "exact",       no_argument,       reinterpret_cast<int*>(&exact_match), 1},
+    { "help",        no_argument,       nullptr, 'h'},
+    { "interactive", no_argument,       reinterpret_cast<int*>(&interactive), 1},
+    { "level",       required_argument, nullptr, 'l'},
+    { "list-only",   no_argument,       reinterpret_cast<int*>(&output_type),
         static_cast<int>(output_type::list)},
-    { "range",     required_argument, nullptr, 'r'},
-    { "school",    required_argument, nullptr, 's'},
-    { nullptr,     no_argument,       nullptr, 0  }
+    { "range",       required_argument, nullptr, 'r'},
+    { "school",      required_argument, nullptr, 's'},
+    { nullptr,       no_argument,       nullptr, 0  }
   };
-
-  if (argc == 1)
-    {
-      usage(cerr);
-      exit(1);
-    }
 
   int long_index = 0;
   int opt = 0;
@@ -64,6 +59,9 @@ options::parse_args(int argc, char** argv)
       case 'h':
         usage(cout);
         exit(0);
+        break;
+      case 'i':
+        interactive = true;
         break;
       case 'l':
         if (! level_argument_ok(optarg))

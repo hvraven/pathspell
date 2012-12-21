@@ -1,4 +1,5 @@
 #include "csv.h"
+#include "interactive.h"
 #include "options.h"
 #include "output.h"
 
@@ -33,7 +34,10 @@ int main(int argc, char** argv)
       spells[temp["name"]] = temp;
     }
 
-  for (auto spell : spells)
-    if (options.filter.match(spell.second))
-      print_spell(spell.second);
+  if (options.interactive)
+    interactive_mode();
+  else
+    for (auto spell : spells)
+      if (options.filter.match(spell.second))
+        print_spell(spell.second);
 }
