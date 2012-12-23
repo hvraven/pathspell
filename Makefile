@@ -35,9 +35,6 @@ $(BUILDDIR)/.ghost:
 	mkdir -p $(BUILDDIR)
 	touch $(BUILDDIR)/.ghost
 
-#$(BUILD_TARGETS): % : %.o $(OBJS)
-
-
 %.P: %.o
 
 .PHONY: clean distclean

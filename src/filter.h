@@ -30,7 +30,6 @@ public:
     { rules.emplace_back(std::forward<Args>(args)...); }
 
   std::vector<filter_rule> rules;
-
 };
 
 #endif /* SPELLS_FILTER_H */
