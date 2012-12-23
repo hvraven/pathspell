@@ -1,4 +1,6 @@
 #include "interactive.h"
+#include "output.h"
+#include "pf.h"
 #include "util.h"
 
 #include <iostream>
@@ -17,7 +19,9 @@ print_prompt()
 void
 parse_commands(const string& input)
 {
-  auto strings{split(input)};
+  auto it = spells.find(to_lower(input));
+  if (it != end(spells))
+    print_spell(it->second);
 }
 
 void

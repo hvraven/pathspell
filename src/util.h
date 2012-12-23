@@ -34,4 +34,6 @@ split(const std::string& in, const std::string& seperator = "\\s+")
   return out;
 }
 
+std::string to_lower(std::string);
+
 #endif /* PF_UTIL_H */
