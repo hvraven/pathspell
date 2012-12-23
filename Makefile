@@ -11,14 +11,21 @@ SRCS          = $(shell egrep -L '^(int )?main' $(SRCDIR)/*.cpp | sort)
 OBJS          = $(patsubst $(SRCDIR)/%.cpp,$(BUILDDIR)/%.o, $(SRCS))
 
 TARGETSRCS    = $(shell egrep -l '^(int )?main' $(SRCDIR)/*.cpp | sort)
-TARGETS       = $(patsubst $(SRCDIR)/%.cpp, %, $(TARGETSRCS))
+TEST_TARGETS  = $(patsubst $(SRCDIR)/%.cpp,$(BUILDDIR)/%, $(filter $(SRCDIR)/test%, $(TARGETSRCS)))
+TARGETS       = $(patsubst $(SRCDIR)/%.cpp, %, $(filter-out $(SRCDIR)/test%, $(TARGETSRCS)))
 BUILD_TARGETS = $(patsubst %, $(BUILDDIR)/%, $(TARGETS))
 
 .DEFAULT_GOAL: all
 all: $(TARGETS)
 
+test: $(TEST_TARGETS)
+
 $(TARGETS): %: $(OBJS) $(BUILDDIR)/%.o
 	$(CXX) $(LDFLAGS) $^ -o $@
+
+$(TEST_TARGETS): %: $(OBJS) %.o
+	$(CXX) $(LDFLAGS) $^ -o $@
+	$@
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.cpp $(BUILDDIR)/.ghost
 	@$(MAKEDEPEND) | sed -e 's:^$(@F):$@:' > $(@:.o=.P)
