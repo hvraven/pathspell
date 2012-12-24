@@ -23,7 +23,7 @@ filter::match(const value_type& value) const
 void
 filter::parse_filter(string&& expr)
 {
-  const regex rgx{"\\b(.*)=(.*)\\b"};
+  const regex rgx{"\\b(\\S*)=(\\S*)\\b"};
   const map<string, string> remap = {
       { "class",    "spell_level"   },
       { "level",    "spell_level"   },
