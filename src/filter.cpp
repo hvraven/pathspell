@@ -1,5 +1,7 @@
 #include "filter.h"
 
+#include <algorithm>
+
 using namespace std;
 
 filter::filter(string&& expr)
@@ -21,9 +23,19 @@ filter::match(const value_type& value) const
 void
 filter::parse_filter(string&& expr)
 {
-  regex rgx{"\\b(.*)=(.*)\\b"};
+  const regex rgx{"\\b(.*)=(.*)\\b"};
+  const map<string, string> remap = {
+      { "class",    "spell_level"   },
+      { "level",    "spell_level"   },
+    };
 
   for (sregex_iterator it{begin(expr), end(expr), rgx};
        it != sregex_iterator{}; ++it)
-    add_filter(string((*it)[1]), string((*it)[2]));
+    {
+      auto remap_it = remap.find((*it)[1]);
+      if (remap_it != end(remap))
+        add_filter(remap_it->second, string((*it)[2]));
+      else
+        add_filter(string((*it)[1]), string((*it)[2]));
+    }
 }
