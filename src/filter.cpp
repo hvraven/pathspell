@@ -1,7 +1,5 @@
 #include "filter.h"
 
-#include <algorithm>
-
 using namespace std;
 
 filter::filter(string&& expr)
