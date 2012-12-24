@@ -7,7 +7,8 @@
 #include <utility>
 #include <vector>
 
-class spells;
+#include "output.h"
+#include "spells.h"
 
 struct filter_rule
 {
@@ -27,7 +28,10 @@ public:
 
   bool match(const value_type& value) const;
 
-  void print_matching(class spells& cont) const;
+  template <typename Fun>
+  void for_matching(const class spells& cont, const Fun&& fun) const;
+  void print_matching(const class spells& cont) const
+    { for_matching(cont, print_spell); }
 
   template <typename... Args>
   void add_filter(Args&&... args)
@@ -35,5 +39,14 @@ public:
 
   std::vector<filter_rule> rules;
 };
+
+template <typename Fun>
+void
+filter::for_matching(const class spells& cont, const Fun&& fun) const
+{
+  for (auto e : cont)
+    if (match(e.second))
+      fun(e.second);
+}
 
 #endif /* SPELLS_FILTER_H */
