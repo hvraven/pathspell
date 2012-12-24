@@ -7,6 +7,8 @@
 #include <utility>
 #include <vector>
 
+class spells;
+
 struct filter_rule
 {
   template <class U, class V>
@@ -24,6 +26,8 @@ public:
   typedef std::map<std::string, std::string> value_type;
 
   bool match(const value_type& value) const;
+
+  void print_matching(class spells& cont) const;
 
   template <typename... Args>
   void add_filter(Args&&... args)

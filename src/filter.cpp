@@ -1,4 +1,6 @@
 #include "filter.h"
+#include "output.h"
+#include "spells.h"
 
 bool
 filter::match(const value_type& value) const
@@ -8,4 +10,12 @@ filter::match(const value_type& value) const
       return false;
 
   return true;
+}
+
+void
+filter::print_matching(spells& cont) const
+{
+  for (auto& e : cont)
+    if (match(e.second))
+      print_spell(e.second);
 }
