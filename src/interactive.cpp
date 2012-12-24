@@ -61,6 +61,16 @@ list_spells(string&& input)
   f.for_matching(spells, [](spell_type& e){ cout << e["name"] << endl; });
 }
 
+static
+void
+print_help(string&&)
+{
+  print(" !/exact   <name>     print spell matching name\n"
+        " ?/search  <name>     print spell containing given name\n"
+        " h/help               print this message\n"
+        " l/list <attr=value>  list spells matching given filter rule\n");
+}
+
 void
 parse_commands(string& input)
 {
@@ -71,8 +81,10 @@ parse_commands(string& input)
   const static map<string, function<void(string&&)>> functions = {
       { "?",      {&search_spell} },
       { "!",      {&exact_spell}  },
+      { "h",      {&print_help}   },
       { "l",      {&list_spells}  },
       { "exact",  {&exact_spell}  },
+      { "help",   {&print_help}   },
       { "list",   {&list_spells}  },
       { "search", {&search_spell} },
     };
@@ -82,11 +94,9 @@ parse_commands(string& input)
   if (it != end(functions))
     {
       if (space == end(input))
-        {
-          print("Expected argument after ", input, "\n");
-          return;
-        }
-      it->second(string(++space, end(input)));
+        it->second("");
+      else
+        it->second(string(++space, end(input)));
     }
   else
     exact_spell(std::move(input));
