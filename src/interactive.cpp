@@ -53,6 +53,14 @@ exact_spell(string&& input)
     print("Spell \"", input, "\" not found.\n");
 }
 
+static
+void
+list_spells(string&& input)
+{
+  filter f{move(input)};
+  f.for_matching(spells, [](spell_type& e){ cout << e["name"] << endl; });
+}
+
 void
 parse_commands(string& input)
 {
@@ -63,7 +71,9 @@ parse_commands(string& input)
   const static map<string, function<void(string&&)>> functions = {
       { "?",      {&search_spell} },
       { "!",      {&exact_spell}  },
+      { "l",      {&list_spells}  },
       { "exact",  {&exact_spell}  },
+      { "list",   {&list_spells}  },
       { "search", {&search_spell} },
     };
 

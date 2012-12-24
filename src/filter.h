@@ -24,6 +24,9 @@ struct filter_rule
 class filter
 {
 public:
+  filter() = default;
+  filter(std::string&& expr);
+
   typedef std::map<std::string, std::string> value_type;
 
   bool match(const value_type& value) const;
@@ -33,6 +36,7 @@ public:
   void print_matching(const class spells& cont) const
     { for_matching(cont, print_spell); }
 
+  void parse_filter(std::string&& expr);
   template <typename... Args>
   void add_filter(Args&&... args)
     { rules.emplace_back(std::forward<Args>(args)...); }
