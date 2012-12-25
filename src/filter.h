@@ -25,7 +25,7 @@ class filter
 {
 public:
   filter() = default;
-  filter(std::string&& expr);
+  filter(std::string&& expr) : rules() { parse_filter(move(expr)); }
 
   typedef std::map<std::string, std::string> value_type;
 

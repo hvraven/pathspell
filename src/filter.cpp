@@ -2,12 +2,6 @@
 
 using namespace std;
 
-filter::filter(string&& expr)
-  : rules()
-{
-  parse_filter(move(expr));
-}
-
 bool
 filter::match(const value_type& value) const
 {
