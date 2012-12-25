@@ -33,17 +33,15 @@ print_prompt()
   print(">>> ");
 }
 
-static
 void
-search_spell(string&& input)
+interactive_mode::search_spell(string&& input)
 {
   filter f{move(input)};
   f.print_matching(spells);
 }
 
-static
 void
-exact_spell(string&& input)
+interactive_mode::exact_spell(string&& input)
 {
   auto it = spells.find(to_lower(input));
   if (it != end(spells))
@@ -52,17 +50,15 @@ exact_spell(string&& input)
     print("Spell \"", input, "\" not found.\n");
 }
 
-static
 void
-list_spells(string&& input)
+interactive_mode::list_spells(string&& input)
 {
   filter f{move(input)};
   f.for_matching(spells, [](spell_type& e){ cout << e["name"] << endl; });
 }
 
-static
 void
-print_help(string&&)
+interactive_mode::print_help(string&&)
 {
   print(" !/exact  <name>      print spell matching name\n"
         " ?/search <filter>    print spell containing given name\n"
@@ -76,21 +72,21 @@ print_help(string&&)
 }
 
 void
-parse_commands(string& input)
+interactive_mode::parse_commands(string&& input)
 {
   // do nothing on empty input
   if (input == string())
     return;
 
-  const static map<string, function<void(string&&)>> functions = {
-      { "?",      {&search_spell} },
-      { "!",      {&exact_spell}  },
-      { "h",      {&print_help}   },
-      { "l",      {&list_spells}  },
-      { "exact",  {&exact_spell}  },
-      { "help",   {&print_help}   },
-      { "list",   {&list_spells}  },
-      { "search", {&search_spell} },
+  const static map<string, function<void(interactive_mode&, string&&)>> functions = {
+      { "?",      {&interactive_mode::search_spell} },
+      { "!",      {&interactive_mode::exact_spell}  },
+      { "h",      {&interactive_mode::print_help}   },
+      { "l",      {&interactive_mode::list_spells}  },
+      { "exact",  {&interactive_mode::exact_spell}  },
+      { "help",   {&interactive_mode::print_help}   },
+      { "list",   {&interactive_mode::list_spells}  },
+      { "search", {&interactive_mode::search_spell} },
     };
 
   auto space = find_if(begin(input), end(input), (int(*)(int))isspace);
@@ -98,23 +94,23 @@ parse_commands(string& input)
   if (it != end(functions))
     {
       if (space == end(input))
-        it->second("");
+        it->second(*this, "");
       else
-        it->second(string(++space, end(input)));
+        it->second(*this, string(++space, end(input)));
     }
   else
     search_spell(move(input));
 }
 
 void
-interactive_mode()
+interactive_mode::run()
 {
   string input;
   print_prompt();
 
   while (getline(cin, input))
     {
-      parse_commands(input);
+      parse_commands(move(input));
       print_prompt();
     }
 
