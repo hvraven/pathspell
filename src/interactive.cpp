@@ -64,10 +64,15 @@ static
 void
 print_help(string&&)
 {
-  print(" !/exact   <name>     print spell matching name\n"
-        " ?/search  <name>     print spell containing given name\n"
+  print(" !/exact  <name>      print spell matching name\n"
+        " ?/search <filter>    print spell containing given name\n"
         " h/help               print this message\n"
-        " l/list <attr=value>  list spells matching given filter rule\n");
+        " l/list   <filter>    list spells matching given filter rule\n"
+        "\n"
+        " Filter rules:\n"
+        "   Pairs of attribute=value. If just a value is specified it is assumed\n"
+        "   to be a name filter. Values can be any valid regular expression.\n"
+        );
 }
 
 void
