@@ -9,7 +9,7 @@ format_width(const std::string& input, size_t width)
 {
   std::string output;
   std::ostringstream ss;
-  ss << "([^\\n]{1," << width << "})\\s+";
+  ss << "([^\\n]{1," << width << "})(\\s+|$)";
   std::regex linebreak(ss.str());
   return std::regex_replace(input, linebreak, "$1\n");
 }
