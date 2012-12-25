@@ -17,8 +17,8 @@ struct filter_rule
       : attribute(std::forward<U>(attr)),
         match(std::forward<V>(rgx), std::regex_constants::icase) {}
 
-  std::string attribute;
-  std::regex match;
+  const std::string attribute;
+  const std::regex match;
 };
 
 class filter

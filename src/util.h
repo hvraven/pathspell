@@ -26,7 +26,7 @@ template <typename Container = std::vector<std::string>>
 Container
 split(const std::string& in, const std::string& seperator = "\\s+")
 {
-  std::regex rgx{seperator};
+  const std::regex rgx{seperator};
   Container out;
   std::copy(std::sregex_token_iterator{begin(in), end(in), rgx, -1},
             std::sregex_token_iterator{},

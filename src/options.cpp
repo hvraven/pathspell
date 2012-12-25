@@ -133,7 +133,7 @@ usage(std::ostream& s)
 bool
 level_argument_ok(const string& input)
 {
-  regex rgx{"(\\d-|[-+])?\\d"};
+  const regex rgx{"(\\d-|[-+])?\\d"};
   return regex_match(input, rgx);
 }
 
@@ -146,8 +146,8 @@ expand_class_filter(const string& input)
 string
 parse_level_filter(const string& input)
 {
-  regex leq{"^-(\\d)"};
-  regex geq{"^\\+(\\d)"};
+  const regex leq{"^-(\\d)"};
+  const regex geq{"^\\+(\\d)"};
   string output{regex_replace(input, leq, "1-$1")};
   output = regex_replace(output, geq, "$1-9");
   return "[" + output + "]";
