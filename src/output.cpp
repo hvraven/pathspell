@@ -4,6 +4,8 @@
 #include <regex>
 #include <sstream>
 
+using namespace std;
+
 std::string
 format_width(const std::string& input, size_t width)
 {
@@ -17,11 +19,14 @@ format_width(const std::string& input, size_t width)
 std::string
 transform_format(std::string input)
 {
-  static std::regex newline("</p>\\s*<p>");
-  static std::regex trash("</?[bip]+>");
+  const static regex newline("</p>\\s*<p>");
+  const static regex bold("<([bi])>(.+?)</\\1>");
+  const static regex trash("</?p>");
 
-  return std::regex_replace(std::regex_replace(input, newline, "\n"),
-                            trash, "");
+  const string format1 = regex_replace(input, newline, "\n");
+  const string format2 = regex_replace(format1, bold, "\033[1m$2\033[0m");
+  const string format3 = regex_replace(format2, trash, "");
+  return format3;
 }
 
 inline std::string
