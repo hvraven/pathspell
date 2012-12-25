@@ -22,8 +22,8 @@ void
 filter::parse_filter(string&& expr)
 {
   // filter rules without space are assumed to be name filters
-  const regex name_filter{"\\s+[^=^[:space:]]+\\s+"};
-  expr = regex_replace(expr, name_filter, "name=$0");
+  const regex name_filter{"(\\s+|^)([^=^[:space:]]+)(\\s+|$)"};
+  expr = regex_replace(expr, name_filter, "name=$2");
 
   const regex rgx{"\\b(\\S+)=(\\S+)\\b"};
   const map<string, string> remap = {
