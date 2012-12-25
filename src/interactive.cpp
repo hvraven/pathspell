@@ -37,8 +37,7 @@ static
 void
 search_spell(string&& input)
 {
-  filter f;
-  f.add_filter("name", input);
+  filter f{move(input)};
   f.print_matching(spells);
 }
 
