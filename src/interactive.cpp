@@ -98,7 +98,7 @@ parse_commands(string& input)
         it->second(string(++space, end(input)));
     }
   else
-    exact_spell(std::move(input));
+    search_spell(move(input));
 }
 
 void
