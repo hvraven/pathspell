@@ -21,7 +21,7 @@ transform_format(std::string input)
 {
   const static regex newline("<p>(.*?)</p>");
   const static regex bold("<([bi])>(.+?)</\\1>");
-  const static regex trash("</?p>");
+  const static regex trash("</?[bip]>");
 
   const string format1 = regex_replace(input, newline, "$1\n");
   const string format2 = regex_replace(format1, bold, "\033[1m$2\033[0m");
@@ -74,9 +74,18 @@ print_spell(std::map<std::string, std::string>& spell)
           out << h3("  Duration: ") << spell["duration"];
         out << std::endl;
 
-        out << h3("Saving Throw: ") << spell["saving_throw"]
-            << h3("  Spell Resistence: ") << spell["spell_resistence"]
-            << std::endl;
+
+        out << h3("Saving Throw: ");
+        if (spell["saving_throw"] != string())
+          out << spell["saving_throw"];
+        else
+          out << "none";
+
+        out << h3("  Spell Resistence: ");
+        if (spell["spell_resistance"] != string())
+          out <<  spell["spell_resistence"] << endl;
+        else
+          out << "no" << endl;
 
         const size_t width = 75;
         std::cout << std::endl
