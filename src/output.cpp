@@ -19,14 +19,16 @@ format_width(const std::string& input, size_t width)
 std::string
 transform_format(std::string input)
 {
-  const static regex newline("<p>(.*?)</p>");
+  const static regex newline1("<p>(.*?)</p>");
+  const static regex newline2("<br>");
   const static regex bold("<([bi])>(.+?)</\\1>");
   const static regex trash("</?[bip]>");
 
-  const string format1 = regex_replace(input, newline, "$1\n");
-  const string format2 = regex_replace(format1, bold, "\033[1m$2\033[0m");
-  const string format3 = regex_replace(format2, trash, "");
-  return format3;
+  const string format1 = regex_replace(input, newline1, "$1\n");
+  const string format2 = regex_replace(input, newline2, "\n");
+  const string format3 = regex_replace(format1, bold, "\033[1m$2\033[0m");
+  const string format4 = regex_replace(format2, trash, "");
+  return format4;
 }
 
 inline std::string
