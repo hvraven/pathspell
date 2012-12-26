@@ -1,6 +1,8 @@
 #ifndef PF_INTERACTIVE_H
 #define PF_INTERACTIVE_H
 
+#include <string>
+
 class interactive_mode
 {
 public:

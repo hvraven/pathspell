@@ -49,8 +49,8 @@ void
 filter::for_matching(const class spells& cont, const Fun&& fun) const
 {
   for (auto e : cont)
-    if (match(e.second))
-      fun(e.second);
+    if (match(e))
+      fun(e);
 }
 
 #endif /* SPELLS_FILTER_H */

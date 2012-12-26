@@ -18,6 +18,6 @@ int main(int argc, char** argv)
     }
   else
     for (auto spell : spells)
-      if (options.filter.match(spell.second))
-        print_spell(spell.second);
+      if (options.filter.match(spell))
+        print_spell(spell);
 }

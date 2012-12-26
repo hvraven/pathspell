@@ -45,7 +45,7 @@ interactive_mode::exact_spell(string&& input)
 {
   auto it = spells.find(to_lower(input));
   if (it != end(spells))
-    print_spell(it->second);
+    print_spell(*it);
   else
     print("Spell \"", input, "\" not found.\n");
 }
