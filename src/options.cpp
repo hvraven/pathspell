@@ -51,7 +51,7 @@ options::parse_args(int argc, char** argv)
         tmp_class = optarg;
         break;
       case 'd':
-        filter.add_filter("domain", optarg);
+        filter.add_regex_filter("domain", optarg);
         break;
       case 'e':
         exact_match = true;
@@ -77,10 +77,10 @@ options::parse_args(int argc, char** argv)
         tmp_level = optarg;
         break;
       case 'r':
-        filter.add_filter("range", optarg);
+        filter.add_regex_filter("range", optarg);
         break;
       case 's':
-        filter.add_filter("school", optarg);
+        filter.add_regex_filter("school", optarg);
         break;
       case '?':
         usage(cerr);
@@ -93,25 +93,25 @@ options::parse_args(int argc, char** argv)
   if (tmp_class != string())
     {
       if (tmp_level != string())
-        filter.add_filter
+        filter.add_regex_filter
           ("spell_level", expand_class_filter(tmp_class) + " " +
                           parse_level_filter(tmp_level));
       else
-        filter.add_filter("spell_level", tmp_class);
+        filter.add_regex_filter("spell_level", tmp_class);
     }
   else
     if (tmp_level != string())
-      filter.add_filter("spell_level", parse_level_filter(tmp_level));
+      filter.add_regex_filter("spell_level", parse_level_filter(tmp_level));
 
   if (exact_match)
     {
       const std::string regex
         {"^" + join(argv + optind, argv + argc, ' ') + "$"};
-      filter.add_filter("name", regex);
+      filter.add_regex_filter("name", regex);
     }
   else
     for (int i = optind; i < argc; ++i)
-      filter.add_filter("name", argv[i]);
+      filter.add_regex_filter("name", argv[i]);
 }
 
 void

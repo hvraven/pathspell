@@ -5,8 +5,8 @@ using namespace std;
 bool
 filter::match(const value_type& value) const
 {
-  for (auto rule : rules)
-    if (! std::regex_search(value.find(rule.attribute)->second, rule.match))
+  for (auto& rule : rules)
+    if (! (*rule)(value))
       return false;
 
   return true;
@@ -30,9 +30,9 @@ filter::parse_filter(string&& expr)
     {
       auto remap_it = remap.find((*it)[1]);
       if (remap_it != end(remap))
-        add_filter(remap_it->second, string((*it)[2]));
+        add_regex_filter(remap_it->second, string((*it)[2]));
       else
-        add_filter(string((*it)[1]), string((*it)[2]));
+        add_regex_filter(string((*it)[1]), string((*it)[2]));
     }
 }
 

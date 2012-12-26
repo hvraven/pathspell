@@ -3,6 +3,7 @@
 
 #include <iterator>
 #include <map>
+#include <memory>
 #include <regex>
 #include <string>
 #include <utility>
@@ -10,13 +11,24 @@
 
 #include "output.h"
 #include "spells.h"
+#include "util.h"
 
-struct filter_rule
+class filter_rule
 {
+public:
+  virtual bool operator()(const spell_type& s) = 0;
+};
+
+class regex_rule : public filter_rule
+{
+public:
   template <class U, class V>
-  filter_rule(U&& attr, V&& rgx)
+  regex_rule(U&& attr, V&& rgx)
       : attribute(std::forward<U>(attr)),
         match(std::forward<V>(rgx), std::regex_constants::icase) {}
+
+  bool operator()(const spell_type& s) override
+    { return regex_search(s.find(attribute)->second, match); }
 
   const std::string attribute;
   const std::regex match;
@@ -39,10 +51,11 @@ public:
 
   void parse_filter(std::string&& expr);
   template <typename... Args>
-  void add_filter(Args&&... args)
-    { rules.emplace_back(std::forward<Args>(args)...); }
+  void add_regex_filter(Args&&... args)
+    { rules.emplace_back(std::unique_ptr<filter_rule>
+                         (new regex_rule(std::forward<Args>(args)...)));}
 
-  std::vector<filter_rule> rules;
+  std::vector<std::unique_ptr<filter_rule>> rules;
 };
 
 class filter_iterator
