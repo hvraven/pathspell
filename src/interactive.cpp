@@ -54,7 +54,9 @@ void
 interactive_mode::list_spells(string&& input)
 {
   filter f{move(input)};
-  f.for_matching(spells, [](spell_type& e){ cout << e["name"] << endl; });
+  for_each(filter_iterator(begin(spells), end(spells), f),
+           filter_iterator(end(spells)), [](const spell_type& e)
+             { cout << e.find("name")->second << endl; });
 }
 
 void

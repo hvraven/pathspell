@@ -5,6 +5,7 @@
 #include <map>
 #include <memory>
 #include <regex>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -19,11 +20,11 @@ public:
   virtual bool operator()(const spell_type& s) = 0;
 };
 
-class regex_rule : public filter_rule
+class regex_filter : public filter_rule
 {
 public:
   template <class U, class V>
-  regex_rule(U&& attr, V&& rgx)
+  regex_filter(U&& attr, V&& rgx)
       : attribute(std::forward<U>(attr)),
         match(std::forward<V>(rgx), std::regex_constants::icase) {}
 
@@ -32,6 +33,18 @@ public:
 
   const std::string attribute;
   const std::regex match;
+};
+
+class name_filter : public filter_rule
+{
+public:
+  template <typename... Args>
+  name_filter(Args&&... args) : names{std::forward<Args>(args)...} {}
+  bool operator()(const spell_type& s) override
+    { return (names.find(s.find("name")->second) != end(names)); }
+
+private:
+  std::set<std::string> names;
 };
 
 class filter
@@ -50,10 +63,10 @@ public:
     { for_matching(cont, print_spell); }
 
   void parse_filter(std::string&& expr);
-  template <typename... Args>
-  void add_regex_filter(Args&&... args)
+  template <typename T, typename... Args>
+  void add_filter(Args&&... args)
     { rules.emplace_back(std::unique_ptr<filter_rule>
-                         (new regex_rule(std::forward<Args>(args)...)));}
+                         {new T{std::forward<Args>(args)...}}); }
 
   std::vector<std::unique_ptr<filter_rule>> rules;
 };
@@ -61,10 +74,13 @@ public:
 class filter_iterator
   : public std::iterator<std::forward_iterator_tag, spell_type>
 {
+public:
   filter_iterator() : spells_current{}, spells_last{}, filter{} {}
+  filter_iterator(const spells::iterator& last)
+    : spells_current{last}, spells_last{last}, filter{} {}
   filter_iterator(const spells::iterator& first,
                   const spells::iterator& last,
-                  const class filter&);
+                  const class filter& f);
 
   filter_iterator& operator++()
     { find_next_match(); return *this; }

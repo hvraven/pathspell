@@ -30,9 +30,9 @@ filter::parse_filter(string&& expr)
     {
       auto remap_it = remap.find((*it)[1]);
       if (remap_it != end(remap))
-        add_regex_filter(remap_it->second, string((*it)[2]));
+        add_filter<regex_filter>(remap_it->second, string((*it)[2]));
       else
-        add_regex_filter(string((*it)[1]), string((*it)[2]));
+        add_filter<regex_filter>(string((*it)[1]), string((*it)[2]));
     }
 }
 
