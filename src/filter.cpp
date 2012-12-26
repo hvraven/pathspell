@@ -35,3 +35,22 @@ filter::parse_filter(string&& expr)
         add_filter(string((*it)[1]), string((*it)[2]));
     }
 }
+
+filter_iterator::filter_iterator(const spells::iterator& first,
+                                 const spells::iterator& last,
+                                 const class filter& f)
+   : spells_current{first},
+     spells_last{last},
+     filter{f}
+{
+  if (! filter.match(*spells_current))
+    find_next_match();
+}
+
+void
+filter_iterator::find_next_match()
+{
+  for (++spells_current; spells_current != spells_last; ++spells_current)
+    if (filter.match(*spells_current))
+      return;
+}

@@ -1,6 +1,7 @@
 #ifndef SPELLS_FILTER_H
 #define SPELLS_FILTER_H
 
+#include <iterator>
 #include <map>
 #include <regex>
 #include <string>
@@ -42,6 +43,34 @@ public:
     { rules.emplace_back(std::forward<Args>(args)...); }
 
   std::vector<filter_rule> rules;
+};
+
+class filter_iterator
+  : public std::iterator<std::forward_iterator_tag, spell_type>
+{
+  filter_iterator() : spells_current{}, spells_last{}, filter{} {}
+  filter_iterator(const spells::iterator& first,
+                  const spells::iterator& last,
+                  const class filter&);
+
+  filter_iterator& operator++()
+    { find_next_match(); return *this; }
+  filter_iterator  operator++(int)
+    { auto tmp = *this; find_next_match(); return tmp; }
+  bool operator==(const filter_iterator& it2)
+    { return spells_current == it2.spells_current; }
+  bool operator!=(const filter_iterator& it2)
+    { return ! (*this == it2); }
+  reference operator*()
+    { return *spells_current; }
+
+private:
+  spells::iterator spells_current;
+  const spells::iterator spells_last;
+  const class filter& filter;
+
+  void find_next_match();
+  void find_previous_match();
 };
 
 template <typename Fun>
