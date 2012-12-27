@@ -41,7 +41,7 @@ public:
   template <typename... Args>
   name_filter(Args&&... args) : names{std::forward<Args>(args)...} {}
   bool operator()(const spell_type& s) override
-    { return (names.find(s.find("name")->second) != end(names)); }
+    { return (names.find(to_lower(s.find("name")->second)) != end(names)); }
 
 private:
   std::set<std::string> names;

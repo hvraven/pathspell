@@ -59,10 +59,18 @@ interactive_mode::exact_spell(string&& input)
 void
 interactive_mode::list_spells(string&& input)
 {
-  filter f{move(input)};
-  for_each(filter_iterator(begin(spells), end(spells), f),
-           filter_iterator(), [](const spell_type& e)
-             { cout << e.find("name")->second << endl; });
+  filter f;
+
+  regex known{"known", regex_constants::icase};
+  if (regex_search(input, known))
+    {
+      input = regex_replace(input, known, "");
+      f.add_filter<name_filter>(ch->get_known_spells());
+    }
+
+  f.parse_filter(move(input));
+  copy(filter_iterator{begin(spells), end(spells), f},
+       filter_iterator{}, ostream_iterator<string>(cout, "\n"));
 }
 
 void
@@ -86,7 +94,7 @@ interactive_mode::learn_spell(string&& input)
   if (! ch)
     ch.reset(new character{""});
 
-  auto it = spells.find(to_lower(input));
+  auto it = spells.find(input);
   if (it != end(spells))
     ch->learn_spell(to_lower(move(input)));
   else

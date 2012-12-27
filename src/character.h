@@ -14,6 +14,8 @@ public:
   void set_name(Args&&... args) { name = {std::forward<Args>(args)...}; }
   const std::string& get_name() const { return name; }
 
+  void learn_spell (std::string&& name)
+    { known_spells.emplace(move(name)); }
   void learn_spell (const std::string& name)
     { known_spells.emplace(name); }
   bool knows_spell(const std::string& name) const
