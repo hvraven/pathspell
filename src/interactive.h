@@ -2,16 +2,19 @@
 #define PF_INTERACTIVE_H
 
 #include "character.h"
+#include "spells.h"
 #include <memory>
 #include <string>
 
 class interactive_mode
 {
 public:
+  interactive_mode();
   void run();
 
 private:
   std::unique_ptr<character> ch;
+  class spells spells;
 
   void search_spell(std::string&& input);
   void exact_spell (std::string&& input);

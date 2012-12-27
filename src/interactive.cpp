@@ -1,7 +1,6 @@
 #include "interactive.h"
 #include "filter.h"
 #include "output.h"
-#include "pf.h"
 #include "util.h"
 
 #include <algorithm>
@@ -31,6 +30,13 @@ inline void
 print_prompt()
 {
   print(">>> ");
+}
+
+interactive_mode::interactive_mode()
+    : ch{},
+      spells{}
+{
+  spells.load_spells("./spell_full.tsv");
 }
 
 void
