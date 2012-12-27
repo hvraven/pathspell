@@ -53,4 +53,7 @@ filter_iterator::find_next_match()
   for (++spells_current; spells_current != spells_last; ++spells_current)
     if (filter.match(*spells_current))
       return;
+
+  // we iterated over all spells, set to end
+  end = true;
 }

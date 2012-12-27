@@ -73,9 +73,8 @@ class filter_iterator
   : public std::iterator<std::forward_iterator_tag, spell_type>
 {
 public:
-  filter_iterator() : spells_current{}, spells_last{}, filter{} {}
-  filter_iterator(const spells::iterator& last)
-    : spells_current{last}, spells_last{last}, filter{} {}
+  filter_iterator()
+    : spells_current{}, spells_last{}, filter{}, end{true} {}
   filter_iterator(const spells::iterator& first,
                   const spells::iterator& last,
                   const class filter& f);
@@ -85,7 +84,7 @@ public:
   filter_iterator  operator++(int)
     { auto tmp = *this; find_next_match(); return tmp; }
   bool operator==(const filter_iterator& it2)
-    { return spells_current == it2.spells_current; }
+    { return ((end && it2.end) || spells_current == it2.spells_current); }
   bool operator!=(const filter_iterator& it2)
     { return ! (*this == it2); }
   reference operator*()
@@ -95,9 +94,9 @@ private:
   spells::iterator spells_current;
   const spells::iterator spells_last;
   const class filter& filter;
+  bool end;
 
   void find_next_match();
-  void find_previous_match();
 };
 
 template <typename Fun>
