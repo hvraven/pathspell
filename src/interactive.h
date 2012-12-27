@@ -3,7 +3,6 @@
 
 #include "character.h"
 #include "spells.h"
-#include <memory>
 #include <string>
 
 class interactive_mode
@@ -13,8 +12,8 @@ public:
   void run();
 
 private:
-  std::unique_ptr<character> ch;
-  class spells spells;
+  class character character;
+  class spells    spells;
 
   void search_spell(std::string&& input);
   void exact_spell (std::string&& input);

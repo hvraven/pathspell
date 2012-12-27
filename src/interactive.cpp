@@ -33,7 +33,7 @@ print_prompt()
 }
 
 interactive_mode::interactive_mode()
-    : ch{},
+    : character{"unknown"},
       spells{}
 {
   spells.load_spells("./spell_full.tsv");
@@ -65,7 +65,7 @@ interactive_mode::list_spells(string&& input)
   if (regex_search(input, known))
     {
       input = regex_replace(input, known, "");
-      f.add_filter<name_filter>(ch->get_known_spells());
+      f.add_filter<name_filter>(character.get_known_spells());
     }
 
   f.parse_filter(move(input));
@@ -91,12 +91,9 @@ interactive_mode::print_help(string&&)
 void
 interactive_mode::learn_spell(string&& input)
 {
-  if (! ch)
-    ch.reset(new character{""});
-
   auto it = spells.find(input);
   if (it != end(spells))
-    ch->learn_spell(to_lower(move(input)));
+    character.learn_spell(to_lower(move(input)));
   else
     print("Refused to learn unknown spell \"", input, "\"\n");
 }
