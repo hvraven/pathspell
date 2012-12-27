@@ -53,9 +53,7 @@ public:
   filter() = default;
   filter(std::string&& expr) : rules() { parse_filter(move(expr)); }
 
-  typedef std::map<std::string, std::string> value_type;
-
-  bool match(const value_type& value) const;
+  bool match(const spell_type& value) const;
 
   template <typename Fun>
   void for_matching(const class spells& cont, const Fun&& fun) const;

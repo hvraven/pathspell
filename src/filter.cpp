@@ -3,7 +3,7 @@
 using namespace std;
 
 bool
-filter::match(const value_type& value) const
+filter::match(const spell_type& value) const
 {
   for (auto& rule : rules)
     if (! (*rule)(value))

@@ -5,7 +5,26 @@
 #include <string>
 #include <vector>
 
-typedef std::map<std::string, std::string> spell_type;
+class spell_type : public std::map<std::string, std::string>
+{
+public:
+  template <typename... Args>
+  spell_type(Args... args)
+    : std::map<std::string, std::string>(std::forward<Args>(args)...) {}
+
+  operator std::string() const
+    { return find("name")->second; }
+
+  friend std::ostream& operator<<(std::ostream&, const spell_type&);
+  friend std::ostream& operator<<(std::ostream&, spell_type&&);
+};
+
+inline
+std::ostream& operator<<(std::ostream& s, const spell_type& sp)
+  { s << sp.find("name")->second; return s; }
+inline
+std::ostream& operator<<(std::ostream& s, spell_type&& sp)
+  { s << sp.find("name")->second; return s; }
 
 class spells : public std::vector<spell_type>
 {
