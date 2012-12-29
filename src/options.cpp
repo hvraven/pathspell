@@ -105,9 +105,8 @@ options::parse_args(int argc, char** argv)
 
   if (exact_match)
     {
-      const std::string regex
-        {"^" + join(argv + optind, argv + argc, ' ') + "$"};
-      filter.add_filter<regex_filter>("name", regex);
+      filter.add_filter<exact_regex_filter>
+        ("name", join(argv + optind, argv + argc, ' '));
     }
   else
     for (int i = optind; i < argc; ++i)

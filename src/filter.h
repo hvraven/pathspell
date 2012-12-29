@@ -31,9 +31,20 @@ public:
   bool operator()(const spell_type& s) override
     { return regex_search(s.find(attribute)->second, match); }
 
-private:
+protected:
   const std::string attribute;
   const std::regex match;
+};
+
+class exact_regex_filter : public regex_filter
+{
+public:
+  template <typename... Args>
+  constexpr exact_regex_filter(Args... args)
+      : regex_filter{std::forward<Args>(args)...} {}
+
+  bool operator()(const spell_type& s) override
+    { return regex_match(s.find(attribute)->second, match); }
 };
 
 class name_filter : public filter_rule
