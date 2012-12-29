@@ -24,13 +24,14 @@ class regex_filter : public filter_rule
 {
 public:
   template <class U, class V>
-  regex_filter(U&& attr, V&& rgx)
+  constexpr regex_filter(U&& attr, V&& rgx)
       : attribute(std::forward<U>(attr)),
         match(std::forward<V>(rgx), std::regex_constants::icase) {}
 
   bool operator()(const spell_type& s) override
     { return regex_search(s.find(attribute)->second, match); }
 
+private:
   const std::string attribute;
   const std::regex match;
 };
@@ -39,7 +40,7 @@ class name_filter : public filter_rule
 {
 public:
   template <typename... Args>
-  name_filter(Args&&... args) : names{std::forward<Args>(args)...} {}
+  constexpr name_filter(Args&&... args) : names{std::forward<Args>(args)...} {}
   bool operator()(const spell_type& s) override
     { return (names.find(to_lower(s.find("name")->second)) != end(names)); }
 
@@ -66,6 +67,7 @@ public:
     { rules.emplace_back(std::unique_ptr<filter_rule>
                          {new T{std::forward<Args>(args)...}}); }
 
+private:
   std::vector<std::unique_ptr<filter_rule>> rules;
 };
 

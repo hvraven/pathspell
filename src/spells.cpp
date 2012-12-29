@@ -18,7 +18,16 @@ spells::load_spells(const std::string& file)
 }
 
 spells::iterator
-spells::find(const std::string& name)
+spells::find(string&& name)
+{
+  const regex rgx{move(name), regex_constants::icase};
+  return find_if(begin(), end(),
+                 [&](const spell_type& s)
+                   { return regex_match(s.find("name")->second, rgx); });
+}
+
+spells::iterator
+spells::find(const string& name)
 {
   const regex rgx{name, regex_constants::icase};
   return find_if(begin(), end(),
@@ -27,7 +36,16 @@ spells::find(const std::string& name)
 }
 
 spells::const_iterator
-spells::find(const std::string& name) const
+spells::find(string&& name) const
+{
+  const regex rgx{move(name), regex_constants::icase};
+  return find_if(begin(), end(),
+                 [&](const spell_type& s)
+                   { return regex_match(s.find("name")->second, rgx); });
+}
+
+spells::const_iterator
+spells::find(const string& name) const
 {
   const regex rgx{name, regex_constants::icase};
   return find_if(begin(), end(),

@@ -9,7 +9,7 @@ class spell_type : public std::map<std::string, std::string>
 {
 public:
   template <typename... Args>
-  spell_type(Args... args)
+  constexpr spell_type(Args... args)
     : std::map<std::string, std::string>(std::forward<Args>(args)...) {}
 
   operator std::string() const
@@ -31,7 +31,9 @@ class spells : public std::vector<spell_type>
 public:
   void load_spells(const std::string& file);
 
+  iterator       find(std::string&& name);
   iterator       find(const std::string& name);
+  const_iterator find(std::string&& name) const;
   const_iterator find(const std::string& name) const;
 };
 
