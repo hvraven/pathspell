@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <memory>
+#include <numeric>
 #include <regex>
 #include <string>
 #include <vector>
@@ -20,15 +21,12 @@ std::string
 join(It first, It last, T seperator)
 {
   if (first == last)
-    return std::string();
+    return std::string{};
 
-  std::string output{*first};
-  for (++first; first != last; ++first)
-    {
-      output += seperator;
-      output += *first;
-    }
-  return output;
+  const std::string start{*first};
+  return std::accumulate(++first, last, start,
+    [=](std::string& acc, const std::string& e)
+      { return acc += seperator + e; });
 }
 
 template <typename Container = std::vector<std::string>>
