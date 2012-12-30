@@ -17,7 +17,7 @@
 class filter_rule
 {
 public:
-  virtual bool operator()(const spell_type& s) = 0;
+  virtual bool operator()(const spell_type& s) const = 0;
 };
 
 class regex_filter : public filter_rule
@@ -28,7 +28,7 @@ public:
       : attribute(std::forward<U>(attr)),
         match(std::forward<V>(rgx), std::regex_constants::icase) {}
 
-  bool operator()(const spell_type& s) override
+  bool operator()(const spell_type& s) const override
     { return regex_search(s.find(attribute)->second, match); }
 
 protected:
@@ -43,7 +43,7 @@ public:
   constexpr exact_regex_filter(Args... args)
       : regex_filter{std::forward<Args>(args)...} {}
 
-  bool operator()(const spell_type& s) override
+  bool operator()(const spell_type& s) const override
     { return regex_match(s.find(attribute)->second, match); }
 };
 
@@ -52,7 +52,7 @@ class name_filter : public filter_rule
 public:
   template <typename... Args>
   constexpr name_filter(Args&&... args) : names{std::forward<Args>(args)...} {}
-  bool operator()(const spell_type& s) override
+  bool operator()(const spell_type& s) const override
     { return (names.find(to_lower(s.find("name")->second)) != end(names)); }
 
 private:
@@ -62,8 +62,8 @@ private:
 class filter
 {
 public:
-  filter() = default;
-  filter(std::string&& expr) : rules() { parse_filter(move(expr)); }
+  filter() : rules{} {}
+  filter(std::string&& expr) : rules{} { parse_filter(move(expr)); }
 
   bool match(const spell_type& value) const;
 

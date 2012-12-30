@@ -23,6 +23,9 @@ public:
   const std::set<std::string>& get_known_spells() const
     { return known_spells; }
 
+  void load();
+  void save() const;
+
 private:
   std::string name;
   std::set<std::string> known_spells;

@@ -59,12 +59,12 @@ interactive_mode::exact_spell(string&& input)
 void
 interactive_mode::list_spells(string&& input)
 {
-  filter f;
+  filter f{};
 
-  regex known{"known", regex_constants::icase};
-  if (regex_search(input, known))
+  const regex known_rgx{"known", regex_constants::icase};
+  if (regex_search(input, known_rgx))
     {
-      input = regex_replace(input, known, "");
+      input = regex_replace(input, known_rgx, "");
       f.add_filter<name_filter>(character.get_known_spells());
     }
 
@@ -78,6 +78,7 @@ interactive_mode::print_help(string&&)
 {
   print(" !/exact  <name>      print spell matching name\n"
         " ?/search <filter>    print spell containing given name\n"
+        " c/character          save/load character\n"
         " h/help               print this message\n"
         "   learn  <name>      add spell to list of known spells\n"
         " l/list   <filter>    list spells matching given filter rule\n"
@@ -99,6 +100,37 @@ interactive_mode::learn_spell(string&& input)
 }
 
 void
+interactive_mode::set_character(string&& input)
+{
+  const map<string, function<void(interactive_mode&)>> functions = {
+      { "load",          {&interactive_mode::load_known_spells}      },
+      { "save",          {&interactive_mode::save_known_spells}      },
+   };
+
+  auto space = find_if(begin(input), end(input), (int(*)(int))isspace);
+  auto it = functions.find(string(begin(input), space));
+  if (it != end(functions))
+    it->second(*this);
+  else
+    print("Unknown option ", string{begin(input), space},
+          " to subcommand character.\n");
+}
+
+void
+interactive_mode::save_known_spells()
+{
+  character.save();
+  print("Character saved.\n");
+}
+
+void
+interactive_mode::load_known_spells()
+{
+  character.load();
+  print("Character loaded.\n");
+}
+
+void
 interactive_mode::parse_commands(string&& input)
 {
   // do nothing on empty input
@@ -108,8 +140,11 @@ interactive_mode::parse_commands(string&& input)
   const static map<string, function<void(interactive_mode&, string&&)>> functions = {
       { "?",      {&interactive_mode::search_spell} },
       { "!",      {&interactive_mode::exact_spell}  },
+      { "c",      {&interactive_mode::set_character}},
       { "h",      {&interactive_mode::print_help}   },
       { "l",      {&interactive_mode::list_spells}  },
+      { "char",   {&interactive_mode::set_character}},
+      { "character", {&interactive_mode::set_character}},
       { "exact",  {&interactive_mode::exact_spell}  },
       { "help",   {&interactive_mode::print_help}   },
       { "learn",  {&interactive_mode::learn_spell}  },
