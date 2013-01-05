@@ -3,7 +3,6 @@
 
 #include <iterator>
 #include <map>
-#include <memory>
 #include <regex>
 #include <set>
 #include <string>
@@ -14,45 +13,49 @@
 #include "spells.h"
 #include "util.h"
 
-class filter_rule
-{
-public:
-  virtual bool operator()(const spell_type& s) const = 0;
-};
+namespace detail {
+  class basic_regex_filter
+  {
+  protected:
+    template <class U, class V>
+    constexpr basic_regex_filter(U&& attr, V&& rgx)
+        : attribute(std::forward<U>(attr)),
+          match(std::forward<V>(rgx), std::regex_constants::icase) {}
 
-class regex_filter : public filter_rule
-{
-public:
-  template <class U, class V>
-  constexpr regex_filter(U&& attr, V&& rgx)
-      : attribute(std::forward<U>(attr)),
-        match(std::forward<V>(rgx), std::regex_constants::icase) {}
+    const std::string attribute;
+    const std::regex match;
+  };
+}
 
-  bool operator()(const spell_type& s) const override
-    { return regex_search(s.find(attribute)->second, match); }
-
-protected:
-  const std::string attribute;
-  const std::regex match;
-};
-
-class exact_regex_filter : public regex_filter
+class regex_filter : public detail::basic_regex_filter
 {
 public:
   template <typename... Args>
-  constexpr exact_regex_filter(Args... args)
-      : regex_filter{std::forward<Args>(args)...} {}
+  regex_filter(Args&&... args)
+      : detail::basic_regex_filter{std::forward<Args>(args)...} {}
 
-  bool operator()(const spell_type& s) const override
+  bool operator()(const spell_type& s) const
+    { return regex_search(s.find(attribute)->second, match); }
+};
+
+class exact_regex_filter : public detail::basic_regex_filter
+{
+public:
+  template <typename... Args>
+  exact_regex_filter(Args&&... args)
+      : detail::basic_regex_filter{std::forward<Args>(args)...} {}
+
+  bool operator()(const spell_type& s) const
     { return regex_match(s.find(attribute)->second, match); }
 };
 
-class name_filter : public filter_rule
+class name_filter
 {
 public:
-  template <typename... Args>
-  constexpr name_filter(Args&&... args) : names{std::forward<Args>(args)...} {}
-  bool operator()(const spell_type& s) const override
+  name_filter(const std::set<std::string>& n)
+      : names(n) {}
+
+  bool operator()(const spell_type& s) const
     { return (names.find(to_lower(s.find("name")->second)) != end(names)); }
 
 private:
@@ -73,13 +76,12 @@ public:
     { for_matching(cont, print_spell); }
 
   void parse_filter(std::string&& expr);
-  template <typename T, typename... Args>
-  void add_filter(Args&&... args)
-    { rules.emplace_back(std::unique_ptr<filter_rule>
-                         {new T{std::forward<Args>(args)...}}); }
+  template <typename T>
+  void add_filter(T&& filter)
+    { rules.emplace_back(std::forward<T>(filter)); }
 
 private:
-  std::vector<std::unique_ptr<filter_rule>> rules;
+  std::vector<std::function<bool(const spell_type&)>> rules;
 };
 
 class filter_iterator

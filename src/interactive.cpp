@@ -65,7 +65,8 @@ interactive_mode::list_spells(string&& input)
   if (regex_search(input, known_rgx))
     {
       input = regex_replace(input, known_rgx, "");
-      f.add_filter<name_filter>(character.get_known_spells());
+      name_filter filter{character.get_known_spells()};
+      f.add_filter(move(filter));
     }
 
   f.parse_filter(move(input));
