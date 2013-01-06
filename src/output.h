@@ -4,6 +4,8 @@
 #include <map>
 #include <string>
 
-void print_spell(std::map<std::string, std::string>& spell);
+#include "spells.h"
+
+void print_spell(const spell_type& spell);
 
 #endif /* PF_OUTPUT_H */
