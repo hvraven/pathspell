@@ -12,6 +12,7 @@
 #include <vector>
 
 using namespace std;
+using namespace std::placeholders;
 
 inline void
 print()
@@ -75,7 +76,7 @@ interactive_mode::list_spells(string&& input)
 }
 
 void
-interactive_mode::print_help(string&&)
+print_help(string&&)
 {
   print(" !/exact  <name>      print spell matching name\n"
         " ?/search <filter>    print spell containing given name\n"
@@ -138,19 +139,19 @@ interactive_mode::parse_commands(string&& input)
   if (input == string())
     return;
 
-  const static map<string, function<void(interactive_mode&, string&&)>> functions = {
-      { "?",      {&interactive_mode::search_spell} },
-      { "!",      {&interactive_mode::exact_spell}  },
-      { "c",      {&interactive_mode::set_character}},
-      { "h",      {&interactive_mode::print_help}   },
-      { "l",      {&interactive_mode::list_spells}  },
-      { "char",   {&interactive_mode::set_character}},
-      { "character", {&interactive_mode::set_character}},
-      { "exact",  {&interactive_mode::exact_spell}  },
-      { "help",   {&interactive_mode::print_help}   },
-      { "learn",  {&interactive_mode::learn_spell}  },
-      { "list",   {&interactive_mode::list_spells}  },
-      { "search", {&interactive_mode::search_spell} },
+  const map<string, function<void(string&&)>> functions = {
+      { "?",         bind(&interactive_mode::search_spell,   *this, _1)},
+      { "!",         bind(&interactive_mode::exact_spell,    *this, _1)},
+      { "c",         bind(&interactive_mode::set_character,  *this, _1)},
+      { "h",         {&print_help}                                     },
+      { "l",         bind(&interactive_mode::list_spells,    *this, _1)},
+      { "char",      bind(&interactive_mode::set_character,  *this, _1)},
+      { "character", bind(&interactive_mode::set_character,  *this, _1)},
+      { "exact",     bind(&interactive_mode::exact_spell,    *this, _1)},
+      { "help",      {&print_help}                                     },
+      { "learn",     bind(&interactive_mode::learn_spell,    *this, _1)},
+      { "list",      bind(&interactive_mode::list_spells,    *this, _1)},
+      { "search",    bind(&interactive_mode::search_spell,   *this, _1)},
     };
 
   auto space = find_if(begin(input), end(input), (int(*)(int))isspace);
@@ -158,9 +159,9 @@ interactive_mode::parse_commands(string&& input)
   if (it != end(functions))
     {
       if (space == end(input))
-        it->second(*this, "");
+        it->second("");
       else
-        it->second(*this, string(++space, end(input)));
+        it->second(string(++space, end(input)));
     }
   else
     search_spell(move(input));

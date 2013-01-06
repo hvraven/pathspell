@@ -18,7 +18,6 @@ private:
   void search_spell  (std::string&& input);
   void exact_spell   (std::string&& input);
   void list_spells   (std::string&& input);
-  void print_help    (std::string&& input);
   void learn_spell   (std::string&& input);
   void set_character (std::string&& input);
   void parse_commands(std::string&& input);
