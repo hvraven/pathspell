@@ -64,7 +64,7 @@ namespace CSV
   private:
     istream stream;
     std::vector<std::string> index;
-    std::map<std::string, std::string> line;
+    value_type line;
   };
 
 }

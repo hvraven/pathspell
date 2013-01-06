@@ -8,12 +8,14 @@
 
 #include "util.h"
 
-class spell_type : public std::map<std::string, std::string>
+typedef std::map<std::string, std::string> basic_spell_type;
+
+class spell_type : public basic_spell_type
 {
 public:
   template <typename... Args>
   constexpr spell_type(Args... args)
-    : std::map<std::string, std::string>(std::forward<Args>(args)...) {}
+    : basic_spell_type(std::forward<Args>(args)...) {}
 
   operator std::string() const
     { return find("name")->second; }
