@@ -51,41 +51,41 @@ print_spell(const spell_type& spell)
     case output_type::full:
       {
         std::ostringstream out;
-        out << " == "  << h1(spell.find("name")->second) << "\033[0m ==" << std::endl;
+        out << " == "  << h1(spell["name"]) << "\033[0m ==" << std::endl;
 
-        out << h3("School: ") << spell.find("school")->second;
-        if (spell.find("subschool")->second != std::string())
-          out << "[" << spell.find("subschool")->second << "]";
-        out << h3("  Level: ") << spell.find("spell_level")->second;
-        if (spell.find("domain")->second != "NULL")
-          out << h3("  Domain: ") << spell.find("domain")->second;
+        out << h3("School: ") << spell["school"];
+        if (spell["subschool"] != std::string())
+          out << "[" << spell["subschool"] << "]";
+        out << h3("  Level: ") << spell["spell_level"];
+        if (spell["domain"] != "NULL")
+          out << h3("  Domain: ") << spell["domain"];
         out << std::endl;
 
-        out << h3("Casting Time: ") << spell.find("casting_time")->second
-            << h3("  Components: ") << spell.find("components")->second
+        out << h3("Casting Time: ") << spell["casting_time"]
+            << h3("  Components: ") << spell["components"]
             << std::endl;
 
-        out << h3("Range: ") << spell.find("range")->second;
-        if (spell.find("area")->second != std::string())
-          out << h3("  Area: ") << spell.find("area")->second;
-        if (spell.find("effect")->second != std::string())
-          out << h3("  Effect: ") << spell.find("effect")->second;
-        if (spell.find("targets")->second != std::string())
-          out << h3("  Targets: ") << spell.find("targets")->second;
-        if (spell.find("duration")->second != "NULL")
-          out << h3("  Duration: ") << spell.find("duration")->second;
+        out << h3("Range: ") << spell["range"];
+        if (spell["area"] != std::string())
+          out << h3("  Area: ") << spell["area"];
+        if (spell["effect"] != std::string())
+          out << h3("  Effect: ") << spell["effect"];
+        if (spell["targets"] != std::string())
+          out << h3("  Targets: ") << spell["targets"];
+        if (spell["duration"] != "NULL")
+          out << h3("  Duration: ") << spell["duration"];
         out << std::endl;
 
 
         out << h3("Saving Throw: ");
-        if (spell.find("saving_throw")->second != string())
-          out << spell.find("saving_throw")->second;
+        if (spell["saving_throw"] != string())
+          out << spell["saving_throw"];
         else
           out << "none";
 
         out << h3("  Spell Resistence: ");
-        if (spell.find("spell_resistance")->second != string())
-          out <<  spell.find("spell_resistence")->second << endl;
+        if (spell["spell_resistance"] != string())
+          out <<  spell["spell_resistence"] << endl;
         else
           out << "no" << endl;
 
@@ -94,7 +94,7 @@ print_spell(const spell_type& spell)
                   << format_width(out.str(), width)
                   << std::endl;
 
-        std::cout << format_width(transform_format(spell.find("description_formated")->second),
+        std::cout << format_width(transform_format(spell["description_formated"]),
                                   width)
                   << std::endl;
 
@@ -103,7 +103,7 @@ print_spell(const spell_type& spell)
       }
     case output_type::list:
       {
-        std::cout << spell.find("name")->second << std::endl;
+        std::cout << spell["name"] << std::endl;
         break;
       }
     }

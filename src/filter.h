@@ -35,7 +35,7 @@ public:
       : detail::basic_regex_filter{std::forward<Args>(args)...} {}
 
   bool operator()(const spell_type& s) const
-    { return regex_search(s.find(attribute)->second, match); }
+    { return regex_search(s[attribute], match); }
 };
 
 class exact_regex_filter : public detail::basic_regex_filter
@@ -46,7 +46,7 @@ public:
       : detail::basic_regex_filter{std::forward<Args>(args)...} {}
 
   bool operator()(const spell_type& s) const
-    { return regex_match(s.find(attribute)->second, match); }
+    { return regex_match(s[attribute], match); }
 };
 
 class name_filter
@@ -56,7 +56,7 @@ public:
       : names(n) {}
 
   bool operator()(const spell_type& s) const
-    { return (names.find(to_lower(s.find("name")->second)) != end(names)); }
+    { return (names.find(to_lower(s["name"])) != end(names)); }
 
 private:
   std::set<std::string> names;
